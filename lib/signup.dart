@@ -14,6 +14,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   var retailerNameController = TextEditingController();
   String? selectedShop;
+  bool isSigningUp = false;
 
   void signup() {
     if (selectedShop == null ||
@@ -22,8 +23,50 @@ class _SignUpState extends State<SignUp> {
       return;
     }
 
+    setState(() {
+      isSigningUp = true;
+    });
+
     Provider.of<AuthProvider>(context, listen: false)
-        .retailerSignUp(retailerNameController.text, selectedShop!);
+        .retailerSignUp(retailerNameController.text, selectedShop!)
+        .then((_) => {
+              setState(() => {isSigningUp = false}),
+              showAlertBox()
+            });
+  }
+
+  showAlertBox() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Signed Up!',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          "You will be able to login once admin approves your request",
+          style: TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        actions: <Widget>[
+          RaisedButton(
+            color: Colors.red,
+            child: const Text(
+              'Okay',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    ).then((_) {
+      setState(() {
+        isSigningUp = false;
+      });
+    });
   }
 
   @override
@@ -86,14 +129,16 @@ class _SignUpState extends State<SignUp> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            RaisedButton(
-              onPressed: signup,
-              child: Text(
-                "Sign Up",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              color: Colors.red,
-            ),
+            isSigningUp
+                ? CircularProgressIndicator()
+                : RaisedButton(
+                    onPressed: signup,
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    color: Colors.red,
+                  ),
             RaisedButton(
               onPressed: () {},
               child: Text(

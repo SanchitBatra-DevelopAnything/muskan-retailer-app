@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:muskan_shop/models/shop.dart';
 
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AuthProvider with ChangeNotifier {
   List<Shop> _shops = [
@@ -17,10 +19,12 @@ class AuthProvider with ChangeNotifier {
     return [..._shops].map((e) => e.shopName).toList();
   }
 
-  void retailerSignUp(String retailerName, String shopAddress) {
+  Future<void> retailerSignUp(String retailerName, String shopAddress) async {
     //send http post here.
-    print("SIGNED UP LOGIC HERE");
-    print(retailerName);
-    print(shopAddress);
+    const url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/retailerNotifications.json";
+    await http.post(Uri.parse(url),
+        body: json.encode(
+            {'retailerName': retailerName, 'shopAddress': shopAddress}));
   }
 }
