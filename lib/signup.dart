@@ -57,6 +57,8 @@ class _SignUpState extends State<SignUp> {
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
             onPressed: () {
+              retailerNameController.text = '';
+              selectedShop = null;
               Navigator.of(context).pop();
             },
           )
@@ -76,6 +78,14 @@ class _SignUpState extends State<SignUp> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Text(
+          "Sign Up",
+          style: TextStyle(
+              fontSize: 30,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic),
+        ),
         Container(
           width: 350,
           child: TextField(
