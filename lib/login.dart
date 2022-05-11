@@ -144,7 +144,17 @@ class _LoginState extends State<Login> {
             ),
           ],
         ),
-        _invalidLogin ? Text("Invalid Login") : Container()
+        _invalidLogin
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Invalid Login :(",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )
+            : Container()
       ],
     );
   }
