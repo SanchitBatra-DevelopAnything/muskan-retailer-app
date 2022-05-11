@@ -3,7 +3,8 @@ import 'package:muskan_shop/providers/auth.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  final VoidCallback? onFormChange;
+  const Login({Key? key, @required this.onFormChange}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -83,7 +84,7 @@ class _LoginState extends State<Login> {
                     color: Colors.red,
                   ),
             RaisedButton(
-              onPressed: () {},
+              onPressed: widget.onFormChange,
               child: Text(
                 "Move to SignUp",
                 style: TextStyle(color: Colors.white, fontSize: 20),

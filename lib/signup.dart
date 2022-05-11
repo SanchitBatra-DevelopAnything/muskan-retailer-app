@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 import 'providers/auth.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+  final VoidCallback? onFormChange;
+  const SignUp({Key? key, @required this.onFormChange}) : super(key: key);
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -149,7 +150,7 @@ class _SignUpState extends State<SignUp> {
                     color: Colors.red,
                   ),
             RaisedButton(
-              onPressed: () {},
+              onPressed: widget.onFormChange,
               child: Text(
                 "Move to Login",
                 style: TextStyle(color: Colors.white, fontSize: 20),

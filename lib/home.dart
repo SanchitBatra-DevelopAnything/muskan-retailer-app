@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/login.dart';
 import 'package:muskan_shop/signup.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  var _activePage = "S";
+
+  void changeForm(String value) {
+    setState(() {
+      _activePage = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +39,17 @@ class _HomePageState extends State<HomePage> {
           Divider(),
           SizedBox(height: 15),
           Container(
-            child: SignUp(),
+            child: _activePage == "S"
+                ? SignUp(
+                    onFormChange: () {
+                      changeForm("L");
+                    },
+                  )
+                : Login(
+                    onFormChange: () {
+                      changeForm("S");
+                    },
+                  ),
           ),
         ],
       ),
