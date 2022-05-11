@@ -16,4 +16,11 @@ class AuthProvider with ChangeNotifier {
   List<String> get shopNames {
     return [..._shops].map((e) => e.shopName).toList();
   }
+
+  void retailerSignUp(String retailerName, String shopAddress) {
+    //send http post here.
+    print("SIGNED UP LOGIC HERE");
+    print(retailerName);
+    print(shopAddress);
+  }
 }

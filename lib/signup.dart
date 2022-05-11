@@ -15,6 +15,17 @@ class _SignUpState extends State<SignUp> {
   var retailerNameController = TextEditingController();
   String? selectedShop;
 
+  void signup() {
+    if (selectedShop == null ||
+        retailerNameController.text == null ||
+        retailerNameController.text == "") {
+      return;
+    }
+
+    Provider.of<AuthProvider>(context, listen: false)
+        .retailerSignUp(retailerNameController.text, selectedShop!);
+  }
+
   @override
   Widget build(BuildContext context) {
     final AuthProviderObject = Provider.of<AuthProvider>(context);
@@ -76,7 +87,7 @@ class _SignUpState extends State<SignUp> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             RaisedButton(
-              onPressed: () {},
+              onPressed: signup,
               child: Text(
                 "Sign Up",
                 style: TextStyle(color: Colors.white, fontSize: 20),
