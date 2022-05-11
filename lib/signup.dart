@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/providers/auth.dart';
+import 'package:provider/provider.dart';
+
+import 'providers/auth.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -9,12 +13,12 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   var retailerNameController = TextEditingController();
-
-  var shops = ["RAJ NAGAR", "SHASHTRI NAGAR", "KAVI NAGAR", "QUIRKY PERKY"];
   String? selectedShop;
 
   @override
   Widget build(BuildContext context) {
+    final AuthProviderObject = Provider.of<AuthProvider>(context);
+    final shops = AuthProviderObject.shopNames;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -53,21 +57,42 @@ class _SignUpState extends State<SignUp> {
         SizedBox(
           height: 10,
         ),
-        RaisedButton(
-            onPressed: () {},
-            child: Text(
-              "Sign Up",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+        // RaisedButton(
+        //     onPressed: () {},
+        //     child: Text(
+        //       "Sign Up",
+        //       style: TextStyle(fontSize: 20, color: Colors.white),
+        //     ),
+        //     color: Colors.red),
+        // SizedBox(height: 5),
+        // RaisedButton(
+        //     onPressed: () {},
+        //     child: Text(
+        //       "Move to Login",
+        //       style: TextStyle(fontSize: 20, color: Colors.white),
+        //     ),
+        //     color: Colors.red),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            RaisedButton(
+              onPressed: () {},
+              child: Text(
+                "Sign Up",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              color: Colors.red,
             ),
-            color: Colors.red),
-        SizedBox(height: 5),
-        RaisedButton(
-            onPressed: () {},
-            child: Text(
-              "Move to Login",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+            RaisedButton(
+              onPressed: () {},
+              child: Text(
+                "Move to Login",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              color: Colors.red,
             ),
-            color: Colors.red),
+          ],
+        )
       ],
     );
   }

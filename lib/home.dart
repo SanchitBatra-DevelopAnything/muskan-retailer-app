@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.yellow[100],
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 25),
           Image.asset("assets/muskan.png"),
