@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +17,17 @@ class _SignUpState extends State<SignUp> {
   var retailerNameController = TextEditingController();
   String? selectedShop;
   bool isSigningUp = false;
+  bool _isFirstTime = true;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (_isFirstTime) {
+      Provider.of<AuthProvider>(context).fetchShopsFromDB();
+    }
+    _isFirstTime = false; //never run the above if again.
+    super.didChangeDependencies();
+  }
 
   void signup() {
     if (selectedShop == null ||
@@ -90,9 +103,10 @@ class _SignUpState extends State<SignUp> {
           width: 350,
           child: TextField(
             controller: retailerNameController,
+            style: TextStyle(
+                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
             decoration: InputDecoration(
               labelText: "Retailer Name",
-              filled: false,
               labelStyle: const TextStyle(fontSize: 25),
             ),
           ),
@@ -169,5 +183,5 @@ DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
     child: Text(item,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 20,
+          fontSize: 15,
         )));

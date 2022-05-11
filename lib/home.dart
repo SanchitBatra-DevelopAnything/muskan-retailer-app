@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
             style: TextStyle(color: Colors.red),
           ),
           Divider(),
-          SizedBox(height: 35),
+          SizedBox(height: 15),
           Container(
             child: SignUp(),
           ),

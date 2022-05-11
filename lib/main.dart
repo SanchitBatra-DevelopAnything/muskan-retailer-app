@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Muskan Shop',
+        theme: ThemeData(primarySwatch: Colors.red),
         initialRoute: '/',
         routes: {
           '/': (context) => HomePage(),
