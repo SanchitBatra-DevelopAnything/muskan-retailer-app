@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:provider/provider.dart';
 
+import 'models/retailer.dart';
+
 class Login extends StatefulWidget {
   final VoidCallback? onFormChange;
   const Login({Key? key, @required this.onFormChange}) : super(key: key);
@@ -13,16 +15,63 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   var retailerNameController = TextEditingController();
   String? selectedShop;
-  var isLoading = false;
+  var isLoading = true;
+  bool _isFirstTime = true;
+  bool _invalidLogin = false;
 
-  void login() {
-    Navigator.of(context).pushReplacementNamed("/categories");
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (_isFirstTime) {
+      Provider.of<AuthProvider>(context).fetchShopsFromDB();
+      setState(() {
+        isLoading = true;
+      });
+      Provider.of<AuthProvider>(context).fetchRetailersFromDB();
+      setState(() {
+        isLoading = false;
+      });
+    }
+    _isFirstTime = false; //never run the above if again.
+    super.didChangeDependencies();
+  }
+
+  void login(List<Retailer> retailers) {
+    var isPresent = false;
+    retailers.forEach((retailer) {
+      // print("RETAILER INFORMATION");
+      // print(retailer.retailerName + "--" + retailer.shopAddress);
+      if (retailerNameController.text.trim().toLowerCase() ==
+              retailer.retailerName.toLowerCase() &&
+          selectedShop == retailer.shopAddress) {
+        // print("Compared " +
+        //     retailerNameController.text.toLowerCase() +
+        //     " to " +
+        //     retailer.retailerName +
+        //     " & " +
+        //     selectedShop! +
+        //     " to " +
+        //     retailer.shopAddress);
+        isPresent = true;
+      }
+      if (isPresent) {
+        setState(() {
+          _invalidLogin = false;
+        });
+        Navigator.of(context).pushReplacementNamed("/categories");
+      } else {
+        setState(() {
+          _invalidLogin = true;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final AuthProviderObject = Provider.of<AuthProvider>(context);
     final shops = AuthProviderObject.shopNames;
+    final retailers = AuthProviderObject.retailers;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -76,7 +125,9 @@ class _LoginState extends State<Login> {
             isLoading
                 ? CircularProgressIndicator()
                 : RaisedButton(
-                    onPressed: login,
+                    onPressed: () {
+                      login(retailers);
+                    },
                     child: Text(
                       "Login",
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -92,7 +143,8 @@ class _LoginState extends State<Login> {
               color: Colors.red,
             ),
           ],
-        )
+        ),
+        _invalidLogin ? Text("Invalid Login") : Container()
       ],
     );
   }
