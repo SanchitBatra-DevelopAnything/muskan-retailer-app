@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import './home.dart';
 
 import './providers/auth.dart';
+import 'categories.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => HomePage(),
+          '/categories': (context) => Categories(),
         },
       ),
     );
