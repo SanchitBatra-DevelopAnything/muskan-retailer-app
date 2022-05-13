@@ -10,6 +10,25 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+  var isLoading = false;
+  var _isFirstTime = true;
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (_isFirstTime) {
+      setState(() {
+        isLoading = true;
+      });
+      Provider.of<CategoriesProvider>(context).fetchCategoriesFromDB();
+      setState(() {
+        isLoading = false;
+      });
+    }
+    _isFirstTime = false; //never run the above if again.
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryProviderObject =
@@ -21,37 +40,56 @@ class _CategoriesState extends State<Categories> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 35),
-          Text(
-            "Categories",
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+          Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text(
+              "Categories",
+              style: TextStyle(
+                  fontSize: 40,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.normal),
+            ),
           ),
           Divider(),
-          Flexible(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(5.0),
-              itemCount: categories.length,
-              itemBuilder: (ctx, i) => GridTile(
-                child: Container(
-                  color: Color.fromRGBO(128, 0, 0, 1),
-                  child: Center(
-                    child: Text(
-                      categories[i].categoryName,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+          isLoading
+              ? Center(child: CircularProgressIndicator())
+              : Flexible(
+                  child: GridView.builder(
+                    padding: const EdgeInsets.all(20.0),
+                    itemCount: categories.length,
+                    itemBuilder: (ctx, i) => GridTile(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(220, 20, 60, 1),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(40.0),
+                              topLeft: Radius.circular(40.0),
+                              bottomLeft: Radius.circular(40.0),
+                              bottomRight: Radius.circular(40.0)),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              categories[i].categoryName,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 3 / 2,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20),
                   ),
-                ),
-              ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 3 / 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 5),
-            ),
-          )
+                )
         ],
       ),
     );
