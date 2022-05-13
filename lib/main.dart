@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 import './home.dart';
 
@@ -17,12 +18,15 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: AuthProvider()),
+        ChangeNotifierProvider.value(
+          value: CategoriesProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Muskan Shop',
         theme: ThemeData(primarySwatch: Colors.red),
-        initialRoute: '/',
+        initialRoute: '/categories',
         routes: {
           '/': (context) => HomePage(),
           '/categories': (context) => Categories(),
