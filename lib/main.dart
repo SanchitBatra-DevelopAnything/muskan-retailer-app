@@ -14,8 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => AuthProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: AuthProvider()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Muskan Shop',
