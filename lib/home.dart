@@ -28,7 +28,11 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 25),
-          Image.asset("assets/muskan.png"),
+          Image.asset(
+            "assets/muskan.png",
+            height: 100,
+            width: 400,
+          ),
           SizedBox(
             height: 5,
           ),

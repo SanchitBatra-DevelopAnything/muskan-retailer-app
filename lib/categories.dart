@@ -41,7 +41,7 @@ class _CategoriesState extends State<Categories> {
         children: [
           SizedBox(height: 35),
           Padding(
-            padding: EdgeInsets.only(left: 23),
+            padding: EdgeInsets.only(left: 23, top: 25),
             child: Text(
               "Categories".toUpperCase(),
               textAlign: TextAlign.center,
@@ -58,34 +58,32 @@ class _CategoriesState extends State<Categories> {
                   child: GridView.builder(
                     padding: const EdgeInsets.all(20.0),
                     itemCount: categories.length,
-                    itemBuilder: (ctx, i) => Container(
-                      child: Card(
-                        semanticContainer: true,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: Image.network(
-                          categories[i].imageUrl,
-                          loadingBuilder: (context, child, progress) {
-                            return progress == null
-                                ? child
-                                : LinearProgressIndicator(
-                                    backgroundColor: Colors.black12,
-                                  );
-                          },
-                          fit: BoxFit.fill,
-                          semanticLabel: categories[i].categoryName,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        elevation: 15,
-                        margin: EdgeInsets.all(10),
+                    itemBuilder: (ctx, i) => Card(
+                      semanticContainer: true,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      child: Image.network(
+                        categories[i].imageUrl,
+                        loadingBuilder: (context, child, progress) {
+                          return progress == null
+                              ? child
+                              : LinearProgressIndicator(
+                                  backgroundColor: Colors.black12,
+                                );
+                        },
+                        fit: BoxFit.fill,
+                        semanticLabel: categories[i].categoryName,
                       ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 15,
+                      margin: EdgeInsets.all(10),
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 3 / 2,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15),
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
                   ),
                 )
         ],
