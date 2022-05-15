@@ -77,7 +77,6 @@ class _CategoriesState extends State<Categories> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       elevation: 15,
-                      margin: EdgeInsets.all(10),
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
