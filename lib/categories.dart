@@ -41,9 +41,10 @@ class _CategoriesState extends State<Categories> {
         children: [
           SizedBox(height: 35),
           Padding(
-            padding: EdgeInsets.all(23.0),
+            padding: EdgeInsets.only(left: 23),
             child: Text(
-              "Categories",
+              "Categories".toUpperCase(),
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 35,
                   color: Colors.white,
