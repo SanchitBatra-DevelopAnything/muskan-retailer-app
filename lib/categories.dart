@@ -58,25 +58,45 @@ class _CategoriesState extends State<Categories> {
                   child: GridView.builder(
                     padding: const EdgeInsets.all(20.0),
                     itemCount: categories.length,
-                    itemBuilder: (ctx, i) => Card(
-                      semanticContainer: true,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Image.network(
-                        categories[i].imageUrl,
-                        loadingBuilder: (context, child, progress) {
-                          return progress == null
-                              ? child
-                              : LinearProgressIndicator(
-                                  backgroundColor: Colors.black12,
-                                );
-                        },
-                        fit: BoxFit.fill,
-                        semanticLabel: categories[i].categoryName,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      elevation: 15,
+                    itemBuilder: (ctx, i) => Stack(
+                      alignment: AlignmentDirectional.bottomStart,
+                      children: [
+                        SizedBox(
+                          height: 300,
+                          width: 300,
+                          child: Card(
+                            semanticContainer: true,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: Image.network(
+                              categories[i].imageUrl,
+                              loadingBuilder: (context, child, progress) {
+                                return progress == null
+                                    ? child
+                                    : LinearProgressIndicator(
+                                        backgroundColor: Colors.black12,
+                                      );
+                              },
+                              fit: BoxFit.fill,
+                              semanticLabel: categories[i].categoryName,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 15,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 5.0, bottom: 5.0),
+                          child: Text(
+                            categories[i].categoryName,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                backgroundColor: Colors.black54),
+                          ),
+                        )
+                      ],
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
