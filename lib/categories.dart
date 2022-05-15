@@ -35,59 +35,56 @@ class _CategoriesState extends State<Categories> {
         Provider.of<CategoriesProvider>(context, listen: false);
     final categories = categoryProviderObject.categories;
     return Scaffold(
-      backgroundColor: Colors.yellow[100],
+      backgroundColor: Color.fromARGB(137, 43, 40, 40),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 35),
           Padding(
-            padding: EdgeInsets.all(5.0),
+            padding: EdgeInsets.all(23.0),
             child: Text(
               "Categories",
               style: TextStyle(
-                  fontSize: 40,
-                  color: Colors.black,
+                  fontSize: 35,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.normal),
             ),
           ),
-          Divider(),
           isLoading
               ? Center(child: CircularProgressIndicator())
               : Flexible(
                   child: GridView.builder(
                     padding: const EdgeInsets.all(20.0),
                     itemCount: categories.length,
-                    itemBuilder: (ctx, i) => GridTile(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(220, 20, 60, 1),
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(40.0),
-                              topLeft: Radius.circular(40.0),
-                              bottomLeft: Radius.circular(40.0),
-                              bottomRight: Radius.circular(40.0)),
+                    itemBuilder: (ctx, i) => Container(
+                      child: Card(
+                        semanticContainer: true,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: Image.network(
+                          categories[i].imageUrl,
+                          loadingBuilder: (context, child, progress) {
+                            return progress == null
+                                ? child
+                                : LinearProgressIndicator(
+                                    backgroundColor: Colors.black12,
+                                  );
+                          },
+                          fit: BoxFit.fill,
+                          semanticLabel: categories[i].categoryName,
                         ),
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              categories[i].categoryName,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
+                        elevation: 15,
+                        margin: EdgeInsets.all(10),
                       ),
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 3 / 2,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20),
+                        crossAxisSpacing: 15,
+                        mainAxisSpacing: 15),
                   ),
                 )
         ],

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Muskan Shop',
         theme: ThemeData(primarySwatch: Colors.red),
-        initialRoute: '/categories',
+        initialRoute: '/',
         routes: {
           '/': (context) => HomePage(),
           '/categories': (context) => Categories(),
