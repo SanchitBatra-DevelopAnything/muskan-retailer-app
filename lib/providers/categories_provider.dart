@@ -21,6 +21,9 @@ class CategoriesProvider with ChangeNotifier {
   String? activeCategoryKey = '';
   String? activeCategoryName = '';
 
+  String? activeSubcategoryKey = '';
+  String? activeSubcategoryName = '';
+
   Future<void> fetchCategoriesFromDB() async {
     const url =
         "https://muskan-admin-app-default-rtdb.firebaseio.com/Categories.json";
@@ -62,7 +65,6 @@ class CategoriesProvider with ChangeNotifier {
       extractedData.forEach((SubCategoryId, SubCategoryData) {
         loadedSubCategories.add(Subcategory(
             subcategoryId: SubCategoryId,
-            items: SubCategoryData['Items'],
             subcategoryName:
                 SubCategoryData['subcategoryName'].toString().toUpperCase()));
       });
@@ -80,6 +82,16 @@ class CategoriesProvider with ChangeNotifier {
 
   set setactiveCategoryName(String categoryName) {
     activeCategoryName = categoryName;
+    notifyListeners();
+  }
+
+  set setActiveSubcategoryKey(String id) {
+    activeSubcategoryKey = id;
+    notifyListeners();
+  }
+
+  set setActiveSubcategoryName(String categoryName) {
+    activeSubcategoryName = categoryName;
     notifyListeners();
   }
 }

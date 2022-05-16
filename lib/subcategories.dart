@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/models/subcategory.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,16 @@ class _SubcategoriesState extends State<Subcategories> {
     super.didChangeDependencies();
   }
 
+  void moveToItems(BuildContext context, Subcategory selectedSubcategory) {
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .activeSubcategoryKey = selectedSubcategory.subcategoryId;
+
+    Provider.of<CategoriesProvider>(context, listen: false)
+        .activeSubcategoryName = selectedSubcategory.subcategoryName;
+
+    Navigator.of(context).pushNamed('/items');
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoriesProvider>(context);
@@ -66,27 +77,32 @@ class _SubcategoriesState extends State<Subcategories> {
             : ListView.builder(
                 itemCount: subCategories.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: 100,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      elevation: 15,
-                      color: Color.fromRGBO(51, 51, 51, 1),
-                      margin: EdgeInsets.only(left: 30, right: 30, top: 15),
-                      child: ListTile(
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20,
-                          color: Colors.white,
+                  return GestureDetector(
+                    onTap: () {
+                      moveToItems(context, subCategories[index]);
+                    },
+                    child: Container(
+                      height: 100,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
                         ),
-                        title: Text(
-                          subCategories[index].subcategoryName,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                        elevation: 15,
+                        color: Color.fromRGBO(51, 51, 51, 1),
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 15),
+                        child: ListTile(
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          title: Text(
+                            subCategories[index].subcategoryName,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),

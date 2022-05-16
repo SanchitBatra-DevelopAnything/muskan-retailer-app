@@ -6,6 +6,7 @@ import './home.dart';
 
 import './providers/auth.dart';
 import 'categories.dart';
+import 'items.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => HomePage(),
           '/categories': (context) => Categories(),
           '/subcategories': (context) => Subcategories(),
+          '/items': (context) => Items(),
         },
       ),
     );
