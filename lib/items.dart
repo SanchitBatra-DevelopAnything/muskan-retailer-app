@@ -19,7 +19,17 @@ class _ItemsState extends State<Items> {
     return Scaffold(
       backgroundColor: Colors.black54,
       appBar: AppBar(title: Text(sub!)),
-      body: Center(child: Text(CategoriesProviderObject.activeSubcategoryKey!)),
+      body: Column(children: [
+        Container(
+          color: Colors.red,
+          child: Center(
+              child: Card(
+            color: Colors.grey,
+            child:
+                TextField(decoration: InputDecoration(label: Text("Search"))),
+          )),
+        )
+      ]),
     );
   }
 }
