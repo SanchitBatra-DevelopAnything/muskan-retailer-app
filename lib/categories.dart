@@ -59,14 +59,27 @@ class _CategoriesState extends State<Categories> {
                 SizedBox(height: 35),
                 Padding(
                   padding: EdgeInsets.only(left: 23, top: 25),
-                  child: Text(
-                    "Categories".toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 35,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.normal),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Categories".toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 35,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.normal),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.shopping_cart,
+                          color: Colors.white,
+                        ),
+                        iconSize: 30,
+                      )
+                    ],
                   ),
                 ),
                 Flexible(
