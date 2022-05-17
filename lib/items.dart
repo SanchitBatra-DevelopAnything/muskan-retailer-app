@@ -81,16 +81,10 @@ class _ItemsState extends State<Items> {
                                     fontSize: 18, fontWeight: FontWeight.bold),
                                 controller: searchItemController,
                                 decoration: InputDecoration(
-                                  isDense: true,
-                                  contentPadding: EdgeInsets.all(10),
-                                  label: Padding(
-                                    padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      "Search items here",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                  ),
-                                ),
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintText:
+                                        "Search for ${sub.toString().toLowerCase()}"),
                               ),
                               elevation: 10,
                               color: Colors.white,
