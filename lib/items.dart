@@ -16,6 +16,7 @@ class _ItemsState extends State<Items> {
   var searchItemController = TextEditingController();
   var _isLoading = false;
   var _isFirstTime = true;
+  var _loadDirectVariety = false;
 
   @override
   void didChangeDependencies() {
@@ -24,9 +25,20 @@ class _ItemsState extends State<Items> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<CategoriesProvider>(context, listen: false)
-          .getItemsForSubcategory()
-          .then((value) => setState(() => {_isLoading = false}));
+      if (Provider.of<CategoriesProvider>(context, listen: false)
+              .activeSubcategoryName!
+              .toUpperCase() ==
+          "DIRECT VARIETY") {
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .getItemsForDirectVariety()
+            .then((value) => setState(
+                () => {_isLoading = false, _loadDirectVariety = true}));
+      } else {
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .getItemsForSubcategory()
+            .then((value) => setState(
+                () => {_isLoading = false, _loadDirectVariety = false}));
+      }
     }
     _isFirstTime = false;
     super.didChangeDependencies();
@@ -38,6 +50,8 @@ class _ItemsState extends State<Items> {
     final sub = CategoriesProviderObject.activeSubcategoryName;
     final itemsUnderSubcategory =
         CategoriesProviderObject.activeSubcategoryItems;
+    final directVarietyItems =
+        CategoriesProviderObject.activeDirectVarietyItems;
     return Scaffold(
       backgroundColor: Colors.black54,
       body: _isLoading
@@ -117,13 +131,26 @@ class _ItemsState extends State<Items> {
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 15,
                       ),
-                      itemBuilder: (ctx, index) => Item(
-                        imgPath: itemsUnderSubcategory[index].imageUrl,
-                        price: "Rs." +
-                            itemsUnderSubcategory[index].shopPrice.toString(),
-                        itemName: itemsUnderSubcategory[index].itemName,
-                      ),
-                      itemCount: itemsUnderSubcategory.length,
+                      itemBuilder: (ctx, index) => _loadDirectVariety
+                          ? Item(
+                              imgPath: directVarietyItems[index].imageUrl,
+                              price: "Rs." +
+                                  directVarietyItems[index]
+                                      .shopPrice
+                                      .toString(),
+                              itemName: directVarietyItems[index].itemName,
+                            )
+                          : Item(
+                              imgPath: itemsUnderSubcategory[index].imageUrl,
+                              price: "Rs." +
+                                  itemsUnderSubcategory[index]
+                                      .shopPrice
+                                      .toString(),
+                              itemName: itemsUnderSubcategory[index].itemName,
+                            ),
+                      itemCount: _loadDirectVariety
+                          ? directVarietyItems.length
+                          : itemsUnderSubcategory.length,
                     ),
                   ),
                 )

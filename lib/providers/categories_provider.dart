@@ -11,11 +11,16 @@ class CategoriesProvider with ChangeNotifier {
   List<Category> _categories = [];
 
   List<Item> _activeSubcategoryItems = [];
+  List<Item> _activeDirectVarietyItems = [];
 
   List<Subcategory> _subCategories = [];
 
   List<Category> get categories {
     return [..._categories];
+  }
+
+  List<Item> get activeDirectVarietyItems {
+    return [..._activeDirectVarietyItems];
   }
 
   List<Subcategory> get subCategories {
@@ -48,6 +53,43 @@ class CategoriesProvider with ChangeNotifier {
       _categories = loadedCategories;
       notifyListeners();
     } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> getItemsForDirectVariety() async {
+    _activeDirectVarietyItems = [];
+    var url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/Categories/" +
+            activeCategoryKey! +
+            "/Items.json";
+
+    print(url);
+    try {
+      final response = await http.get(Uri.parse(url));
+      final List<Item> loadedItems = [];
+      if (response.body == null) {
+        _activeDirectVarietyItems = [];
+        notifyListeners();
+        return;
+      }
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      extractedData.forEach((ItemId, ItemData) {
+        loadedItems.add(Item(
+            cakeFlavour: ItemData['cakeFlavour'],
+            shopPrice: ItemData['shopPrice'],
+            itemName: ItemData['itemName'],
+            subcategoryName: ItemData['subcategoryName'],
+            imageUrl: ItemData['imageUrl'],
+            customerPrice: ItemData['customerPrice'],
+            minPounds: ItemData['minPounds'],
+            offer: ItemData['offer'],
+            designCategory: ItemData['designCategory']));
+      });
+      _activeDirectVarietyItems = loadedItems;
+      notifyListeners();
+    } catch (error) {
+      print(error);
       throw error;
     }
   }

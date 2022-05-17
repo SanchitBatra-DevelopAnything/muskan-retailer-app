@@ -66,7 +66,7 @@ class Item extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
-                          itemName,
+                          itemName.toLowerCase(),
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colors.white,
