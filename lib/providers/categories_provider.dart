@@ -5,8 +5,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:muskan_shop/models/subcategory.dart';
 
+import '../models/item.dart';
+
 class CategoriesProvider with ChangeNotifier {
   List<Category> _categories = [];
+
+  List<Item> _activeSubcategoryItems = [];
 
   List<Subcategory> _subCategories = [];
 
@@ -16,6 +20,10 @@ class CategoriesProvider with ChangeNotifier {
 
   List<Subcategory> get subCategories {
     return [..._subCategories];
+  }
+
+  List<Item> get activeSubcategoryItems {
+    return [..._activeSubcategoryItems];
   }
 
   String? activeCategoryKey = '';
@@ -40,6 +48,44 @@ class CategoriesProvider with ChangeNotifier {
       _categories = loadedCategories;
       notifyListeners();
     } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> getItemsForSubcategory() async {
+    var url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/Categories/" +
+            activeCategoryKey! +
+            "/Subcategories/" +
+            activeSubcategoryKey! +
+            "/Items.json";
+
+    print(url);
+    try {
+      final response = await http.get(Uri.parse(url));
+      final List<Item> loadedItems = [];
+      if (response.body == null) {
+        _activeSubcategoryItems = [];
+        notifyListeners();
+        return;
+      }
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      extractedData.forEach((ItemId, ItemData) {
+        loadedItems.add(Item(
+            cakeFlavour: ItemData['cakeFlavour'],
+            shopPrice: ItemData['shopPrice'],
+            itemName: ItemData['itemName'],
+            subcategoryName: ItemData['subcategoryName'],
+            imageUrl: ItemData['imageUrl'],
+            customerPrice: ItemData['customerPrice'],
+            minPounds: ItemData['minPounds'],
+            offer: ItemData['offer'],
+            designCategory: ItemData['designCategory']));
+      });
+      _activeSubcategoryItems = loadedItems;
+      notifyListeners();
+    } catch (error) {
+      print(error);
       throw error;
     }
   }

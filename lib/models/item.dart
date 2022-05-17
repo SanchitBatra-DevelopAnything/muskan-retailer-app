@@ -5,7 +5,7 @@ class Item {
   String imageUrl;
   String itemName;
   String minPounds;
-  String offer;
+  int offer;
   int shopPrice;
   String subcategoryName;
 
