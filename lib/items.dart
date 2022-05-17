@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'item.dart';
 import 'providers/categories_provider.dart';
 
 class Items extends StatefulWidget {
@@ -106,14 +107,24 @@ class _ItemsState extends State<Items> {
                 ),
                 Flexible(
                   flex: 5,
-                  child: ListView.builder(
-                    itemCount: itemsUnderSubcategory.length,
-                    itemBuilder: (context, index) {
-                      return Text(
-                        itemsUnderSubcategory[index].itemName,
-                        style: TextStyle(color: Colors.white),
-                      );
-                    },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: GridView.builder(
+                      primary: false,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.8,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 15,
+                      ),
+                      itemBuilder: (ctx, index) => Item(
+                        imgPath: itemsUnderSubcategory[index].imageUrl,
+                        price: "Rs." +
+                            itemsUnderSubcategory[index].shopPrice.toString(),
+                        itemName: itemsUnderSubcategory[index].itemName,
+                      ),
+                      itemCount: itemsUnderSubcategory.length,
+                    ),
                   ),
                 )
               ],
