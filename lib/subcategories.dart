@@ -75,7 +75,7 @@ class _SubcategoriesState extends State<Subcategories> {
                   Flexible(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 2),
+                      padding: EdgeInsets.only(left: 2, top: 25),
                       child: Row(
                         children: [
                           Flexible(
