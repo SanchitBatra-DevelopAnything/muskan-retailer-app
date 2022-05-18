@@ -39,14 +39,60 @@ class _CountButtonViewState extends State<CountButtonView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 110,
-      height: 44,
+      width: 120.0,
+      height: 50.0,
       child: Center(
         child: Container(
           decoration: BoxDecoration(
               color: Colors.red,
               border: Border.all(color: Colors.white, width: 1.0),
-              borderRadius: BorderRadius.circular(22)),
+              borderRadius: BorderRadius.circular(22.0)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              GestureDetector(
+                  onTap: () {
+                    updateCount(-1);
+                  },
+                  child: Container(
+                      width: 40.0,
+                      child: Center(
+                          child: Text(
+                        '-',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            decoration: TextDecoration.none),
+                      )))),
+              Container(
+                child: Center(
+                    child: Text(
+                  '$count',
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      decoration: TextDecoration.none),
+                )),
+              ),
+              GestureDetector(
+                  onTap: () {
+                    updateCount(1);
+                  },
+                  child: Container(
+                      width: 40.0,
+                      child: Center(
+                          child: Text(
+                        '+',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            decoration: TextDecoration.none),
+                      )))),
+            ],
+          ),
         ),
       ),
     );

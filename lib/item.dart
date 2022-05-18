@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/itemQuantityCounter.dart';
 
-class Item extends StatelessWidget {
+class Item extends StatefulWidget {
   const Item(
       {Key? key,
       required this.imgPath,
@@ -13,6 +14,14 @@ class Item extends StatelessWidget {
   final String imgPath;
   final String price;
   final String itemName;
+
+  @override
+  State<Item> createState() => _ItemState();
+}
+
+class _ItemState extends State<Item> {
+  var _isInCart = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,7 +46,7 @@ class Item extends StatelessWidget {
                       flex: 5,
                       fit: FlexFit.tight,
                       child: Image.network(
-                        imgPath,
+                        widget.imgPath,
                         fit: BoxFit.fill,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) {
@@ -54,7 +63,7 @@ class Item extends StatelessWidget {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        price,
+                        widget.price,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -66,7 +75,7 @@ class Item extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
-                          itemName.toLowerCase(),
+                          widget.itemName.toLowerCase(),
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colors.white,
@@ -77,17 +86,30 @@ class Item extends StatelessWidget {
                     ),
                     Flexible(child: Divider(), flex: 1),
                     Flexible(
+                      flex: 2,
                       child: Center(
-                        child: RaisedButton(
-                          child: Text("Add to cart",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              )),
-                          color: Colors.red,
-                          onPressed: () {},
-                        ),
-                      ),
+                          child: !_isInCart
+                              ? RaisedButton(
+                                  child: Text("Add to cart",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      )),
+                                  color: Colors.red,
+                                  onPressed: () {
+                                    setState(() {
+                                      _isInCart = true;
+                                    });
+                                  },
+                                )
+                              : CountButtonView(
+                                  initialCount: 1,
+                                  onChange: (count) => {
+                                        if (count == 0)
+                                          {
+                                            setState(() => {_isInCart = false})
+                                          }
+                                      })),
                     )
                   ],
                 ))));
