@@ -82,7 +82,10 @@ class CategoriesProvider with ChangeNotifier {
             subcategoryName: ItemData['subcategoryName'],
             imageUrl: ItemData['imageUrl'],
             customerPrice: ItemData['customerPrice'],
-            minPounds: ItemData['minPounds'],
+            minPounds: ItemData['minPounds'] ==
+                    null //cakes me jisme nhi doge ye value , wo infinity , other items will be not-valid and items with min pounds will have the value.
+                ? "infinity"
+                : ItemData['minPounds'],
             offer: ItemData['offer'],
             designCategory: ItemData['designCategory']));
       });

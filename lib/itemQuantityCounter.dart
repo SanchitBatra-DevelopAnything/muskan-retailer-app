@@ -60,7 +60,7 @@ class _CountButtonViewState extends State<CountButtonView> {
                           child: Text(
                         '-',
                         style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             decoration: TextDecoration.none),
@@ -86,7 +86,7 @@ class _CountButtonViewState extends State<CountButtonView> {
                           child: Text(
                         '+',
                         style: TextStyle(
-                            fontSize: 15.0,
+                            fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             decoration: TextDecoration.none),

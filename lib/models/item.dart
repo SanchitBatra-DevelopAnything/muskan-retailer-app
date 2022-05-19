@@ -1,13 +1,13 @@
 class Item {
-  String cakeFlavour;
-  int customerPrice;
-  String designCategory;
-  String imageUrl;
-  String itemName;
-  String minPounds;
-  int offer;
-  int shopPrice;
-  String subcategoryName;
+  dynamic cakeFlavour;
+  dynamic customerPrice;
+  dynamic designCategory;
+  dynamic imageUrl;
+  dynamic itemName;
+  dynamic minPounds;
+  dynamic offer;
+  dynamic shopPrice;
+  dynamic subcategoryName;
 
   Item(
       {required this.cakeFlavour,
