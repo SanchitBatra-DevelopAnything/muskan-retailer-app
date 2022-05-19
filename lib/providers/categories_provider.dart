@@ -84,7 +84,7 @@ class CategoriesProvider with ChangeNotifier {
             customerPrice: ItemData['customerPrice'],
             minPounds: ItemData['minPounds'] ==
                     null //cakes me jisme nhi doge ye value , wo infinity , other items will be not-valid and items with min pounds will have the value.
-                ? "infinity"
+                ? 1
                 : ItemData['minPounds'],
             offer: ItemData['offer'],
             designCategory: ItemData['designCategory']));
