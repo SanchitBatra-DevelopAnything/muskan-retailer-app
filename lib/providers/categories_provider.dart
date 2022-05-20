@@ -11,7 +11,9 @@ class CategoriesProvider with ChangeNotifier {
   List<Category> _categories = [];
 
   List<Item> _activeSubcategoryItems = [];
+  List<Item> _activeSubcategoryFilteredItems = [];
   List<Item> _activeDirectVarietyItems = [];
+  List<Item> _activeDirectVarietyFilteredItems = [];
 
   List<Subcategory> _subCategories = [];
 
@@ -21,6 +23,14 @@ class CategoriesProvider with ChangeNotifier {
 
   List<Item> get activeDirectVarietyItems {
     return [..._activeDirectVarietyItems];
+  }
+
+  List<Item> get activeDirectVarietyFilteredItems {
+    return [..._activeDirectVarietyFilteredItems];
+  }
+
+  List<Item> get activeSubcategoryFilteredItems {
+    return [..._activeSubcategoryFilteredItems];
   }
 
   List<Subcategory> get subCategories {
@@ -36,6 +46,46 @@ class CategoriesProvider with ChangeNotifier {
 
   String? activeSubcategoryKey = '';
   String? activeSubcategoryName = '';
+
+  void filterDirectVariety(String searchFor) {
+    if (searchFor == '') {
+      _activeDirectVarietyFilteredItems = [..._activeDirectVarietyItems];
+      notifyListeners();
+      return;
+    }
+    _activeDirectVarietyFilteredItems = [];
+    _activeDirectVarietyFilteredItems = [
+      ..._activeDirectVarietyItems
+          .where((item) => item.itemName
+              .toString()
+              .toLowerCase()
+              .contains(searchFor.toLowerCase()))
+          .toList()
+    ];
+    print("FOUND ITEMS LENGTH :" +
+        (_activeDirectVarietyFilteredItems.length).toString());
+    notifyListeners();
+  }
+
+  void filterSubcategoryItems(String searchFor) {
+    if (searchFor == '') {
+      _activeSubcategoryFilteredItems = [..._activeSubcategoryItems];
+      notifyListeners();
+      return;
+    }
+    _activeSubcategoryFilteredItems = [];
+    _activeSubcategoryFilteredItems = [
+      ..._activeSubcategoryItems
+          .where((item) => item.itemName
+              .toString()
+              .toLowerCase()
+              .contains(searchFor.toLowerCase()))
+          .toList()
+    ];
+    print("FOUND ITEMS LENGTH :" +
+        (_activeSubcategoryFilteredItems.length).toString());
+    notifyListeners();
+  }
 
   Future<void> fetchCategoriesFromDB() async {
     const url =
@@ -90,6 +140,7 @@ class CategoriesProvider with ChangeNotifier {
             designCategory: ItemData['designCategory']));
       });
       _activeDirectVarietyItems = loadedItems;
+      _activeDirectVarietyFilteredItems = [..._activeDirectVarietyItems];
       notifyListeners();
     } catch (error) {
       print(error);
@@ -128,6 +179,7 @@ class CategoriesProvider with ChangeNotifier {
             designCategory: ItemData['designCategory']));
       });
       _activeSubcategoryItems = loadedItems;
+      _activeSubcategoryFilteredItems = [..._activeSubcategoryItems];
       notifyListeners();
     } catch (error) {
       print(error);

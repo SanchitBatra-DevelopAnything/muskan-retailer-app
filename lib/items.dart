@@ -44,14 +44,24 @@ class _ItemsState extends State<Items> {
     super.didChangeDependencies();
   }
 
+  void onSearch(String text) {
+    if (_loadDirectVariety) {
+      Provider.of<CategoriesProvider>(context, listen: false)
+          .filterDirectVariety(text);
+    } else {
+      Provider.of<CategoriesProvider>(context, listen: false)
+          .filterSubcategoryItems(text);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final CategoriesProviderObject = Provider.of<CategoriesProvider>(context);
     final sub = CategoriesProviderObject.activeSubcategoryName;
     final itemsUnderSubcategory =
-        CategoriesProviderObject.activeSubcategoryItems;
-    final directVarietyItems =
-        CategoriesProviderObject.activeDirectVarietyItems;
+        CategoriesProviderObject.activeSubcategoryFilteredItems;
+    var directVarietyItems =
+        CategoriesProviderObject.activeDirectVarietyFilteredItems;
     return Scaffold(
       backgroundColor: Colors.black54,
       body: _isLoading
@@ -95,6 +105,9 @@ class _ItemsState extends State<Items> {
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                                 controller: searchItemController,
+                                onChanged: (text) {
+                                  onSearch(text);
+                                },
                                 decoration: InputDecoration(
                                     isDense: true,
                                     contentPadding: EdgeInsets.all(10),
