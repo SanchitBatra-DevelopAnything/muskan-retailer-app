@@ -62,8 +62,7 @@ class _ItemsState extends State<Items> {
       return "1";
     } else if (value == 1) {
       return "1";
-    }
-    else{
+    } else {
       return value;
     }
   }
