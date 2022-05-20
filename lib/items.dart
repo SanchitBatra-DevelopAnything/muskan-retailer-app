@@ -63,6 +63,9 @@ class _ItemsState extends State<Items> {
     } else if (value == 1) {
       return "1";
     }
+    else{
+      return value;
+    }
   }
 
   @override

@@ -63,8 +63,9 @@ class _ItemDetailState extends State<ItemDetail> {
                       ))),
             ),
             Flexible(
-              flex: 2,
-              fit: FlexFit.loose,
+              flex: 3,
+              fit : (openedCategoryName.toUpperCase() == "CAKES & PASTRIES" ||
+                    openedCategoryName.toUpperCase() == "CAKES") ? FlexFit.tight : FlexFit.loose,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
@@ -81,11 +82,13 @@ class _ItemDetailState extends State<ItemDetail> {
               height: 15,
             ),
             Flexible(
-              flex: 2,
+              flex: 1,
+              fit : (openedCategoryName.toUpperCase() == "CAKES & PASTRIES" ||
+                    openedCategoryName.toUpperCase() == "CAKES") ? FlexFit.tight : FlexFit.loose,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  imgPathMap['price'].toString().toUpperCase(),
+                  "Price : "+imgPathMap['price'].toString().toUpperCase(),
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -97,7 +100,8 @@ class _ItemDetailState extends State<ItemDetail> {
             (openedCategoryName.toUpperCase() == "CAKES & PASTRIES" ||
                     openedCategoryName.toUpperCase() == "CAKES")
                 ? Flexible(
-                    flex: 2,
+                    flex: 1,
+                    fit : FlexFit.tight,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
@@ -115,7 +119,8 @@ class _ItemDetailState extends State<ItemDetail> {
             (openedCategoryName.toUpperCase() == "CAKES & PASTRIES" ||
                     openedCategoryName.toUpperCase() == "CAKES")
                 ? Flexible(
-                    flex: 2,
+                    flex: 1,
+                    fit : FlexFit.tight,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
@@ -150,6 +155,12 @@ class _ItemDetailState extends State<ItemDetail> {
                     ),
                   )
                 : SizedBox(height: 1),
+              Flexible(
+                flex : 3 , 
+                fit : FlexFit.tight,
+                child:Center(
+                child: RaisedButton(onPressed : (){} , child : Text("Add To Cart" , style : TextStyle(color : Colors.white , fontSize:20 , fontWeight : FontWeight.bold)) , color : Colors.red)
+              ))
           ],
         ),
       ),
