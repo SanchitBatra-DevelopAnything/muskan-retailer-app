@@ -54,6 +54,17 @@ class _ItemsState extends State<Items> {
     }
   }
 
+  checkMinimumPoundValue(dynamic value) {
+    print("VALUE IS :" + value.toString());
+    if (value == "-1" || value == -1) {
+      return "NO LIMIT ON SIZE";
+    } else if (value == null || value == "null") {
+      return "1";
+    } else if (value == 1) {
+      return "1";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final CategoriesProviderObject = Provider.of<CategoriesProvider>(context);
@@ -156,7 +167,8 @@ class _ItemsState extends State<Items> {
                                   directVarietyItems[index].cakeFlavour,
                               designCategory:
                                   directVarietyItems[index].designCategory,
-                              minPounds: directVarietyItems[index].minPounds,
+                              minPounds: checkMinimumPoundValue(
+                                  directVarietyItems[index].minPounds),
                             )
                           : Item(
                               imgPath: itemsUnderSubcategory[index].imageUrl,
@@ -167,7 +179,8 @@ class _ItemsState extends State<Items> {
                               itemName: itemsUnderSubcategory[index].itemName,
                               cakeFlavour:
                                   itemsUnderSubcategory[index].cakeFlavour,
-                              minPounds: itemsUnderSubcategory[index].minPounds,
+                              minPounds: checkMinimumPoundValue(
+                                  itemsUnderSubcategory[index].minPounds),
                               designCategory:
                                   itemsUnderSubcategory[index].designCategory),
                       itemCount: _loadDirectVariety
