@@ -22,15 +22,22 @@ class _LoginState extends State<Login> {
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
+    if (!mounted) {
+      return;
+    }
     if (_isFirstTime) {
-      Provider.of<AuthProvider>(context).fetchShopsFromDB();
-      setState(() {
-        isLoading = true;
-      });
-      Provider.of<AuthProvider>(context).fetchRetailersFromDB();
-      setState(() {
-        isLoading = false;
-      });
+      Provider.of<AuthProvider>(context, listen: false).fetchShopsFromDB();
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+        });
+      }
+      Provider.of<AuthProvider>(context, listen: false).fetchRetailersFromDB();
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
     _isFirstTime = false; //never run the above if again.
     super.didChangeDependencies();
@@ -55,14 +62,18 @@ class _LoginState extends State<Login> {
         isPresent = true;
       }
       if (isPresent) {
-        setState(() {
-          _invalidLogin = false;
-        });
+        if (mounted) {
+          setState(() {
+            _invalidLogin = false;
+          });
+        }
         Navigator.of(context).pushReplacementNamed("/categories");
       } else {
-        setState(() {
-          _invalidLogin = true;
-        });
+        if (mounted) {
+          setState(() {
+            _invalidLogin = true;
+          });
+        }
       }
     });
   }

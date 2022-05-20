@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/itemDetail&Customize.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:muskan_shop/subcategories.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           '/categories': (context) => Categories(),
           '/subcategories': (context) => Subcategories(),
           '/items': (context) => Items(),
+          'item-detail': (context) => ItemDetail(),
         },
       ),
     );

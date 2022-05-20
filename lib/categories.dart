@@ -18,19 +18,31 @@ class _CategoriesState extends State<Categories> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     if (_isFirstTime) {
-      setState(() {
-        isLoading = true;
-      });
-      Provider.of<CategoriesProvider>(context)
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+        });
+      }
+
+      Provider.of<CategoriesProvider>(context, listen: false)
           .fetchCategoriesFromDB()
           .then((_) => {
-                setState(() {
-                  isLoading = false;
-                })
+                if (mounted)
+                  {
+                    setState(() {
+                      isLoading = false;
+                    })
+                  }
               });
     }
     _isFirstTime = false; //never run the above if again.
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   void moveToSubcategories(BuildContext context, Category selectedCategory) {

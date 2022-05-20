@@ -33,7 +33,16 @@ class _ItemState extends State<Item> {
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
         child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed('item-detail', arguments: {
+                'imgPath': widget.imgPath,
+                'price': widget.price,
+                'itemName': widget.itemName,
+                'cakeFlavour': widget.cakeFlavour,
+                'designCategory': widget.designCategory,
+                'minPounds': widget.minPounds
+              });
+            },
             child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
@@ -51,19 +60,22 @@ class _ItemState extends State<Item> {
                     Flexible(
                       flex: 5,
                       fit: FlexFit.tight,
-                      child: Image.network(
-                        widget.imgPath,
-                        fit: BoxFit.fill,
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(
-                                  color: Colors.red, strokeWidth: 5),
-                            );
-                          }
-                        },
+                      child: Hero(
+                        tag: widget.imgPath,
+                        child: Image.network(
+                          widget.imgPath,
+                          fit: BoxFit.fill,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.red, strokeWidth: 5),
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ),
                     Flexible(
