@@ -8,12 +8,18 @@ class Item extends StatefulWidget {
       {Key? key,
       required this.imgPath,
       required this.price,
-      required this.itemName})
+      required this.itemName,
+      required this.cakeFlavour,
+      required this.designCategory,
+      required this.minPounds})
       : super(key: key);
 
   final String imgPath;
   final String price;
   final String itemName;
+  final String cakeFlavour;
+  final String designCategory;
+  final dynamic minPounds;
 
   @override
   State<Item> createState() => _ItemState();

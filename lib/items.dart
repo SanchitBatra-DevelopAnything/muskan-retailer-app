@@ -152,6 +152,11 @@ class _ItemsState extends State<Items> {
                                       .shopPrice
                                       .toString(),
                               itemName: directVarietyItems[index].itemName,
+                              cakeFlavour:
+                                  directVarietyItems[index].cakeFlavour,
+                              designCategory:
+                                  directVarietyItems[index].designCategory,
+                              minPounds: directVarietyItems[index].minPounds,
                             )
                           : Item(
                               imgPath: itemsUnderSubcategory[index].imageUrl,
@@ -160,7 +165,11 @@ class _ItemsState extends State<Items> {
                                       .shopPrice
                                       .toString(),
                               itemName: itemsUnderSubcategory[index].itemName,
-                            ),
+                              cakeFlavour:
+                                  itemsUnderSubcategory[index].cakeFlavour,
+                              minPounds: itemsUnderSubcategory[index].minPounds,
+                              designCategory:
+                                  itemsUnderSubcategory[index].designCategory),
                       itemCount: _loadDirectVariety
                           ? directVarietyItems.length
                           : itemsUnderSubcategory.length,
