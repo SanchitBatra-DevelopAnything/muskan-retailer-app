@@ -19,6 +19,7 @@ class _ItemsState extends State<Items> {
   var _isLoading = false;
   var _isFirstTime = true;
   var _loadDirectVariety = false;
+  var _isSearching = false;
 
   @override
   void didChangeDependencies() {
@@ -116,6 +117,11 @@ class _ItemsState extends State<Items> {
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               child: TextField(
+                                onTap: () {
+                                  setState(() {
+                                    _isSearching = true;
+                                  });
+                                },
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                                 controller: searchItemController,
@@ -133,6 +139,24 @@ class _ItemsState extends State<Items> {
                             ),
                           ),
                         ),
+                        if (_isSearching)
+                          Flexible(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.cancel,
+                                color: Colors.white,
+                              ),
+                              iconSize: 30,
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+                                searchItemController.clear();
+                                onSearch('');
+                                setState(() {
+                                  _isSearching = false;
+                                });
+                              },
+                            ),
+                          ),
                         Flexible(
                           child: Consumer<CartProvider>(
                             builder: (_, cart, ch) => Badge(
