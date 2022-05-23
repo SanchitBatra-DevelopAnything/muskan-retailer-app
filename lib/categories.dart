@@ -56,6 +56,10 @@ class _CategoriesState extends State<Categories> {
     Navigator.of(context).pushNamed('/subcategories');
   }
 
+  void moveToCart(BuildContext context) {
+    Navigator.of(context).pushNamed('/cart');
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryProviderObject =
@@ -93,7 +97,9 @@ class _CategoriesState extends State<Categories> {
                           color: Colors.red,
                         ),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            moveToCart(context);
+                          },
                           icon: Icon(
                             Icons.shopping_cart,
                             color: Colors.white,

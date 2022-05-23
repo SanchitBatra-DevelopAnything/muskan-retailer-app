@@ -40,14 +40,12 @@ class _ItemState extends State<Item> {
 
   @override
   Widget build(BuildContext context) {
-    print("SEARCH KE BAAD item id = " + widget.itemId);
     final cartProviderObject =
         Provider.of<CartProvider>(context, listen: false);
     _isInCart = cartProviderObject.checkInCart(widget.itemId);
     _isInCart
         ? _quantity = cartProviderObject.getQuantity(widget.itemId)
         : _quantity = 0;
-    print(_quantity.toString() + " is the quantity fetched from cart");
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
         child: GestureDetector(

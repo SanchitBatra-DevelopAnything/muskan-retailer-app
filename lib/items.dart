@@ -57,6 +57,10 @@ class _ItemsState extends State<Items> {
     }
   }
 
+  void moveToCart(BuildContext context) {
+    Navigator.of(context).pushNamed('/cart');
+  }
+
   checkMinimumPoundValue(dynamic value) {
     if (value == "-1" || value == -1) {
       return "NO LIMIT ON SIZE";
@@ -165,7 +169,9 @@ class _ItemsState extends State<Items> {
                               color: Colors.red,
                             ),
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                moveToCart(context);
+                              },
                               icon: Icon(
                                 Icons.shopping_cart,
                                 color: Colors.white,
