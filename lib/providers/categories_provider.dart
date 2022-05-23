@@ -126,6 +126,7 @@ class CategoriesProvider with ChangeNotifier {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       extractedData.forEach((ItemId, ItemData) {
         loadedItems.add(Item(
+            itemId: ItemId,
             cakeFlavour: ItemData['cakeFlavour'],
             shopPrice: ItemData['shopPrice'],
             itemName: ItemData['itemName'],
@@ -168,6 +169,7 @@ class CategoriesProvider with ChangeNotifier {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       extractedData.forEach((ItemId, ItemData) {
         loadedItems.add(Item(
+            itemId: ItemId,
             cakeFlavour: ItemData['cakeFlavour'],
             shopPrice: ItemData['shopPrice'],
             itemName: ItemData['itemName'],

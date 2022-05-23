@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/itemQuantityCounter.dart';
+import 'package:muskan_shop/providers/cart.dart';
+import 'package:provider/provider.dart';
 
 class Item extends StatefulWidget {
   const Item(
@@ -11,6 +13,7 @@ class Item extends StatefulWidget {
       required this.itemName,
       required this.cakeFlavour,
       required this.designCategory,
+      required this.itemId,
       required this.minPounds})
       : super(key: key);
 
@@ -19,6 +22,7 @@ class Item extends StatefulWidget {
   final String itemName;
   final String cakeFlavour;
   final String designCategory;
+  final String itemId;
   final dynamic minPounds;
 
   @override
@@ -30,6 +34,8 @@ class _ItemState extends State<Item> {
 
   @override
   Widget build(BuildContext context) {
+    final cartProviderObject =
+        Provider.of<CartProvider>(context, listen: false);
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
         child: GestureDetector(
@@ -119,6 +125,8 @@ class _ItemState extends State<Item> {
                                       )),
                                   color: Colors.red,
                                   onPressed: () {
+                                    cartProviderObject.addItem(widget.itemId,
+                                        widget.price, widget.itemName);
                                     setState(() {
                                       _isInCart = true;
                                     });
@@ -130,6 +138,13 @@ class _ItemState extends State<Item> {
                                         if (count == 0)
                                           {
                                             setState(() => {_isInCart = false})
+                                          }
+                                        else if (count > 0)
+                                          {
+                                            cartProviderObject.addItem(
+                                                widget.itemId,
+                                                widget.price,
+                                                widget.itemName)
                                           }
                                       })),
                     )

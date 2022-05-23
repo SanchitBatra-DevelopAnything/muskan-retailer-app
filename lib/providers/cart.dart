@@ -4,7 +4,7 @@ class CartItem {
   final String id;
   final String title;
   final int quantity;
-  final double price;
+  final String price;
 
   CartItem(
       {required this.id,
@@ -14,7 +14,7 @@ class CartItem {
 }
 
 class CartProvider with ChangeNotifier {
-  Map<String, CartItem>? _items; //product db id as key.
+  Map<String, CartItem>? _items = {}; //product db id as key.
 
   Map<String, CartItem> get items {
     return {..._items!};
@@ -27,7 +27,7 @@ class CartProvider with ChangeNotifier {
     return _items!.length;
   }
 
-  void addItem(String itemId, double price, String title) {
+  void addItem(String itemId, String price, String title) {
     if (_items!.containsKey(itemId)) {
       //change quantity..
       _items!.update(

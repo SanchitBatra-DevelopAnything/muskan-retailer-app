@@ -170,6 +170,7 @@ class _ItemsState extends State<Items> {
                       itemBuilder: (ctx, index) => _loadDirectVariety
                           ? Item(
                               imgPath: directVarietyItems[index].imageUrl,
+                              itemId: directVarietyItems[index].itemId,
                               price: "Rs." +
                                   directVarietyItems[index]
                                       .shopPrice
@@ -184,6 +185,7 @@ class _ItemsState extends State<Items> {
                             )
                           : Item(
                               imgPath: itemsUnderSubcategory[index].imageUrl,
+                              itemId: itemsUnderSubcategory[index].itemId,
                               price: "Rs." +
                                   itemsUnderSubcategory[index]
                                       .shopPrice

@@ -1,4 +1,5 @@
 class Item {
+  final String itemId;
   dynamic cakeFlavour;
   dynamic customerPrice;
   dynamic designCategory;
@@ -17,6 +18,7 @@ class Item {
       required this.itemName,
       required this.minPounds,
       required this.offer,
+      required this.itemId,
       required this.shopPrice,
       required this.subcategoryName});
 }
