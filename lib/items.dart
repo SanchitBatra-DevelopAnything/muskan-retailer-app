@@ -57,7 +57,6 @@ class _ItemsState extends State<Items> {
   }
 
   checkMinimumPoundValue(dynamic value) {
-    print("VALUE IS :" + value.toString());
     if (value == "-1" || value == -1) {
       return "NO LIMIT ON SIZE";
     } else if (value == null || value == "null") {

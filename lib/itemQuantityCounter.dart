@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/providers/cart.dart';
+import 'package:provider/provider.dart';
 
 typedef void CountButtonClickCallBack(int count);
 
 class CountButtonView extends StatefulWidget {
-  final int initialCount;
+  final String itemId;
   final CountButtonClickCallBack onChange;
 
   const CountButtonView(
-      {Key? key, required this.initialCount, required this.onChange})
+      {Key? key, required this.itemId, required this.onChange})
       : super(key: key);
 
   @override
@@ -15,29 +17,39 @@ class CountButtonView extends StatefulWidget {
 }
 
 class _CountButtonViewState extends State<CountButtonView> {
-  late int count;
+  int quantity = 0;
 
   @override
   void initState() {
     // TODO: implement initState
-    count = widget.initialCount;
     super.initState();
   }
 
   void updateCount(int addValue) {
-    if (count + addValue >= 0) {
+    if (quantity + addValue == 0) {
       setState(() {
-        count += addValue;
+        quantity = 0;
+      });
+    }
+    if (quantity + addValue > 0) {
+      setState(() {
+        quantity += addValue;
       });
     }
 
     if (widget.onChange != null) {
-      widget.onChange(count);
+      widget.onChange(quantity);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var count = Provider.of<CartProvider>(context, listen: false)
+        .getQuantity(widget.itemId);
+    setState(() {
+      quantity = count;
+    });
+    print("RECEIVED COUNT IN BASKET = " + count.toString());
     return SizedBox(
       width: 120.0,
       height: 50.0,
@@ -55,7 +67,7 @@ class _CountButtonViewState extends State<CountButtonView> {
                     updateCount(-1);
                   },
                   child: Container(
-                      width: 40.0,
+                      width: 50.0,
                       child: Center(
                           child: Text(
                         '-',
@@ -68,7 +80,7 @@ class _CountButtonViewState extends State<CountButtonView> {
               Container(
                 child: Center(
                     child: Text(
-                  '$count',
+                  '$quantity',
                   style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -81,7 +93,7 @@ class _CountButtonViewState extends State<CountButtonView> {
                     updateCount(1);
                   },
                   child: Container(
-                      width: 40.0,
+                      width: 50.0,
                       child: Center(
                           child: Text(
                         '+',

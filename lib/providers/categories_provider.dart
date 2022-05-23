@@ -62,8 +62,6 @@ class CategoriesProvider with ChangeNotifier {
               .contains(searchFor.toLowerCase()))
           .toList()
     ];
-    print("FOUND ITEMS LENGTH :" +
-        (_activeDirectVarietyFilteredItems.length).toString());
     notifyListeners();
   }
 
@@ -82,8 +80,6 @@ class CategoriesProvider with ChangeNotifier {
               .contains(searchFor.toLowerCase()))
           .toList()
     ];
-    print("FOUND ITEMS LENGTH :" +
-        (_activeSubcategoryFilteredItems.length).toString());
     notifyListeners();
   }
 

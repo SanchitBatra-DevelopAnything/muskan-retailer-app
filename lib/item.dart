@@ -30,12 +30,24 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-  var _isInCart = false;
+  var _isInCart;
+  var _quantity;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("SEARCH KE BAAD item id = " + widget.itemId);
     final cartProviderObject =
         Provider.of<CartProvider>(context, listen: false);
+    _isInCart = cartProviderObject.checkInCart(widget.itemId);
+    _isInCart
+        ? _quantity = cartProviderObject.getQuantity(widget.itemId)
+        : _quantity = 0;
+    print(_quantity.toString() + " is the quantity fetched from cart");
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
         child: GestureDetector(
@@ -126,17 +138,19 @@ class _ItemState extends State<Item> {
                                   color: Colors.red,
                                   onPressed: () {
                                     cartProviderObject.addItem(widget.itemId,
-                                        widget.price, widget.itemName);
+                                        widget.price, 1, widget.itemName);
                                     setState(() {
                                       _isInCart = true;
                                     });
                                   },
                                 )
                               : CountButtonView(
-                                  initialCount: 1,
+                                  itemId: widget.itemId,
                                   onChange: (count) => {
                                         if (count == 0)
                                           {
+                                            cartProviderObject
+                                                .removeItem(widget.itemId),
                                             setState(() => {_isInCart = false})
                                           }
                                         else if (count > 0)
@@ -144,6 +158,7 @@ class _ItemState extends State<Item> {
                                             cartProviderObject.addItem(
                                                 widget.itemId,
                                                 widget.price,
+                                                count,
                                                 widget.itemName)
                                           }
                                       })),
