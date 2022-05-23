@@ -67,7 +67,10 @@ class _CountButtonViewState extends State<CountButtonView> {
                     updateCount(-1);
                   },
                   child: Container(
-                      width: 50.0,
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(22.0)),
+                      width: 40.0,
                       child: Center(
                           child: Text(
                         '-',
@@ -93,7 +96,10 @@ class _CountButtonViewState extends State<CountButtonView> {
                     updateCount(1);
                   },
                   child: Container(
-                      width: 50.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(22.0),
+                          color: Colors.black),
+                      width: 40.0,
                       child: Center(
                           child: Text(
                         '+',

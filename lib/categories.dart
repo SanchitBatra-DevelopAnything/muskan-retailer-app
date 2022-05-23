@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/badge.dart';
 import 'package:muskan_shop/models/category.dart';
