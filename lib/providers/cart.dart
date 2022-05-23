@@ -20,6 +20,13 @@ class CartProvider with ChangeNotifier {
     return {..._items!};
   }
 
+  int get itemCount {
+    if (_items == null) {
+      return 0;
+    }
+    return _items!.length;
+  }
+
   void addItem(String itemId, double price, String title) {
     if (_items!.containsKey(itemId)) {
       //change quantity..

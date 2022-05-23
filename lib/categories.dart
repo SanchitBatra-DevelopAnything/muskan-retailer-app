@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/badge.dart';
 import 'package:muskan_shop/models/category.dart';
+import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -83,14 +85,21 @@ class _CategoriesState extends State<Categories> {
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.normal),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.shopping_cart,
-                          color: Colors.white,
+                      Consumer<CartProvider>(
+                        builder: (_, cart, ch) => Badge(
+                          child: ch,
+                          value: cart.itemCount.toString(),
+                          color: Colors.red,
                         ),
-                        iconSize: 30,
-                      )
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.shopping_cart,
+                            color: Colors.white,
+                          ),
+                          iconSize: 30,
+                        ),
+                      ),
                     ],
                   ),
                 ),
