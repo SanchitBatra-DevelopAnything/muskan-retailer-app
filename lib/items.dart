@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'badge.dart';
 import 'item.dart';
 import 'providers/categories_provider.dart';
 
@@ -133,14 +135,22 @@ class _ItemsState extends State<Items> {
                           ),
                         ),
                         Flexible(
+                          child: Consumer<CartProvider>(
+                            builder: (_, cart, ch) => Badge(
+                              child: ch,
+                              value: cart.itemCount.toString(),
+                              color: Colors.red,
+                            ),
                             child: IconButton(
-                          iconSize: 30,
-                          icon: Icon(
-                            Icons.shopping_cart,
-                            color: Colors.white,
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.shopping_cart,
+                                color: Colors.white,
+                              ),
+                              iconSize: 30,
+                            ),
                           ),
-                          onPressed: () {},
-                        ))
+                        )
                       ],
                     ),
                   ),
