@@ -89,7 +89,7 @@ class _CartScreenState extends State<CartScreen> {
                     flex: 4,
                     child: Container(
                       margin: EdgeInsets.only(right: 15),
-                      width: 200,
+                      width: 300,
                       height: 50,
                       child: RaisedButton(
                           onPressed: () {
@@ -105,12 +105,12 @@ class _CartScreenState extends State<CartScreen> {
                               animatedTexts: [
                                 TyperAnimatedText("Click here",
                                     textStyle: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white)),
                                 TyperAnimatedText("Checkout",
                                     textStyle: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white))
                               ])),
