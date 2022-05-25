@@ -41,8 +41,7 @@ class _ItemState extends State<Item> {
 
   @override
   Widget build(BuildContext context) {
-    final cartProviderObject =
-        Provider.of<CartProvider>(context, listen: false);
+    final cartProviderObject = Provider.of<CartProvider>(context);
     _isInCart = cartProviderObject.checkInCart(widget.itemId);
     _isInCart
         ? _quantity = cartProviderObject.getQuantity(widget.itemId)

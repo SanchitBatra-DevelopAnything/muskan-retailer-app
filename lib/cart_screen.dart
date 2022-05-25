@@ -1,5 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/cartProductCard.dart';
+import 'package:muskan_shop/providers/cart.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -51,6 +54,7 @@ void showOrderDialog(BuildContext context) {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
+    final cartItemsList = Provider.of<CartProvider>(context).itemList;
     return Scaffold(
       backgroundColor: Colors.black54,
       body: Column(
@@ -124,6 +128,13 @@ class _CartScreenState extends State<CartScreen> {
             color: Colors.white,
             thickness: 5,
           ),
+          Flexible(
+              flex: 10,
+              child: ListView.builder(
+                  itemExtent: 100,
+                  itemCount: cartItemsList.length,
+                  itemBuilder: ((context, index) =>
+                      CartProductCard(cartItem: cartItemsList[index])))),
         ],
       ),
     );
