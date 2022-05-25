@@ -70,7 +70,7 @@ class _ItemState extends State<Item> {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.of(context)
-                              .pushNamed('item-detail', arguments: {
+                              .pushNamed('/item-detail', arguments: {
                             'imgPath': widget.imgPath,
                             'price': widget.price,
                             'itemName': widget.itemName,

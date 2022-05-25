@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {
@@ -5,6 +6,46 @@ class CartScreen extends StatefulWidget {
 
   @override
   _CartScreenState createState() => _CartScreenState();
+}
+
+void showOrderDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      title: Text(
+        'Order Checkout!',
+        style: TextStyle(
+            color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+      content: Text(
+        "Confirm?",
+        style: TextStyle(
+            color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+      ),
+      actions: <Widget>[
+        RaisedButton(
+          color: Colors.red,
+          child: const Text(
+            'No',
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        RaisedButton(
+          color: Colors.red,
+          child: const Text(
+            'Yes',
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    ),
+  );
 }
 
 class _CartScreenState extends State<CartScreen> {
@@ -35,7 +76,7 @@ class _CartScreenState extends State<CartScreen> {
                     flex: 5,
                     fit: FlexFit.tight,
                     child: Text(
-                      "CART",
+                      "YOUR CART",
                       style: TextStyle(
                           fontSize: 25,
                           color: Colors.white,
@@ -43,10 +84,46 @@ class _CartScreenState extends State<CartScreen> {
                           fontStyle: FontStyle.normal),
                     ),
                   ),
+                  Spacer(),
+                  Flexible(
+                    flex: 4,
+                    child: Container(
+                      margin: EdgeInsets.only(right: 15),
+                      width: 200,
+                      height: 50,
+                      child: RaisedButton(
+                          onPressed: () {
+                            showOrderDialog(context);
+                          },
+                          color: Color.fromRGBO(51, 51, 51, 1),
+                          child: AnimatedTextKit(
+                              onTap: () {
+                                showOrderDialog(context);
+                              },
+                              repeatForever: true,
+                              isRepeatingAnimation: true,
+                              animatedTexts: [
+                                TyperAnimatedText("Click here",
+                                    textStyle: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white)),
+                                TyperAnimatedText("Checkout",
+                                    textStyle: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white))
+                              ])),
+                    ),
+                  )
                 ],
               ),
             ),
-          )
+          ),
+          Divider(
+            color: Colors.white,
+            thickness: 5,
+          ),
         ],
       ),
     );
