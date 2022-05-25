@@ -29,6 +29,7 @@ class _CartProductCardState extends State<CartProductCard> {
         ),
         Flexible(
           flex: 7,
+          fit: FlexFit.tight,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

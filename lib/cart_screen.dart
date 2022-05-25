@@ -135,6 +135,20 @@ class _CartScreenState extends State<CartScreen> {
                   itemCount: cartItemsList.length,
                   itemBuilder: ((context, index) =>
                       CartProductCard(cartItem: cartItemsList[index])))),
+          Flexible(
+              child: Divider(
+            thickness: 5,
+            color: Colors.white,
+          )),
+          Flexible(
+            child: Text(
+              "TOTAL",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20),
+            ),
+          )
         ],
       ),
     );
