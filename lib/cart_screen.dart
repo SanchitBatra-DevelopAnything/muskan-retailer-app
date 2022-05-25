@@ -44,7 +44,8 @@ void showOrderDialog(BuildContext context, CartProvider cartObject) {
           ),
           onPressed: () {
             cartObject.clearCart();
-            Navigator.of(context).pushReplacementNamed('/orderPlaced');
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/orderPlaced', (r) => false);
           },
         )
       ],
