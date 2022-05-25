@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/itemQuantityCounter.dart';
 import 'package:muskan_shop/providers/cart.dart';
+import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 
 class Item extends StatefulWidget {
@@ -46,6 +47,9 @@ class _ItemState extends State<Item> {
     _isInCart
         ? _quantity = cartProviderObject.getQuantity(widget.itemId)
         : _quantity = 0;
+    final parentCategory =
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .activeCategoryName;
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
         child: GestureDetector(
@@ -135,8 +139,13 @@ class _ItemState extends State<Item> {
                                       )),
                                   color: Colors.red,
                                   onPressed: () {
-                                    cartProviderObject.addItem(widget.itemId,
-                                        widget.price, 1, widget.itemName);
+                                    cartProviderObject.addItem(
+                                        widget.itemId,
+                                        widget.price,
+                                        1,
+                                        widget.itemName,
+                                        widget.imgPath,
+                                        parentCategory!);
                                     setState(() {
                                       _isInCart = true;
                                     });
@@ -157,7 +166,9 @@ class _ItemState extends State<Item> {
                                                 widget.itemId,
                                                 widget.price,
                                                 count,
-                                                widget.itemName)
+                                                widget.itemName,
+                                                widget.imgPath,
+                                                parentCategory!)
                                           }
                                       })),
                     )
