@@ -54,14 +54,16 @@ void showOrderDialog(BuildContext context) {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    final cartItemsList = Provider.of<CartProvider>(context).itemList;
+    final cartProviderObject = Provider.of<CartProvider>(context);
+    final cartItemsList = cartProviderObject.itemList;
+    var totalOrderPrice = cartProviderObject.getTotalOrderPrice();
     return Scaffold(
       backgroundColor: Colors.black54,
       body: Column(
         children: [
           SizedBox(height: 35),
           Flexible(
-            flex: 1,
+            flex: 2,
             child: Padding(
               padding: EdgeInsets.only(left: 2, top: 25),
               child: Row(
@@ -142,7 +144,7 @@ class _CartScreenState extends State<CartScreen> {
           )),
           Flexible(
             child: Text(
-              "TOTAL",
+              'TOTAL : Rs.${totalOrderPrice}',
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

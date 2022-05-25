@@ -52,6 +52,14 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  double getTotalOrderPrice() {
+    double totalPrice = 0;
+    _itemList.forEach((element) {
+      totalPrice += element.totalPrice;
+    });
+    return totalPrice;
+  }
+
   void removeItem(String itemId) {
     if (checkInCart(itemId)) {
       _items!.remove(itemId);
