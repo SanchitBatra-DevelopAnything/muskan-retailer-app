@@ -17,7 +17,7 @@ class _CartProductCardState extends State<CartProductCard> {
   Widget build(BuildContext context) {
     final cartProviderObject = Provider.of<CartProvider>(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: const EdgeInsets.all(5),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Flexible(
           flex: 5,

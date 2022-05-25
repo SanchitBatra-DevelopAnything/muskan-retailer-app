@@ -52,6 +52,12 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  void clearCart() {
+    _items = {};
+    _itemList = [];
+    notifyListeners();
+  }
+
   double getTotalOrderPrice() {
     double totalPrice = 0;
     _itemList.forEach((element) {

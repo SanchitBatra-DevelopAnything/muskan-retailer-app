@@ -11,7 +11,7 @@ class CartScreen extends StatefulWidget {
   _CartScreenState createState() => _CartScreenState();
 }
 
-void showOrderDialog(BuildContext context) {
+void showOrderDialog(BuildContext context, CartProvider cartObject) {
   showDialog(
     context: context,
     builder: (ctx) => AlertDialog(
@@ -43,7 +43,8 @@ void showOrderDialog(BuildContext context) {
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            cartObject.clearCart();
+            Navigator.of(context).pushReplacementNamed('/orderPlaced');
           },
         )
       ],
@@ -99,12 +100,12 @@ class _CartScreenState extends State<CartScreen> {
                       height: 50,
                       child: RaisedButton(
                           onPressed: () {
-                            showOrderDialog(context);
+                            showOrderDialog(context, cartProviderObject);
                           },
                           color: Color.fromRGBO(51, 51, 51, 1),
                           child: AnimatedTextKit(
                               onTap: () {
-                                showOrderDialog(context);
+                                showOrderDialog(context, cartProviderObject);
                               },
                               repeatForever: true,
                               isRepeatingAnimation: true,

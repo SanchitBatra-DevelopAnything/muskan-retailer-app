@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/cart_screen.dart';
 import 'package:muskan_shop/itemDetail&Customize.dart';
+import 'package:muskan_shop/orderDone.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:muskan_shop/subcategories.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           '/items': (context) => Items(),
           '/item-detail': (context) => ItemDetail(),
           '/cart': (context) => CartScreen(),
+          '/orderPlaced': (context) => OrderPlaced(),
         },
       ),
     );
