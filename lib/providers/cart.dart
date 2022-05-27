@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:muskan_shop/models/regularShopOrderItem.dart';
 
 class CartItem {
   final String id;
@@ -61,6 +64,7 @@ class CartProvider with ChangeNotifier {
   double getTotalOrderPrice() {
     double totalPrice = 0;
     _itemList.forEach((element) {
+      print(element.totalPrice);
       totalPrice += element.totalPrice;
     });
     return totalPrice;
@@ -122,5 +126,45 @@ class CartProvider with ChangeNotifier {
     }
     formCartList();
     notifyListeners();
+  }
+
+  Future<void> PlaceShopOrder() async {
+    var todaysDate = DateTime.now();
+    var year = todaysDate.year.toString();
+    var month = todaysDate.month.toString();
+    var day = todaysDate.day.toString();
+    var date = day + month + year;
+    var url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/activeShopOrders/" +
+            date +
+            "/.json";
+    try {
+      await http.post(Uri.parse(url),
+          body: json.encode({
+            "shopAddress": "DUMMY SHOP",
+            "orderedBy": "DUMMY SHOPKEEPER",
+            "orderTime": "DUMMY TIME",
+            "items": formOrderItemList(),
+            "totalPrice": getTotalOrderPrice(),
+          }));
+    } catch (error) {
+      print("ERROR IS");
+      print(error);
+      throw error;
+    }
+  }
+
+  formOrderItemList() {
+    var items = [];
+    _itemList.forEach((cartItem) {
+      items.add(RegularShopOrderItem(
+              item: cartItem.title,
+              imageUrl: cartItem.imageUrl,
+              CategoryName: cartItem.parentCategoryType,
+              quantity: cartItem.quantity,
+              price: cartItem.totalPrice)
+          .toJson());
+    });
+    return items;
   }
 }
