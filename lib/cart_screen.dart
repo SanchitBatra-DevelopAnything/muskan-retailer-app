@@ -52,9 +52,9 @@ class _CartScreenState extends State<CartScreen> {
               });
               cartObject.PlaceShopOrder().then((_) => {
                     cartObject.clearCart(),
-                    setState(() {
-                      _isPlacingOrder = false;
-                    }),
+                    // setState(() {
+                    //   _isPlacingOrder = false;
+                    // }),
                     Navigator.pushNamedAndRemoveUntil(
                         context, "/orderPlaced", (r) => false)
                   });
