@@ -159,18 +159,18 @@ class _ItemDetailState extends State<ItemDetail> {
                     ),
                   )
                 : SizedBox(height: 1),
-            Flexible(
-                flex: 3,
-                fit: FlexFit.tight,
-                child: Center(
-                    child: RaisedButton(
-                        onPressed: () {},
-                        child: Text("Add To Cart",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold)),
-                        color: Colors.red)))
+            // Flexible(
+            //     flex: 3,
+            //     fit: FlexFit.tight,
+            //     child: Center(
+            //         child: RaisedButton(
+            //             onPressed: () {},
+            //             child: Text("Add To Cart",
+            //                 style: TextStyle(
+            //                     color: Colors.white,
+            //                     fontSize: 20,
+            //                     fontWeight: FontWeight.bold)),
+            //             color: Colors.red)))
           ],
         ),
       ),
