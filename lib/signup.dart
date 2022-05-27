@@ -96,7 +96,7 @@ class _SignUpState extends State<SignUp> {
           "Sign Up",
           style: TextStyle(
               fontSize: 30,
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontStyle: FontStyle.italic),
         ),
@@ -105,10 +105,15 @@ class _SignUpState extends State<SignUp> {
           child: TextField(
             controller: retailerNameController,
             style: TextStyle(
-                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white)),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
               labelText: "Retailer Name",
-              labelStyle: const TextStyle(fontSize: 25),
+              labelStyle: const TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
         ),
@@ -117,16 +122,19 @@ class _SignUpState extends State<SignUp> {
         ),
         Text(
           "Select the shop from the dropdown below",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
         ),
         Container(
           width: 300,
           child: DropdownButton<String>(
               items: shops.map(buildMenuItem).toList(),
               isExpanded: true,
+              dropdownColor: Colors.black,
               iconSize: 36,
-              icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
               value: selectedShop,
+              style: TextStyle(color: Colors.white),
               onChanged: (value) => {
                     setState(() => {
                           this.selectedShop = value,

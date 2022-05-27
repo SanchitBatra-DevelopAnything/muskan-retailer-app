@@ -90,7 +90,7 @@ class _LoginState extends State<Login> {
           "Login",
           style: TextStyle(
               fontSize: 30,
-              color: Colors.black,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontStyle: FontStyle.italic),
         ),
@@ -99,10 +99,15 @@ class _LoginState extends State<Login> {
           child: TextField(
             controller: retailerNameController,
             style: TextStyle(
-                color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white)),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
               labelText: "Retailer Name",
-              labelStyle: const TextStyle(fontSize: 25),
+              labelStyle: const TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
         ),
@@ -111,7 +116,8 @@ class _LoginState extends State<Login> {
         ),
         Text(
           "Select the shop from the dropdown below",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
         ),
         Container(
           width: 300,
@@ -119,7 +125,9 @@ class _LoginState extends State<Login> {
               items: shops.map(buildMenuItem).toList(),
               isExpanded: true,
               iconSize: 36,
-              icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+              dropdownColor: Colors.black,
+              style: TextStyle(color: Colors.white),
+              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
               value: selectedShop,
               onChanged: (value) => {
                     setState(() => {
@@ -161,7 +169,10 @@ class _LoginState extends State<Login> {
                 children: [
                   Text(
                     "Invalid Login :(",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ],
               )

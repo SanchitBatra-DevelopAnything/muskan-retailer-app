@@ -23,22 +23,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black12,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 25),
+          SizedBox(height: 20),
           Image.asset(
-            "assets/muskan.png",
+            "assets/logo.jpg",
             height: 100,
-            width: 400,
+            width: double.infinity,
+            fit: BoxFit.contain,
           ),
           SizedBox(
             height: 5,
           ),
           Text(
             "Muskan Retailer",
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: Colors.white),
           ),
           Divider(),
           SizedBox(height: 15),
