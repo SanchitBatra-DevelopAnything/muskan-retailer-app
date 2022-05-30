@@ -10,6 +10,8 @@ import '../models/retailer.dart';
 class AuthProvider with ChangeNotifier {
   List<Shop> _shops = [];
   List<Retailer> _retailers = [];
+  String loggedInRetailer = "";
+  String loggedInShop = "";
 
   List<Shop> get shops {
     return [..._shops];
@@ -34,6 +36,12 @@ class AuthProvider with ChangeNotifier {
     await http.post(Uri.parse(url),
         body: json.encode(
             {'retailerName': retailerName, 'shopAddress': shopAddress}));
+  }
+
+  void setLoggedInRetailerAndShop(String retailerName, String shopName) {
+    this.loggedInRetailer = retailerName;
+    this.loggedInShop = shopName;
+    notifyListeners();
   }
 
   Future<void> fetchShopsFromDB() async {

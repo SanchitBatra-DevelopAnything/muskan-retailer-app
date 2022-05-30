@@ -128,7 +128,8 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> PlaceShopOrder() async {
+  Future<void> PlaceShopOrder(
+      String shopAddress, String loggedInRetailer, String time) async {
     var todaysDate = DateTime.now();
     var year = todaysDate.year.toString();
     var month = todaysDate.month.toString();
@@ -141,9 +142,9 @@ class CartProvider with ChangeNotifier {
     try {
       await http.post(Uri.parse(url),
           body: json.encode({
-            "shopAddress": "DUMMY SHOP",
-            "orderedBy": "DUMMY SHOPKEEPER",
-            "orderTime": "DUMMY TIME",
+            "shopAddress": shopAddress,
+            "orderedBy": loggedInRetailer,
+            "orderTime": time,
             "items": formOrderItemList(),
             "totalPrice": getTotalOrderPrice(),
           }));

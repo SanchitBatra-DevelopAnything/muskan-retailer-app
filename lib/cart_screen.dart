@@ -1,6 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:muskan_shop/cartProductCard.dart';
+import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +52,17 @@ class _CartScreenState extends State<CartScreen> {
               setState(() {
                 _isPlacingOrder = true;
               });
-              cartObject.PlaceShopOrder().then((_) => {
+              final shopkeeper =
+                  Provider.of<AuthProvider>(context, listen: false)
+                      .loggedInRetailer;
+              final shop = Provider.of<AuthProvider>(context, listen: false)
+                  .loggedInShop;
+              final timeArrayComponent =
+                  DateFormat.yMEd().add_jms().format(DateTime.now()).split(" ");
+              final time = timeArrayComponent[timeArrayComponent.length - 2] +
+                  " " +
+                  timeArrayComponent[timeArrayComponent.length - 1];
+              cartObject.PlaceShopOrder(shop, shopkeeper, time).then((_) => {
                     cartObject.clearCart(),
                     // setState(() {
                     //   _isPlacingOrder = false;

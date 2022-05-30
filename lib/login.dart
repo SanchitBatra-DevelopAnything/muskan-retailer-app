@@ -67,6 +67,10 @@ class _LoginState extends State<Login> {
             _invalidLogin = false;
           });
         }
+        // set the loggedIn shopkeeper and the shop.
+        Provider.of<AuthProvider>(context, listen: false)
+            .setLoggedInRetailerAndShop(
+                retailerNameController.text.toUpperCase(), selectedShop!);
         Navigator.of(context).pushReplacementNamed("/categories");
       } else {
         if (mounted) {
