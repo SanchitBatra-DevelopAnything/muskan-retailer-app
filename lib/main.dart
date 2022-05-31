@@ -6,6 +6,7 @@ import 'package:muskan_shop/itemDetail&Customize.dart';
 import 'package:muskan_shop/orderDone.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
+import 'package:muskan_shop/storeClosed.dart';
 import 'package:muskan_shop/subcategories.dart';
 import 'package:provider/provider.dart';
 import './home.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           '/item-detail': (context) => ItemDetail(),
           '/cart': (context) => CartScreen(),
           '/orderPlaced': (context) => OrderPlaced(),
+          '/storeClosed': (context) => BakeryClosed(),
         },
       ),
     );
