@@ -71,7 +71,13 @@ class _LoginState extends State<Login> {
         Provider.of<AuthProvider>(context, listen: false)
             .setLoggedInRetailerAndShop(
                 retailerNameController.text.toUpperCase(), selectedShop!);
-        Navigator.of(context).pushReplacementNamed("/storeClosed");
+        bool shopOffTime = Provider.of<AuthProvider>(context, listen: false)
+            .checkShopStatus("10:30PM", "07:00AM");
+        if (!shopOffTime) {
+          Navigator.of(context).pushReplacementNamed('/categories');
+        } else {
+          Navigator.of(context).pushReplacementNamed("/storeClosed");
+        }
       } else {
         if (mounted) {
           setState(() {
