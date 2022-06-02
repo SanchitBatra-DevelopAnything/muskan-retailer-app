@@ -72,7 +72,7 @@ class _LoginState extends State<Login> {
             .setLoggedInRetailerAndShop(
                 retailerNameController.text.toUpperCase(), selectedShop!);
         bool shopOffTime = Provider.of<AuthProvider>(context, listen: false)
-            .checkShopStatus("10:30PM", "07:00AM");
+            .checkShopStatus("10:30PM", "10:45PM");
         if (!shopOffTime) {
           Navigator.of(context).pushReplacementNamed('/categories');
         } else {
