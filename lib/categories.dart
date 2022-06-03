@@ -6,6 +6,8 @@ import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'bottomNavigation.dart';
+
 class Categories extends StatefulWidget {
   const Categories({Key? key}) : super(key: key);
 
@@ -68,29 +70,7 @@ class _CategoriesState extends State<Categories> {
     final categories = categoryProviderObject.categories;
     return Scaffold(
       backgroundColor: Color.fromARGB(137, 43, 40, 40),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        unselectedItemColor: Colors.white,
-        unselectedFontSize: 14,
-        backgroundColor: Colors.black54,
-        currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.bakery_dining,
-                color: Colors.white,
-              ),
-              label: "Regular Orders"),
-          BottomNavigationBarItem(
-              backgroundColor: Colors.black54,
-              icon: Icon(Icons.cake_outlined, color: Colors.white),
-              label: "Custom Orders")
-        ],
-      ),
+      bottomNavigationBar: BottomNavigator(),
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(
