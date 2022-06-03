@@ -13,6 +13,7 @@ import './home.dart';
 
 import './providers/auth.dart';
 import 'categories.dart';
+import 'customOrders/customOptions.dart';
 import 'items.dart';
 
 void main() {
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           '/cart': (context) => CartScreen(),
           '/orderPlaced': (context) => OrderPlaced(),
           '/storeClosed': (context) => BakeryClosed(),
+          '/customOrderOptions': (context) => CustomOrderOptions(),
         },
       ),
     );

@@ -18,7 +18,6 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
   var isLoading = false;
   var _isFirstTime = true;
-  var _currentIndex = 0;
 
   @override
   void didChangeDependencies() {
@@ -70,7 +69,9 @@ class _CategoriesState extends State<Categories> {
     final categories = categoryProviderObject.categories;
     return Scaffold(
       backgroundColor: Color.fromARGB(137, 43, 40, 40),
-      bottomNavigationBar: BottomNavigator(),
+      bottomNavigationBar: BottomNavigator(
+        index: 0,
+      ),
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(

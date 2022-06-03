@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
 class BottomNavigator extends StatefulWidget {
-  const BottomNavigator({Key? key}) : super(key: key);
+  final index;
+  const BottomNavigator({Key? key, required this.index}) : super(key: key);
 
   @override
   _BottomNavigatorState createState() => _BottomNavigatorState();
 }
 
 class _BottomNavigatorState extends State<BottomNavigator> {
-  var _currentIndex = 0;
+  var _currentIndex;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _currentIndex = widget.index;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +23,13 @@ class _BottomNavigatorState extends State<BottomNavigator> {
         setState(() {
           _currentIndex = index;
         });
+        if (index == 1) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, "/customOrderOptions", (r) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/categories', (r) => false);
+        }
       },
       unselectedItemColor: Colors.white,
       unselectedFontSize: 15,
