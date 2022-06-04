@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PhotoCakeForm extends StatefulWidget {
   const PhotoCakeForm({Key? key}) : super(key: key);
@@ -8,6 +11,24 @@ class PhotoCakeForm extends StatefulWidget {
 }
 
 class _PhotoCakeFormState extends State<PhotoCakeForm> {
+  File? _pickedImage;
+
+  void _pickImage(String sourceOfImage) async {
+    if (sourceOfImage == 'Camera') {
+      final pickedImage =
+          await ImagePicker.pickImage(source: ImageSource.camera);
+      setState(() {
+        _pickedImage = pickedImage;
+      });
+    } else {
+      final pickedImage =
+          await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _pickedImage = pickedImage;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +50,17 @@ class _PhotoCakeFormState extends State<PhotoCakeForm> {
             Flexible(
                 flex: 2,
                 child: Container(
-                    height: 200,
-                    width: 200,
-                    child: Image.asset('assets/default.png'))),
+                  height: 200,
+                  width: 200,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CircleAvatar(
+                        backgroundColor: Color.fromRGBO(51, 51, 51, 1),
+                        backgroundImage: _pickedImage != null
+                            ? FileImage(_pickedImage!)
+                            : null),
+                  ),
+                )),
             SizedBox(
               height: 15,
             ),
@@ -42,7 +71,9 @@ class _PhotoCakeFormState extends State<PhotoCakeForm> {
                 children: [
                   RaisedButton(
                     color: Colors.red,
-                    onPressed: () {},
+                    onPressed: () {
+                      _pickImage('Gallery');
+                    },
                     child: Text(
                       "Gallery Image",
                       style: TextStyle(color: Colors.white, fontSize: 18),
@@ -50,7 +81,9 @@ class _PhotoCakeFormState extends State<PhotoCakeForm> {
                   ),
                   RaisedButton(
                     color: Colors.red,
-                    onPressed: () {},
+                    onPressed: () {
+                      _pickImage('Camera');
+                    },
                     child: Text(
                       "Camera Image",
                       style: TextStyle(color: Colors.white, fontSize: 18),

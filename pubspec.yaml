@@ -33,6 +33,7 @@ dependencies:
   http: ^0.13.4
   animated_text_kit: ^4.2.1
   intl: ^0.17.0
+  image_picker: ^0.6.5+3
 
 
   # The following adds the Cupertino Icons font to your application.
