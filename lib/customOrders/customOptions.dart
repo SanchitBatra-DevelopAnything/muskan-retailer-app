@@ -65,7 +65,11 @@ class CustomOrderOptions extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      print("Clicked");
+                      if (index == 1) {
+                        Navigator.of(context).pushNamed('/photoCakeForm');
+                      } else {
+                        Navigator.of(context).pushNamed('/customCakeForm');
+                      }
                     },
                     child: Container(
                       height: 100,
