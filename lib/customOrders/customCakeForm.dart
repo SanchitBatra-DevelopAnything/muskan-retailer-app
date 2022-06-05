@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:muskan_shop/providers/auth.dart';
+import 'package:provider/provider.dart';
 
 class CustomCakeForm extends StatefulWidget {
   const CustomCakeForm({Key? key}) : super(key: key);
@@ -31,7 +34,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
     }
   }
 
-  void placeCustomOrder(BuildContext context) {
+  void placeCustomOrder(BuildContext context) async {
     if (_pickedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           duration: const Duration(milliseconds: 700),
@@ -50,8 +53,21 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
       return;
     }
 
+    final shopKeeper =
+        Provider.of<AuthProvider>(context, listen: false).loggedInRetailer;
+    final shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
+
+    final date = DateTime.now().toString();
+
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child('custom_orders')
+        .child(shopKeeper + "--" + shop + "--" + date + ".jpg");
+
+    await ref.putFile(_pickedImage!).onComplete;
+
     //place an order.
-    print("Placing order");
+    print("File Uploaded");
   }
 
   @override
