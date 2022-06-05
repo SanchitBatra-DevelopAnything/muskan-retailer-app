@@ -29,8 +29,27 @@ class _PhotoCakeFormState extends State<PhotoCakeForm> {
     }
   }
 
-  void _placeCustomOrder() {
-    print("Placing oRDER...");
+  void placeCustomOrder(BuildContext context) {
+    if (_pickedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: const Duration(
+            milliseconds: 700,
+          ),
+          content: Text(
+            "Please select an image",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          )));
+      return;
+    }
+    if (cakeDescriptionController.text.trim() == '') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: const Duration(
+            milliseconds: 700,
+          ),
+          content: Text("Please provide cake description")));
+      return;
+    }
+    print("Placing order");
   }
 
   @override
@@ -133,18 +152,14 @@ class _PhotoCakeFormState extends State<PhotoCakeForm> {
                 ),
                 Flexible(
                   child: RaisedButton(
-                    color: Colors.red,
-                    child: Text(
-                      "Place Order",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    onPressed: (cakeDescriptionController.text.trim() == '' ||
-                            _pickedImage == null)
-                        ? null
-                        : () {
-                            _placeCustomOrder();
-                          },
-                  ),
+                      color: Colors.red,
+                      child: Text(
+                        "Place Order",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      onPressed: () {
+                        placeCustomOrder(context);
+                      }),
                 )
               ],
             ),

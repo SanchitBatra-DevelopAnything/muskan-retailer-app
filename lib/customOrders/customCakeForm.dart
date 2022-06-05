@@ -31,6 +31,29 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
     }
   }
 
+  void placeCustomOrder(BuildContext context) {
+    if (_pickedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: const Duration(milliseconds: 700),
+          content: Text(
+            "Please select an image",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          )));
+      return;
+    }
+    if (cakeDescriptionController.text.trim() == '') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: const Duration(
+            milliseconds: 700,
+          ),
+          content: Text("Please provide cake description")));
+      return;
+    }
+
+    //place an order.
+    print("Placing order");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,10 +159,9 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                       "Place Order",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                    onPressed: (cakeDescriptionController.text.trim() == '' ||
-                            _pickedImage == null)
-                        ? null
-                        : () {},
+                    onPressed: () {
+                      placeCustomOrder(context);
+                    },
                   ),
                 )
               ],
