@@ -72,9 +72,12 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
 
   @override
   Widget build(BuildContext context) {
+    final orderTypeMap =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    final orderType = orderTypeMap['orderType'];
     return Scaffold(
       appBar: AppBar(
-        title: Text("Custom Cakes",
+        title: Text(orderType!,
             style: TextStyle(
               fontSize: 20,
               color: Colors.white,

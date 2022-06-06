@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/cart_screen.dart';
-import 'package:muskan_shop/customOrders/photoCakeForm.dart';
 import 'package:muskan_shop/itemDetail&Customize.dart';
 import 'package:muskan_shop/orderDone.dart';
 import 'package:muskan_shop/providers/cart.dart';
@@ -51,7 +50,6 @@ class MyApp extends StatelessWidget {
           '/orderPlaced': (context) => OrderPlaced(),
           '/storeClosed': (context) => BakeryClosed(),
           '/customOrderOptions': (context) => CustomOrderOptions(),
-          '/photoCakeForm': (context) => PhotoCakeForm(),
           '/customCakeForm': (context) => CustomCakeForm(),
         },
       ),
