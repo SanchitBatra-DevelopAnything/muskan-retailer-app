@@ -155,6 +155,40 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  Future<void> PlaceCustomOrder(
+      {String? shopAddress,
+      String? loggedInRetailer,
+      String? time,
+      String? cakeDescription,
+      String? cakeUrl,
+      String? orderType}) async {
+    var todaysDate = DateTime.now();
+    var year = todaysDate.year.toString();
+    var month = todaysDate.month.toString();
+    var day = todaysDate.day.toString();
+    var date = day + month + year;
+    var url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/activeShopOrders/" +
+            date +
+            "/.json";
+    try {
+      await http.post(Uri.parse(url),
+          body: json.encode({
+            "shopAddress": shopAddress,
+            "orderedBy": loggedInRetailer,
+            "orderTime": time,
+            "orderType": "custom",
+            "customType": orderType,
+            "cakeDescription": cakeDescription,
+            "imgUrl": cakeUrl,
+          }));
+    } catch (error) {
+      print("ERROR IS");
+      print(error);
+      throw error;
+    }
+  }
+
   formOrderItemList() {
     var items = [];
     _itemList.forEach((cartItem) {

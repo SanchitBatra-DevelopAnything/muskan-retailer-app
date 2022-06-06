@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:muskan_shop/providers/auth.dart';
+import 'package:muskan_shop/providers/cart.dart';
 import 'package:provider/provider.dart';
 
 class CustomCakeForm extends StatefulWidget {
@@ -15,6 +16,10 @@ class CustomCakeForm extends StatefulWidget {
 
 class _CustomCakeFormState extends State<CustomCakeForm> {
   File? _pickedImage;
+
+  bool _isUploading = false;
+  bool _isFetchingUrl = false;
+  bool _isPlacingOrder = false;
 
   var cakeDescriptionController = TextEditingController();
 
@@ -34,7 +39,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
     }
   }
 
-  void placeCustomOrder(BuildContext context) async {
+  void placeCustomOrder(BuildContext context, String orderType) async {
     if (_pickedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           duration: const Duration(milliseconds: 700),
@@ -59,6 +64,12 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
 
     final date = DateTime.now().toString();
 
+    setState(() {
+      _isUploading = true;
+      _isFetchingUrl = false;
+      _isPlacingOrder = false;
+    });
+
     final ref = FirebaseStorage.instance
         .ref()
         .child('custom_orders')
@@ -66,8 +77,34 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
 
     await ref.putFile(_pickedImage!).onComplete;
 
-    //place an order.
-    print("File Uploaded");
+    setState(() {
+      _isFetchingUrl = true;
+      _isPlacingOrder = false;
+      _isUploading = false;
+    });
+
+    final imgUrl = await ref.getDownloadURL();
+
+    setState(() {
+      _isPlacingOrder = true;
+      _isUploading = false;
+      _isFetchingUrl = false;
+    });
+
+    Provider.of<CartProvider>(context, listen: false)
+        .PlaceCustomOrder(
+            cakeDescription: cakeDescriptionController.text.trim(),
+            cakeUrl: imgUrl,
+            loggedInRetailer: shopKeeper.toUpperCase(),
+            orderType: orderType,
+            shopAddress: shop.toUpperCase(),
+            time: "5pm-test")
+        .then((_) => {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/orderPlaced", (r) => false)
+            });
+
+    print("ORDER PLACED");
   }
 
   @override
@@ -151,17 +188,17 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                   child: Container(
                     width: 300,
                     child: TextFormField(
-                      style: TextStyle(fontSize: 22),
+                      style: TextStyle(fontSize: 18),
                       minLines: 1,
-                      maxLines: 7,
+                      maxLines: null,
                       controller: cakeDescriptionController,
                       keyboardType: TextInputType.multiline,
                       decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
-                              vertical: 35.0, horizontal: 10.0),
+                              vertical: 10.0, horizontal: 10.0),
                           hintText: "Enter cake description here",
                           hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 20),
+                              TextStyle(color: Colors.black, fontSize: 18),
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)))),
@@ -179,10 +216,34 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     onPressed: () {
-                      placeCustomOrder(context);
+                      placeCustomOrder(context, orderType);
                     },
                   ),
-                )
+                ),
+                Flexible(
+                    flex: 1,
+                    child: _isUploading
+                        ? Text(
+                            "Uploading Image.. Large images might take some time.",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          )
+                        : _isFetchingUrl
+                            ? Text(
+                                "Fetching the url..",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              )
+                            : _isPlacingOrder
+                                ? Text(
+                                    "Placing your order....",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                : SizedBox(
+                                    height: 1,
+                                  ))
               ],
             ),
           ),
