@@ -1,9 +1,11 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/cakeCustomizePopup.dart';
 import 'package:muskan_shop/itemQuantityCounter.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:provider/provider.dart';
 
 class Item extends StatefulWidget {
@@ -37,6 +39,22 @@ class _ItemState extends State<Item> {
   @override
   void initState() {
     super.initState();
+  }
+
+  openCakeCustomizePopup(BuildContext context, String imgUrl, String price,
+      String itemName, String ItemId, String cakeFlavour, dynamic minPounds) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return CakeCustomizePopup(
+            imgUrl: imgUrl,
+            itemId: ItemId,
+            itemName: itemName,
+            cakeFlavour: cakeFlavour,
+            ReferencePrice: price,
+            minPounds: minPounds,
+          );
+        });
   }
 
   @override
@@ -131,9 +149,18 @@ class _ItemState extends State<Item> {
                       child: Center(
                           child: (parentCategory!.toUpperCase() ==
                                       "CAKES & PASTRIES" ||
-                                  parentCategory!.toUpperCase() == "CAKES")
+                                  parentCategory.toUpperCase() == "CAKES")
                               ? RaisedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    openCakeCustomizePopup(
+                                        context,
+                                        widget.imgPath,
+                                        widget.price,
+                                        widget.itemName,
+                                        widget.itemId,
+                                        widget.cakeFlavour,
+                                        widget.minPounds);
+                                  },
                                   child: Text("Customize",
                                       style: TextStyle(
                                           fontSize: 16,
