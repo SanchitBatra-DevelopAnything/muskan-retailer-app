@@ -3,6 +3,8 @@ import 'package:muskan_shop/categories.dart';
 import 'package:muskan_shop/models/category.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:muskan_shop/models/designCategory.dart';
+import 'package:muskan_shop/models/flavour.dart';
 import 'package:muskan_shop/models/subcategory.dart';
 
 import '../models/item.dart';
@@ -15,10 +17,21 @@ class CategoriesProvider with ChangeNotifier {
   List<Item> _activeDirectVarietyItems = [];
   List<Item> _activeDirectVarietyFilteredItems = [];
 
+  List<CakeFlavour> _allFlavours = [];
+  List<CakeDesignCategory> _allCakeDesignCategories = [];
+
   List<Subcategory> _subCategories = [];
 
   List<Category> get categories {
     return [..._categories];
+  }
+
+  List<CakeFlavour> get allFlavours {
+    return [..._allFlavours];
+  }
+
+  List<CakeDesignCategory> get allDesignCategories {
+    return [..._allCakeDesignCategories];
   }
 
   List<Item> get activeDirectVarietyItems {
@@ -81,6 +94,48 @@ class CategoriesProvider with ChangeNotifier {
           .toList()
     ];
     notifyListeners();
+  }
+
+  Future<void> getAllCakeFlavours() async {
+    const url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/cakeFlavours.json";
+    try {
+      final response = await http.get(Uri.parse(url));
+      final List<CakeFlavour> loadedCakeFlavours = [];
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) return;
+      extractedData.forEach((flavourId, flavourData) {
+        loadedCakeFlavours.add(CakeFlavour(
+            customerPrice: flavourData['customerPrice'],
+            shopPrice: flavourData['shopPrice'],
+            flavourName: flavourData['flavourName']));
+      });
+      _allFlavours = loadedCakeFlavours;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> getAllCakeDesigns() async {
+    const url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/cakeDesignCategories.json";
+    try {
+      final response = await http.get(Uri.parse(url));
+      final List<CakeDesignCategory> loadedCakeDesigns = [];
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null) return;
+      extractedData.forEach((cakeDesignId, cakeDesignData) {
+        loadedCakeDesigns.add(CakeDesignCategory(
+            customerPrice: cakeDesignData['customerPrice'],
+            shopPrice: cakeDesignData['shopPrice'],
+            designCategoryName: cakeDesignData['flavourName']));
+      });
+      _allCakeDesignCategories = loadedCakeDesigns;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 
   Future<void> fetchCategoriesFromDB() async {
@@ -234,5 +289,34 @@ class CategoriesProvider with ChangeNotifier {
   set setActiveSubcategoryName(String categoryName) {
     activeSubcategoryName = categoryName;
     notifyListeners();
+  }
+
+  dynamic getCakePrice(String selectedFlavour, String designCategoryOfCake,
+      dynamic poundsForCake) {
+    dynamic price = 0;
+
+    //price due to flavour.
+    for (var i = 0; i < _allFlavours.length; i++) {
+      if (_allFlavours[i].flavourName.toString().toUpperCase() ==
+          selectedFlavour.toString().toUpperCase()) {
+        price += _allFlavours[i].shopPrice;
+        break;
+      }
+    }
+
+    //price due to designCategory.
+    for (var i = 0; i < _allCakeDesignCategories.length; i++) {
+      if (_allCakeDesignCategories[i]
+              .designCategoryName
+              .toString()
+              .toUpperCase() ==
+          designCategoryOfCake.toString().toUpperCase()) {
+        price += _allCakeDesignCategories[i].shopPrice;
+        break;
+      }
+    }
+
+    // price due to pounds of cake.
+    return price * poundsForCake;
   }
 }
