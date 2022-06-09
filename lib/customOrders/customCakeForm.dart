@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:provider/provider.dart';
@@ -64,6 +65,12 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
 
     final date = DateTime.now().toString();
 
+    final timeArrayComponent =
+        DateFormat.yMEd().add_jms().format(DateTime.now()).split(" ");
+    final time = timeArrayComponent[timeArrayComponent.length - 2] +
+        " " +
+        timeArrayComponent[timeArrayComponent.length - 1];
+
     setState(() {
       _isUploading = true;
       _isFetchingUrl = false;
@@ -98,8 +105,16 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
             loggedInRetailer: shopKeeper.toUpperCase(),
             orderType: orderType,
             shopAddress: shop.toUpperCase(),
-            time: "5pm-test")
+            time: time)
         .then((_) => {
+              if (mounted)
+                {
+                  setState(() => {
+                        _isPlacingOrder = false,
+                        _isFetchingUrl = false,
+                        _isUploading = false
+                      }),
+                },
               Navigator.pushNamedAndRemoveUntil(
                   context, "/orderPlaced", (r) => false)
             });
@@ -184,7 +199,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                   height: 15,
                 ),
                 Flexible(
-                  flex: 2,
+                  flex: 3,
                   child: Container(
                     width: 300,
                     child: TextFormField(

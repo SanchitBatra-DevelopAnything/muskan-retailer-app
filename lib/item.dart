@@ -129,47 +129,59 @@ class _ItemState extends State<Item> {
                     Flexible(
                       flex: 2,
                       child: Center(
-                          child: !_isInCart
+                          child: (parentCategory!.toUpperCase() ==
+                                      "CAKES & PASTRIES" ||
+                                  parentCategory!.toUpperCase() == "CAKES")
                               ? RaisedButton(
-                                  child: Text("Add to cart",
+                                  onPressed: () {},
+                                  child: Text("Customize",
                                       style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                      )),
-                                  color: Colors.red,
-                                  onPressed: () {
-                                    cartProviderObject.addItem(
-                                        widget.itemId,
-                                        widget.price,
-                                        1,
-                                        widget.itemName,
-                                        widget.imgPath,
-                                        parentCategory!);
-                                    setState(() {
-                                      _isInCart = true;
-                                    });
-                                  },
-                                )
-                              : CountButtonView(
-                                  itemId: widget.itemId,
-                                  onChange: (count) => {
-                                        if (count == 0)
-                                          {
-                                            cartProviderObject
-                                                .removeItem(widget.itemId),
-                                            setState(() => {_isInCart = false})
-                                          }
-                                        else if (count > 0)
-                                          {
-                                            cartProviderObject.addItem(
-                                                widget.itemId,
-                                                widget.price,
-                                                count,
-                                                widget.itemName,
-                                                widget.imgPath,
-                                                parentCategory!)
-                                          }
-                                      })),
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
+                                  color: Colors.red)
+                              : !_isInCart
+                                  ? RaisedButton(
+                                      child: Text("Add to cart",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          )),
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        cartProviderObject.addItem(
+                                            widget.itemId,
+                                            widget.price,
+                                            1,
+                                            widget.itemName,
+                                            widget.imgPath,
+                                            parentCategory!);
+                                        setState(() {
+                                          _isInCart = true;
+                                        });
+                                      },
+                                    )
+                                  : CountButtonView(
+                                      itemId: widget.itemId,
+                                      onChange: (count) => {
+                                            if (count == 0)
+                                              {
+                                                cartProviderObject
+                                                    .removeItem(widget.itemId),
+                                                setState(
+                                                    () => {_isInCart = false})
+                                              }
+                                            else if (count > 0)
+                                              {
+                                                cartProviderObject.addItem(
+                                                    widget.itemId,
+                                                    widget.price,
+                                                    count,
+                                                    widget.itemName,
+                                                    widget.imgPath,
+                                                    parentCategory!)
+                                              }
+                                          })),
                     )
                   ],
                 ))));
