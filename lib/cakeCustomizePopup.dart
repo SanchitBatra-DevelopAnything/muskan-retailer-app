@@ -52,6 +52,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
     if (_isFirstTime) {
       this.flavours =
           Provider.of<CategoriesProvider>(context, listen: false).flavourNames;
+      print(flavours);
       if (widget.cakeFlavour!.toUpperCase() == "ALL FLAVOURS") {
         setState(() {
           showFlavourDropdown = true;
@@ -62,7 +63,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
         });
       }
       this.selectedFlavour =
-          showFlavourDropdown! ? "PINEAPPLE" : widget.cakeFlavour;
+          showFlavourDropdown! ? "pineapple" : widget.cakeFlavour;
 
       minimumPounds = (widget.minPounds is String &&
               widget.minPounds.toUpperCase() == "NO LIMIT ON SIZE")
@@ -107,7 +108,8 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                   borderRadius: BorderRadius.circular(5),
                   child: Image.network(
                     widget.imgUrl!,
-                    width: 150,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
                     height: 150,
                   ),
                 ),
@@ -132,7 +134,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
-                  height: 3,
+                  height: 10,
                 ),
                 NumberInputWithIncrementDecrement(
                   controller: TextEditingController(),
@@ -161,22 +163,47 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  width: 50,
-                  child: DropdownButton<String>(
-                      items: flavours!.map(buildMenuItem).toList(),
-                      isExpanded: true,
-                      iconSize: 22,
-                      dropdownColor: Colors.white,
-                      style: TextStyle(color: Colors.black),
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                      value: selectedFlavour,
-                      onChanged: (value) => {
-                            setState(() => {
-                                  this.selectedFlavour = value,
-                                })
-                          }),
+                Text(
+                  "FLAVOUR : ",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  child: !showFlavourDropdown!
+                      ? Text(
+                          widget.cakeFlavour!,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        )
+                      : DropdownButton<String>(
+                          items: flavours!.map(buildMenuItem).toList(),
+                          isExpanded: true,
+                          iconSize: 22,
+                          dropdownColor: Colors.white,
+                          style: TextStyle(color: Colors.black),
+                          icon:
+                              Icon(Icons.arrow_drop_down, color: Colors.black),
+                          value: selectedFlavour,
+                          onChanged: (value) => {
+                                setState(() => {
+                                      this.selectedFlavour = value,
+                                    })
+                              }),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                RaisedButton(
+                  onPressed: () {},
+                  child: Text("Add to cart",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
+                  color: Colors.red,
+                )
               ],
             ),
           ),
