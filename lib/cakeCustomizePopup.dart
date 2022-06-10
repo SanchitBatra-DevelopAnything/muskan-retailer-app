@@ -172,6 +172,11 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                 ),
                 NumberInputWithIncrementDecrement(
                   controller: poundController,
+                  buttonArrangement: ButtonArrangement.incRightDecLeft,
+                  incDecBgColor: Colors.black,
+                  decIconColor: Colors.black,
+                  style: TextStyle(fontSize: 20),
+                  incIconColor: Colors.black,
                   onIncrement: (num newValue) {
                     getCakePrice(
                         selectedFlavour!, widget.designCategory!, newValue);
