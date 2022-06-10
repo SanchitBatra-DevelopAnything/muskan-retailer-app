@@ -130,7 +130,10 @@ class _ItemState extends State<Item> {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        widget.price,
+                        (parentCategory!.toUpperCase() == "CAKES & PASTRIES") ||
+                                (parentCategory.toUpperCase() == "CAKES")
+                            ? widget.price + " / pd."
+                            : widget.price,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

@@ -305,6 +305,10 @@ class CategoriesProvider with ChangeNotifier {
       dynamic poundsForCake) {
     dynamic price = 0;
 
+    if (selectedFlavour == "ALL FLAVOURS") {
+      selectedFlavour = "PINEAPPLE";
+    }
+
     //price due to flavour.
     for (var i = 0; i < _allFlavours.length; i++) {
       if (_allFlavours[i].flavourName.toString().toUpperCase() ==
