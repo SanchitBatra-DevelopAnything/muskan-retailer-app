@@ -73,16 +73,21 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
               ? int.parse(widget.minPounds)
               : widget.minPounds;
 
-      this.price = "Rs." +
-          Provider.of<CategoriesProvider>(context, listen: false)
-              .getCakePrice(
-                  selectedFlavour!, widget.designCategory!, minimumPounds)
-              .toString();
+      getCakePrice(selectedFlavour!, widget.designCategory!, minimumPounds);
     }
 
     _isFirstTime = false;
 
     super.didChangeDependencies();
+  }
+
+  getCakePrice(String flavour, String designCategory, dynamic minPounds) {
+    setState(() {
+      this.price = "Rs." +
+          Provider.of<CategoriesProvider>(context, listen: false)
+              .getCakePrice(flavour, designCategory, minPounds)
+              .toString();
+    });
   }
 
   @override
@@ -138,6 +143,14 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                 ),
                 NumberInputWithIncrementDecrement(
                   controller: TextEditingController(),
+                  onIncrement: (num newValue) {
+                    getCakePrice(
+                        selectedFlavour!, widget.designCategory!, newValue);
+                  },
+                  onDecrement: (num newValue) {
+                    getCakePrice(
+                        selectedFlavour!, widget.designCategory!, newValue);
+                  },
                   isInt: false,
                   scaleHeight: 0.75,
                   scaleWidth: 0.75,

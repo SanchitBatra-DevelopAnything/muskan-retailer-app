@@ -158,7 +158,7 @@ class _ItemState extends State<Item> {
                     Flexible(
                       flex: 2,
                       child: Center(
-                          child: (parentCategory!.toUpperCase() ==
+                          child: (parentCategory.toUpperCase() ==
                                       "CAKES & PASTRIES" ||
                                   parentCategory.toUpperCase() == "CAKES")
                               ? RaisedButton(
@@ -194,7 +194,7 @@ class _ItemState extends State<Item> {
                                             1,
                                             widget.itemName,
                                             widget.imgPath,
-                                            parentCategory!);
+                                            parentCategory);
                                         setState(() {
                                           _isInCart = true;
                                         });
@@ -218,7 +218,7 @@ class _ItemState extends State<Item> {
                                                     count,
                                                     widget.itemName,
                                                     widget.imgPath,
-                                                    parentCategory!)
+                                                    parentCategory)
                                               }
                                           })),
                     )
