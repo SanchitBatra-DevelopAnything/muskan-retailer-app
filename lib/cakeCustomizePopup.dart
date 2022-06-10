@@ -33,6 +33,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
   List<String>? flavours = [];
   String? selectedFlavour = "pineapple";
   bool? showFlavourDropdown = false;
+  var poundController = TextEditingController();
 
   bool _isFirstTime = true;
 
@@ -142,7 +143,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                   height: 10,
                 ),
                 NumberInputWithIncrementDecrement(
-                  controller: TextEditingController(),
+                  controller: poundController,
                   onIncrement: (num newValue) {
                     getCakePrice(
                         selectedFlavour!, widget.designCategory!, newValue);
@@ -202,6 +203,10 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                           onChanged: (value) => {
                                 setState(() => {
                                       this.selectedFlavour = value,
+                                      getCakePrice(
+                                          selectedFlavour!,
+                                          widget.designCategory!,
+                                          double.parse(poundController.text)),
                                     })
                               }),
                 ),
