@@ -95,6 +95,14 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
         widget.itemId!;
   }
 
+  getCakeItemName() {
+    return poundController.text +
+        " Pounds- " +
+        selectedFlavour! +
+        "-" +
+        widget.itemName!;
+  }
+
   getCakePrice(String flavour, String designCategory, dynamic minPounds) {
     setState(() {
       this.price = "Rs." +
@@ -243,7 +251,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                                   SnackBar(
                                       content:
                                           Text("0 pound cakes cant be added."),
-                                      duration: const Duration(seconds: 2),
+                                      duration: const Duration(seconds: 3),
                                       backgroundColor: Colors.red));
                               return;
                             }
@@ -251,7 +259,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                                 getCakeItemId(),
                                 price!,
                                 1,
-                                widget.itemName!,
+                                getCakeItemName(),
                                 widget.imgUrl!,
                                 parentCategory!);
                           },
@@ -280,7 +288,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                                           getCakeItemId(),
                                           price!,
                                           count,
-                                          widget.itemName!,
+                                          getCakeItemName(),
                                           widget.imgUrl!,
                                           parentCategory!)
                                     }

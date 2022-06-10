@@ -38,12 +38,12 @@ class _CartProductCardState extends State<CartProductCard> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold),
               ),
               Text(
                 'Rs.${widget.cartItem.totalPrice}',
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: TextStyle(color: Colors.white, fontSize: 12),
               ),
               SizedBox(
                 width: 10,
