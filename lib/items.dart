@@ -20,6 +20,7 @@ class _ItemsState extends State<Items> {
   var _isFirstTime = true;
   var _loadDirectVariety = false;
   var _isSearching = false;
+  var _cakeCategoryOpened = false;
 
   @override
   void didChangeDependencies() {
@@ -41,6 +42,17 @@ class _ItemsState extends State<Items> {
             .getItemsForSubcategory()
             .then((value) => setState(
                 () => {_isLoading = false, _loadDirectVariety = false}));
+      }
+      var categorySelected =
+          Provider.of<CategoriesProvider>(context, listen: false)
+              .activeCategoryName!
+              .toUpperCase();
+      if ((categorySelected == "CAKES & PASTRIES") ||
+          (categorySelected == "CAKES")) {
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .getAllCakeFlavours()
+            .then((_) => Provider.of<CategoriesProvider>(context, listen: false)
+                .getAllCakeDesigns());
       }
     }
     _isFirstTime = false;
@@ -77,6 +89,7 @@ class _ItemsState extends State<Items> {
   Widget build(BuildContext context) {
     final CategoriesProviderObject = Provider.of<CategoriesProvider>(context);
     final sub = CategoriesProviderObject.activeSubcategoryName;
+    final cat = CategoriesProviderObject.activeCategoryName;
     final itemsUnderSubcategory =
         CategoriesProviderObject.activeSubcategoryFilteredItems;
     var directVarietyItems =
@@ -200,10 +213,20 @@ class _ItemsState extends State<Items> {
                           ? Item(
                               imgPath: directVarietyItems[index].imageUrl,
                               itemId: directVarietyItems[index].itemId,
-                              price: "Rs." +
-                                  directVarietyItems[index]
-                                      .shopPrice
-                                      .toString(),
+                              price: ((cat!.toUpperCase() == "CAKES") ||
+                                      (cat.toUpperCase() == "CAKES & PASTRIES"))
+                                  ? "Rs." +
+                                      CategoriesProviderObject.getCakePrice(
+                                              directVarietyItems[index]
+                                                  .cakeFlavour,
+                                              directVarietyItems[index]
+                                                  .designCategory,
+                                              1)
+                                          .toString()
+                                  : "Rs." +
+                                      directVarietyItems[index]
+                                          .shopPrice
+                                          .toString(),
                               itemName: directVarietyItems[index].itemName,
                               cakeFlavour:
                                   directVarietyItems[index].cakeFlavour,
@@ -215,10 +238,20 @@ class _ItemsState extends State<Items> {
                           : Item(
                               imgPath: itemsUnderSubcategory[index].imageUrl,
                               itemId: itemsUnderSubcategory[index].itemId,
-                              price: "Rs." +
-                                  itemsUnderSubcategory[index]
-                                      .shopPrice
-                                      .toString(),
+                              price: ((cat!.toUpperCase() == "CAKES") ||
+                                      (cat.toUpperCase() == "CAKES & PASTRIES"))
+                                  ? "Rs." +
+                                      CategoriesProviderObject.getCakePrice(
+                                              itemsUnderSubcategory[index]
+                                                  .cakeFlavour,
+                                              itemsUnderSubcategory[index]
+                                                  .designCategory,
+                                              1)
+                                          .toString()
+                                  : "Rs." +
+                                      itemsUnderSubcategory[index]
+                                          .shopPrice
+                                          .toString(),
                               itemName: itemsUnderSubcategory[index].itemName,
                               cakeFlavour:
                                   itemsUnderSubcategory[index].cakeFlavour,

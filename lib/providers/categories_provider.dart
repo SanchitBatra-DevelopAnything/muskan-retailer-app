@@ -21,6 +21,15 @@ class CategoriesProvider with ChangeNotifier {
   List<CakeDesignCategory> _allCakeDesignCategories = [];
 
   List<Subcategory> _subCategories = [];
+  List<String> _flavourNamesOnly = [];
+
+  List<String> get flavourNames {
+    return [..._flavourNamesOnly];
+  }
+
+  formFlavourNames() {
+    _flavourNamesOnly = _allFlavours.map((flvr) => flvr.flavourName!).toList();
+  }
 
   List<Category> get categories {
     return [..._categories];
@@ -111,6 +120,7 @@ class CategoriesProvider with ChangeNotifier {
             flavourName: flavourData['flavourName']));
       });
       _allFlavours = loadedCakeFlavours;
+      formFlavourNames();
       notifyListeners();
     } catch (error) {
       throw error;

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/models/flavour.dart';
+import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
+import 'package:provider/provider.dart';
 
 class CakeCustomizePopup extends StatefulWidget {
   final String? itemId;
   final String? itemName;
   final String? cakeFlavour;
   final String? ReferencePrice;
+  final String? designCategory;
   final dynamic minPounds;
   final String? imgUrl;
 
   const CakeCustomizePopup(
       {Key? key,
       this.cakeFlavour,
+      this.designCategory,
       this.itemId,
       this.itemName,
       this.minPounds,
@@ -25,24 +30,64 @@ class CakeCustomizePopup extends StatefulWidget {
 
 class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
   String? price;
-  List<String>? flavours;
-  String? selectedFlavour;
+  List<String>? flavours = [];
+  String? selectedFlavour = "pineapple";
+  bool? showFlavourDropdown = false;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    setState(() {
-      this.price = widget.ReferencePrice;
-    });
-  }
+  bool _isFirstTime = true;
+
+  dynamic minimumPounds;
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   setState(() {
+  //     this.price = widget.ReferencePrice;
+  //   });
+  // }
 
   @override
   void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (_isFirstTime) {
+      this.flavours =
+          Provider.of<CategoriesProvider>(context, listen: false).flavourNames;
+      if (widget.cakeFlavour!.toUpperCase() == "ALL FLAVOURS") {
+        setState(() {
+          showFlavourDropdown = true;
+        });
+      } else {
+        setState(() {
+          showFlavourDropdown = false;
+        });
+      }
+      this.selectedFlavour =
+          showFlavourDropdown! ? "PINEAPPLE" : widget.cakeFlavour;
+
+      minimumPounds = (widget.minPounds is String &&
+              widget.minPounds.toUpperCase() == "NO LIMIT ON SIZE")
+          ? 0
+          : (widget.minPounds is String &&
+                  widget.minPounds.toUpperCase() != "NO LIMIT ON SIZE")
+              ? int.parse(widget.minPounds)
+              : widget.minPounds;
+
+      this.price = "Rs." +
+          Provider.of<CategoriesProvider>(context, listen: false)
+              .getCakePrice(
+                  selectedFlavour!, widget.designCategory!, minimumPounds)
+              .toString();
+    }
+
+    _isFirstTime = false;
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    final categoriesProviderObject = Provider.of<CategoriesProvider>(context);
+
     return Center(
       child: Material(
         type: MaterialType.transparency,
@@ -119,7 +164,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                 Container(
                   width: 50,
                   child: DropdownButton<String>(
-                      items: flavours.map(buildMenuItem).toList(),
+                      items: flavours!.map(buildMenuItem).toList(),
                       isExpanded: true,
                       iconSize: 22,
                       dropdownColor: Colors.white,

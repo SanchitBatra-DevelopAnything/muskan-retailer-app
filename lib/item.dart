@@ -41,8 +41,15 @@ class _ItemState extends State<Item> {
     super.initState();
   }
 
-  openCakeCustomizePopup(BuildContext context, String imgUrl, String price,
-      String itemName, String ItemId, String cakeFlavour, dynamic minPounds) {
+  openCakeCustomizePopup(
+      BuildContext context,
+      String imgUrl,
+      String price,
+      String itemName,
+      String ItemId,
+      String cakeFlavour,
+      dynamic minPounds,
+      String design) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -50,6 +57,7 @@ class _ItemState extends State<Item> {
             imgUrl: imgUrl,
             itemId: ItemId,
             itemName: itemName,
+            designCategory: design,
             cakeFlavour: cakeFlavour,
             ReferencePrice: price,
             minPounds: minPounds,
@@ -159,7 +167,8 @@ class _ItemState extends State<Item> {
                                         widget.itemName,
                                         widget.itemId,
                                         widget.cakeFlavour,
-                                        widget.minPounds);
+                                        widget.minPounds,
+                                        widget.designCategory);
                                   },
                                   child: Text("Customize",
                                       style: TextStyle(
