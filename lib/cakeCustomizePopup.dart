@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/models/flavour.dart';
+import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:provider/provider.dart';
+
+import 'itemQuantityCounter.dart';
 
 class CakeCustomizePopup extends StatefulWidget {
   final String? itemId;
@@ -38,6 +41,8 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
   bool _isFirstTime = true;
 
   dynamic minimumPounds;
+  var _isInCart;
+  var _quantity;
 
   // @override
   // void initState() {
@@ -82,6 +87,14 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
     super.didChangeDependencies();
   }
 
+  getCakeItemId() {
+    return poundController.text +
+        " Pounds- " +
+        selectedFlavour! +
+        "-" +
+        widget.itemId!;
+  }
+
   getCakePrice(String flavour, String designCategory, dynamic minPounds) {
     setState(() {
       this.price = "Rs." +
@@ -93,7 +106,14 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
 
   @override
   Widget build(BuildContext context) {
-    final categoriesProviderObject = Provider.of<CategoriesProvider>(context);
+    final categoriesProviderObject = Provider.of<CategoriesProvider>(
+        context); // listening to get all flavours list.
+    final parentCategory = categoriesProviderObject.activeCategoryName;
+    final cartProviderObject = Provider.of<CartProvider>(context);
+    _isInCart = cartProviderObject.checkInCart(getCakeItemId());
+    _isInCart
+        ? _quantity = cartProviderObject.getQuantity(getCakeItemId())
+        : _quantity = 0;
 
     return Center(
       child: Material(
@@ -213,15 +233,59 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                 SizedBox(
                   height: 10,
                 ),
-                RaisedButton(
-                  onPressed: () {},
-                  child: Text("Add to cart",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)),
-                  color: Colors.red,
-                )
+                !_isInCart
+                    ? Container(
+                        width: double.infinity - 200,
+                        child: RaisedButton(
+                          onPressed: () {
+                            if (poundController.text == "0.00") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text("0 pound cakes cant be added."),
+                                      duration: const Duration(seconds: 2),
+                                      backgroundColor: Colors.red));
+                              return;
+                            }
+                            cartProviderObject.addItem(
+                                getCakeItemId(),
+                                price!,
+                                1,
+                                widget.itemName!,
+                                widget.imgUrl!,
+                                parentCategory!);
+                          },
+                          child: Text("Add to cart",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold)),
+                          color: Colors.red,
+                        ),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        child: CountButtonView(
+                            itemId: getCakeItemId(),
+                            onChange: (count) => {
+                                  if (count == 0)
+                                    {
+                                      cartProviderObject
+                                          .removeItem(getCakeItemId()),
+                                      setState(() => {_isInCart = false})
+                                    }
+                                  else if (count > 0)
+                                    {
+                                      cartProviderObject.addItem(
+                                          getCakeItemId(),
+                                          price!,
+                                          count,
+                                          widget.itemName!,
+                                          widget.imgUrl!,
+                                          parentCategory!)
+                                    }
+                                }),
+                      ),
               ],
             ),
           ),
