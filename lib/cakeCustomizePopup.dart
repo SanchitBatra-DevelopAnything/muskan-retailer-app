@@ -97,10 +97,11 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
 
   getCakeItemName() {
     return poundController.text +
-        " Pounds- " +
-        selectedFlavour! +
+        "Pd." +
         "-" +
-        widget.itemName!;
+        widget.itemName! +
+        "-" +
+        selectedFlavour!;
   }
 
   getCakePrice(String flavour, String designCategory, dynamic minPounds) {
@@ -188,7 +189,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                   isInt: false,
                   scaleHeight: 0.75,
                   scaleWidth: 0.75,
-                  incDecFactor: 0.25,
+                  incDecFactor: 1,
                   initialValue: (widget.minPounds is String &&
                           widget.minPounds.toUpperCase() == "NO LIMIT ON SIZE")
                       ? 0
