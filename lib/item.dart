@@ -173,7 +173,7 @@ class _ItemState extends State<Item> {
                                         widget.minPounds,
                                         widget.designCategory);
                                   },
-                                  child: Text("Customize",
+                                  child: Text("Select",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Colors.white,
