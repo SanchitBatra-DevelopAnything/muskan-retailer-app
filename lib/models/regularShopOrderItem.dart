@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class RegularShopOrderItem {
   final String item;
-  final int quantity;
+  final double quantity;
   final double price;
   final String imageUrl;
   final String CategoryName;

@@ -6,7 +6,7 @@ import 'package:muskan_shop/models/regularShopOrderItem.dart';
 class CartItem {
   final String id;
   final String title;
-  final int quantity;
+  final double quantity;
   final String price;
   final String imageUrl;
   final String parentCategoryType;
@@ -46,7 +46,7 @@ class CartProvider with ChangeNotifier {
     return _items!.containsKey(itemId);
   }
 
-  int getQuantity(String itemId) {
+  double getQuantity(String itemId) {
     if (checkInCart(itemId)) {
       CartItem? item = _items![itemId];
       return item!.quantity;
@@ -98,7 +98,7 @@ class CartProvider with ChangeNotifier {
     return double.parse(p);
   }
 
-  void addItem(String itemId, String price, int quantity, String title,
+  void addItem(String itemId, String price, double quantity, String title,
       String imgPath, String parentCategory) {
     if (_items!.containsKey(itemId)) {
       //change quantity..
@@ -117,10 +117,10 @@ class CartProvider with ChangeNotifier {
           itemId,
           () => CartItem(
               id: itemId + "-CART",
-              totalPrice: getPriceFromString(price) * 1,
+              totalPrice: getPriceFromString(price) * quantity,
               price: price,
               title: title,
-              quantity: 1,
+              quantity: quantity,
               imageUrl: imgPath,
               parentCategoryType: parentCategory));
     }

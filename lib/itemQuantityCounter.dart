@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/providers/cart.dart';
+import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 
-typedef void CountButtonClickCallBack(int count);
+typedef void CountButtonClickCallBack(double count);
 
 class CountButtonView extends StatefulWidget {
   final String itemId;
@@ -17,7 +18,7 @@ class CountButtonView extends StatefulWidget {
 }
 
 class _CountButtonViewState extends State<CountButtonView> {
-  int quantity = 0;
+  double quantity = 0;
 
   @override
   void initState() {
@@ -25,7 +26,7 @@ class _CountButtonViewState extends State<CountButtonView> {
     super.initState();
   }
 
-  void updateCount(int addValue) {
+  void updateCount(double addValue) {
     if (quantity + addValue == 0) {
       setState(() {
         quantity = 0;
@@ -46,6 +47,9 @@ class _CountButtonViewState extends State<CountButtonView> {
   Widget build(BuildContext context) {
     var count = Provider.of<CartProvider>(context, listen: false)
         .getQuantity(widget.itemId);
+    var selectedSubcategory =
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .activeSubcategoryName;
     setState(() {
       quantity = count;
     });
@@ -64,7 +68,9 @@ class _CountButtonViewState extends State<CountButtonView> {
             children: <Widget>[
               GestureDetector(
                   onTap: () {
-                    updateCount(-1);
+                    selectedSubcategory!.toUpperCase() == "PATTIES"
+                        ? updateCount(-0.5)
+                        : updateCount(-1);
                   },
                   child: Container(
                       decoration: BoxDecoration(
@@ -93,7 +99,9 @@ class _CountButtonViewState extends State<CountButtonView> {
               ),
               GestureDetector(
                   onTap: () {
-                    updateCount(1);
+                    selectedSubcategory!.toUpperCase() == "PATTIES"
+                        ? updateCount(0.5)
+                        : updateCount(1);
                   },
                   child: Container(
                       decoration: BoxDecoration(

@@ -75,6 +75,9 @@ class _ItemState extends State<Item> {
     final parentCategory =
         Provider.of<CategoriesProvider>(context, listen: false)
             .activeCategoryName;
+    final parentSubcategory =
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .activeSubcategoryName;
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
         child: GestureDetector(
@@ -133,7 +136,9 @@ class _ItemState extends State<Item> {
                         (parentCategory!.toUpperCase() == "CAKES & PASTRIES") ||
                                 (parentCategory.toUpperCase() == "CAKES")
                             ? widget.price + " / pd."
-                            : widget.price,
+                            : (parentSubcategory!.toUpperCase() == "PATTIES")
+                                ? widget.price + " / dozen."
+                                : widget.price,
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -191,7 +196,10 @@ class _ItemState extends State<Item> {
                                         cartProviderObject.addItem(
                                             widget.itemId,
                                             widget.price,
-                                            1,
+                                            parentSubcategory!.toUpperCase() ==
+                                                    "PATTIES"
+                                                ? 0.5
+                                                : 1,
                                             widget.itemName,
                                             widget.imgPath,
                                             parentCategory);
