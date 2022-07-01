@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var _activePage = "S";
+  var _activePage = "L";
 
   void changeForm(String value) {
     setState(() {
