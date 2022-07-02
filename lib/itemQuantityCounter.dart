@@ -8,9 +8,15 @@ typedef void CountButtonClickCallBack(double count);
 class CountButtonView extends StatefulWidget {
   final String itemId;
   final CountButtonClickCallBack onChange;
+  final String parentCategory;
+  final String parentSubcategory;
 
   const CountButtonView(
-      {Key? key, required this.itemId, required this.onChange})
+      {Key? key,
+      required this.itemId,
+      required this.onChange,
+      required this.parentCategory,
+      required this.parentSubcategory})
       : super(key: key);
 
   @override
@@ -47,9 +53,7 @@ class _CountButtonViewState extends State<CountButtonView> {
   Widget build(BuildContext context) {
     var count = Provider.of<CartProvider>(context, listen: false)
         .getQuantity(widget.itemId);
-    var selectedSubcategory =
-        Provider.of<CategoriesProvider>(context, listen: false)
-            .activeSubcategoryName;
+    var selectedSubcategory = widget.parentSubcategory.toUpperCase();
     setState(() {
       quantity = count;
     });
@@ -68,7 +72,7 @@ class _CountButtonViewState extends State<CountButtonView> {
             children: <Widget>[
               GestureDetector(
                   onTap: () {
-                    selectedSubcategory!.toUpperCase() == "PATTIES"
+                    selectedSubcategory.toUpperCase() == "PATTIES"
                         ? updateCount(-0.5)
                         : updateCount(-1);
                   },
@@ -99,7 +103,7 @@ class _CountButtonViewState extends State<CountButtonView> {
               ),
               GestureDetector(
                   onTap: () {
-                    selectedSubcategory!.toUpperCase() == "PATTIES"
+                    selectedSubcategory.toUpperCase() == "PATTIES"
                         ? updateCount(0.5)
                         : updateCount(1);
                   },

@@ -202,7 +202,8 @@ class _ItemState extends State<Item> {
                                                 : 1,
                                             widget.itemName,
                                             widget.imgPath,
-                                            parentCategory);
+                                            parentCategory,
+                                            parentSubcategory);
                                         setState(() {
                                           _isInCart = true;
                                         });
@@ -210,6 +211,8 @@ class _ItemState extends State<Item> {
                                     )
                                   : CountButtonView(
                                       itemId: widget.itemId,
+                                      parentCategory: parentCategory,
+                                      parentSubcategory: parentSubcategory!,
                                       onChange: (count) => {
                                             if (count == 0)
                                               {
@@ -226,7 +229,8 @@ class _ItemState extends State<Item> {
                                                     count,
                                                     widget.itemName,
                                                     widget.imgPath,
-                                                    parentCategory)
+                                                    parentCategory,
+                                                    parentSubcategory)
                                               }
                                           })),
                     )

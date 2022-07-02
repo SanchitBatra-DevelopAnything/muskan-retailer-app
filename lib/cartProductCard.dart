@@ -57,6 +57,8 @@ class _CartProductCardState extends State<CartProductCard> {
             height: 30,
             child: CountButtonView(
                 itemId: widget.cartItem.id,
+                parentCategory: widget.cartItem.parentCategoryType,
+                parentSubcategory: widget.cartItem.parentSubcategoryType,
                 onChange: (count) => {
                       if (count == 0)
                         {
@@ -70,7 +72,8 @@ class _CartProductCardState extends State<CartProductCard> {
                               count,
                               widget.cartItem.title,
                               widget.cartItem.imageUrl,
-                              widget.cartItem.parentCategoryType)
+                              widget.cartItem.parentCategoryType,
+                              widget.cartItem.parentSubcategoryType)
                         }
                     }),
           ),

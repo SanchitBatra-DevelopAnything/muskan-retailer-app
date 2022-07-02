@@ -118,6 +118,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
     final categoriesProviderObject = Provider.of<CategoriesProvider>(
         context); // listening to get all flavours list.
     final parentCategory = categoriesProviderObject.activeCategoryName;
+    final parentSubcategory = categoriesProviderObject.activeSubcategoryName;
     final cartProviderObject = Provider.of<CartProvider>(context);
     _isInCart = cartProviderObject.checkInCart(getCakeItemId());
     _isInCart
@@ -267,7 +268,8 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                                 1,
                                 getCakeItemName(),
                                 widget.imgUrl!,
-                                parentCategory!);
+                                parentCategory!,
+                                parentSubcategory!);
                           },
                           child: Text("Add to cart",
                               style: TextStyle(
@@ -281,6 +283,8 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                         width: double.infinity,
                         child: CountButtonView(
                             itemId: getCakeItemId(),
+                            parentCategory: parentCategory!,
+                            parentSubcategory: parentSubcategory!,
                             onChange: (count) => {
                                   if (count == 0)
                                     {
@@ -296,7 +300,8 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                                           count,
                                           getCakeItemName(),
                                           widget.imgUrl!,
-                                          parentCategory!)
+                                          parentCategory,
+                                          parentSubcategory)
                                     }
                                 }),
                       ),

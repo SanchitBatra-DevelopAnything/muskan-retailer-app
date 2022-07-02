@@ -8,6 +8,7 @@ class CartItem {
   final String title;
   final double quantity;
   final String price;
+  final String parentSubcategoryType;
   final String imageUrl;
   final String parentCategoryType;
   final double totalPrice;
@@ -17,6 +18,7 @@ class CartItem {
       required this.title,
       required this.imageUrl,
       required this.parentCategoryType,
+      required this.parentSubcategoryType,
       required this.quantity,
       required this.totalPrice,
       required this.price});
@@ -86,6 +88,7 @@ class CartProvider with ChangeNotifier {
           totalPrice: value.totalPrice,
           imageUrl: value.imageUrl,
           parentCategoryType: value.parentCategoryType,
+          parentSubcategoryType: value.parentSubcategoryType,
           price: value.price,
           quantity: value.quantity,
           title: value.title));
@@ -99,7 +102,7 @@ class CartProvider with ChangeNotifier {
   }
 
   void addItem(String itemId, String price, double quantity, String title,
-      String imgPath, String parentCategory) {
+      String imgPath, String parentCategory, String parentSubcategory) {
     if (_items!.containsKey(itemId)) {
       //change quantity..
       _items!.update(
@@ -110,6 +113,7 @@ class CartProvider with ChangeNotifier {
               title: existingCartItem.title,
               imageUrl: existingCartItem.imageUrl,
               parentCategoryType: existingCartItem.parentCategoryType,
+              parentSubcategoryType: existingCartItem.parentSubcategoryType,
               price: existingCartItem.price,
               quantity: quantity));
     } else {
@@ -122,6 +126,7 @@ class CartProvider with ChangeNotifier {
               title: title,
               quantity: quantity,
               imageUrl: imgPath,
+              parentSubcategoryType: parentSubcategory,
               parentCategoryType: parentCategory));
     }
     formCartList();
