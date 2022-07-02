@@ -16,6 +16,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   var retailerNameController = TextEditingController();
+  var contactNumberController = TextEditingController();
   String? selectedShop;
   bool isSigningUp = false;
   bool _isFirstTime = true;
@@ -33,7 +34,9 @@ class _SignUpState extends State<SignUp> {
   void signup() {
     if (selectedShop == null ||
         retailerNameController.text == null ||
-        retailerNameController.text == "") {
+        retailerNameController.text == "" ||
+        contactNumberController.text == "" ||
+        contactNumberController.text == null) {
       return;
     }
 
@@ -42,7 +45,8 @@ class _SignUpState extends State<SignUp> {
     });
 
     Provider.of<AuthProvider>(context, listen: false)
-        .retailerSignUp(retailerNameController.text, selectedShop!)
+        .retailerSignUp(retailerNameController.text, selectedShop!,
+            contactNumberController.text)
         .then((_) => {
               setState(() => {isSigningUp = false}),
               showAlertBox()
@@ -72,6 +76,7 @@ class _SignUpState extends State<SignUp> {
             ),
             onPressed: () {
               retailerNameController.text = '';
+              contactNumberController.text = '';
               selectedShop = null;
               Navigator.of(context).pop();
             },
@@ -120,6 +125,25 @@ class _SignUpState extends State<SignUp> {
         SizedBox(
           height: 10,
         ),
+        Container(
+          width: 350,
+          child: TextField(
+            keyboardType: TextInputType.number,
+            controller: contactNumberController,
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white)),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              labelText: "Contact Number",
+              labelStyle: const TextStyle(fontSize: 18, color: Colors.white),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
         Text(
           "Select the shop from the dropdown below",
           style: TextStyle(

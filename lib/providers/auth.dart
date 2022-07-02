@@ -29,13 +29,17 @@ class AuthProvider with ChangeNotifier {
     return [..._retailers].map((retailer) => retailer.retailerName).toList();
   }
 
-  Future<void> retailerSignUp(String retailerName, String shopAddress) async {
+  Future<void> retailerSignUp(
+      String retailerName, String shopAddress, String contactNumber) async {
     //send http post here.
     const url =
         "https://muskan-admin-app-default-rtdb.firebaseio.com/retailerNotifications.json";
     await http.post(Uri.parse(url),
-        body: json.encode(
-            {'retailerName': retailerName, 'shopAddress': shopAddress}));
+        body: json.encode({
+          'retailerName': retailerName,
+          'shopAddress': shopAddress,
+          'contactNumvber': contactNumber
+        }));
   }
 
   void setLoggedInRetailerAndShop(String retailerName, String shopName) {
