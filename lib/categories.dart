@@ -39,6 +39,7 @@ class _CategoriesState extends State<Categories> {
                     })
                   }
               });
+      Future.delayed(const Duration(seconds: 2), () => {showAlertBox(context)});
     }
     _isFirstTime = false; //never run the above if again.
     super.didChangeDependencies();
@@ -48,6 +49,36 @@ class _CategoriesState extends State<Categories> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  showAlertBox(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'CLOSED AFTER 09:00pm',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          "You can still place your order. Your order will be accepted after 6:00am.",
+          style: TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        actions: <Widget>[
+          RaisedButton(
+            color: Colors.red,
+            child: const Text(
+              'OK',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
   }
 
   void moveToSubcategories(BuildContext context, Category selectedCategory) {
@@ -67,6 +98,7 @@ class _CategoriesState extends State<Categories> {
     final categoryProviderObject =
         Provider.of<CategoriesProvider>(context, listen: false);
     final categories = categoryProviderObject.categories;
+
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
