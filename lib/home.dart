@@ -22,41 +22,64 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black12,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 20),
-          Image.asset(
-            "assets/logo.jpg",
-            height: 100,
-            width: double.infinity,
-            fit: BoxFit.contain,
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            "Muskan Retailer",
-            style: TextStyle(color: Colors.white),
-          ),
-          Divider(),
-          SizedBox(height: 15),
-          Container(
-            child: _activePage == "S"
-                ? SignUp(
-                    onFormChange: () {
-                      changeForm("L");
-                    },
-                  )
-                : Login(
-                    onFormChange: () {
-                      changeForm("S");
-                    },
-                  ),
-          ),
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        bool willLeave = false;
+        // show the confirm dialog
+        await showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                  title: const Text('Are you sure want to exit the app?'),
+                  actions: [
+                    ElevatedButton(
+                        onPressed: () {
+                          willLeave = true;
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Yes')),
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: const Text('No'))
+                  ],
+                ));
+        return willLeave;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black12,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 20),
+            Image.asset(
+              "assets/logo.jpg",
+              height: 100,
+              width: double.infinity,
+              fit: BoxFit.contain,
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              "Muskan Retailer",
+              style: TextStyle(color: Colors.white),
+            ),
+            Divider(),
+            SizedBox(height: 15),
+            Container(
+              child: _activePage == "S"
+                  ? SignUp(
+                      onFormChange: () {
+                        changeForm("L");
+                      },
+                    )
+                  : Login(
+                      onFormChange: () {
+                        changeForm("S");
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
