@@ -38,7 +38,7 @@ class AuthProvider with ChangeNotifier {
         body: json.encode({
           'retailerName': retailerName,
           'shopAddress': shopAddress,
-          'contactNumvber': contactNumber
+          'mobileNumvber': contactNumber
         }));
   }
 
