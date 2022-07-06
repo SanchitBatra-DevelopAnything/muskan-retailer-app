@@ -141,15 +141,14 @@ class CartProvider with ChangeNotifier {
     var day = todaysDate.day.toString();
     var date = day + month + year;
     var url =
-        "https://muskan-admin-app-default-rtdb.firebaseio.com/activeShopOrders/" +
-            date +
-            "/.json";
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/activeShopOrders.json";
     try {
       await http.post(Uri.parse(url),
           body: json.encode({
             "shopAddress": shopAddress,
             "orderedBy": loggedInRetailer,
             "orderTime": time,
+            "orderDate": date,
             "items": formOrderItemList(),
             "totalPrice": getTotalOrderPrice(),
           }));
@@ -173,9 +172,7 @@ class CartProvider with ChangeNotifier {
     var day = todaysDate.day.toString();
     var date = day + month + year;
     var url =
-        "https://muskan-admin-app-default-rtdb.firebaseio.com/activeShopOrders/" +
-            date +
-            "/.json";
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/activeShopOrders.json";
     try {
       await http.post(Uri.parse(url),
           body: json.encode({
@@ -183,6 +180,7 @@ class CartProvider with ChangeNotifier {
             "orderedBy": loggedInRetailer,
             "orderTime": time,
             "orderType": "custom",
+            "orderDate": date,
             "customType": orderType,
             "cakeDescription": cakeDescription,
             "imgUrl": cakeUrl,
