@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/badge.dart';
 import 'package:muskan_shop/models/category.dart';
+import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,12 @@ class _CategoriesState extends State<Categories> {
                     })
                   }
               });
-      Future.delayed(const Duration(seconds: 2), () => {showAlertBox(context)});
+      bool shopOpened = Provider.of<AuthProvider>(context, listen: false)
+          .checkShopStatus("09:00PM", "06:00AM");
+      if (shopOpened) {
+        Future.delayed(
+            const Duration(seconds: 2), () => {showAlertBox(context)});
+      }
     }
     _isFirstTime = false; //never run the above if again.
     super.didChangeDependencies();
@@ -56,7 +62,7 @@ class _CategoriesState extends State<Categories> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(
-          'CLOSED AFTER 09:00pm',
+          'CLOSED AFTER 10:30pm',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
