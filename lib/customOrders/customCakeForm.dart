@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
+import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:provider/provider.dart';
 
 class CustomCakeForm extends StatefulWidget {
@@ -19,6 +20,8 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
   File? _pickedImage;
 
   File? _photoOnCake;
+  num? pounds = 1;
+  String? flavour;
 
   bool _isUploading = false;
   bool _isFetchingUrl = false;
@@ -138,6 +141,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
         .PlaceCustomOrder(
             cakeDescription: cakeDescriptionController.text.trim(),
             cakeUrl: imgUrl,
+            pounds: pounds,
             photoOnCakeUrl: photoOnCakeUrl,
             loggedInRetailer: shopKeeper.toUpperCase(),
             orderType: orderType,
@@ -363,6 +367,34 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                   ),
                   SizedBox(
                     height: 15,
+                  ),
+                  Flexible(
+                    child: Text("POUNDS : "),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Container(
+                      height: 50,
+                      child: NumberInputWithIncrementDecrement(
+                        controller: TextEditingController(),
+                        min: 1,
+                        max: 10,
+                        initialValue: 1,
+                        onIncrement: (value) {
+                          pounds = value;
+                        },
+                        onDecrement: (value) {
+                          pounds = value;
+                        },
+                        scaleHeight: 1,
+                        scaleWidth: 1,
+                        incIconSize: 15,
+                        decIconSize: 15,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
                   ),
                   Flexible(
                     child: RaisedButton(
