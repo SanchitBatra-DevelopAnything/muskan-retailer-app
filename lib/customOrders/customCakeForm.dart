@@ -61,13 +61,24 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
   void placeCustomOrder(BuildContext context, String orderType) async {
     if (_pickedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          duration: const Duration(milliseconds: 700),
-          content: Text(
-            "Please select an image",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          )));
+          duration: const Duration(
+            milliseconds: 700,
+          ),
+          content: Text("Please Upload cake image")));
       return;
     }
+
+    if (orderType.toLowerCase() == "photo cakes") {
+      if (_photoOnCake == null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            duration: const Duration(
+              milliseconds: 700,
+            ),
+            content: Text("Please Upload photo image")));
+        return;
+      }
+    }
+
     if (cakeDescriptionController.text.trim() == '') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           duration: const Duration(
@@ -110,6 +121,13 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
 
     final imgUrl = await ref.getDownloadURL();
 
+    var photoOnCakeUrl = "not-uploaded";
+
+    if (_photoOnCake != null) {
+      await ref.putFile(_photoOnCake!).onComplete;
+      photoOnCakeUrl = await ref.getDownloadURL();
+    }
+
     setState(() {
       _isPlacingOrder = true;
       _isUploading = false;
@@ -120,6 +138,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
         .PlaceCustomOrder(
             cakeDescription: cakeDescriptionController.text.trim(),
             cakeUrl: imgUrl,
+            photoOnCakeUrl: photoOnCakeUrl,
             loggedInRetailer: shopKeeper.toUpperCase(),
             orderType: orderType,
             shopAddress: shop.toUpperCase(),

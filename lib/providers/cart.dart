@@ -163,6 +163,7 @@ class CartProvider with ChangeNotifier {
       {String? shopAddress,
       String? loggedInRetailer,
       String? time,
+      String? photoOnCakeUrl,
       String? cakeDescription,
       String? cakeUrl,
       String? orderType}) async {
@@ -182,6 +183,7 @@ class CartProvider with ChangeNotifier {
             "orderType": "custom",
             "orderDate": date,
             "customType": orderType,
+            "photoOnCakeUrl": photoOnCakeUrl,
             "cakeDescription": cakeDescription,
             "imgUrl": cakeUrl,
           }));
