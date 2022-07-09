@@ -9,6 +9,8 @@ import 'package:muskan_shop/providers/cart.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/categories_provider.dart';
+
 class CustomCakeForm extends StatefulWidget {
   const CustomCakeForm({Key? key}) : super(key: key);
 
@@ -21,13 +23,27 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
 
   File? _photoOnCake;
   num? pounds = 1;
-  String? flavour;
+  String? selectedFlavour = "pineapple";
 
   bool _isUploading = false;
   bool _isFetchingUrl = false;
   bool _isPlacingOrder = false;
 
+  bool _isFirstTime = true;
+
   var cakeDescriptionController = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if (_isFirstTime) {
+      Provider.of<CategoriesProvider>(context, listen: false)
+          .getAllCakeFlavours();
+      _isFirstTime = false;
+    }
+
+    super.didChangeDependencies();
+  }
 
   void _pickImage(String sourceOfImage) async {
     if (sourceOfImage == 'Camera') {
@@ -142,6 +158,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
             cakeDescription: cakeDescriptionController.text.trim(),
             cakeUrl: imgUrl,
             pounds: pounds,
+            flavour: selectedFlavour,
             photoOnCakeUrl: photoOnCakeUrl,
             loggedInRetailer: shopKeeper.toUpperCase(),
             orderType: orderType,
@@ -168,6 +185,8 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
     final orderTypeMap =
         ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     final orderType = orderTypeMap['orderType'];
+
+    var flavours = Provider.of<CategoriesProvider>(context).flavourNames;
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
@@ -396,7 +415,22 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                   SizedBox(
                     height: 20,
                   ),
-                  Flexible(flex: 2, child: Text("Flavours here")),
+                  Flexible(
+                    flex: 3,
+                    child: DropdownButton<String>(
+                        items: flavours.map(buildMenuItem).toList(),
+                        isExpanded: true,
+                        iconSize: 22,
+                        dropdownColor: Colors.white,
+                        style: TextStyle(color: Colors.black),
+                        icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                        value: selectedFlavour,
+                        onChanged: (value) => {
+                              setState(() => {
+                                    this.selectedFlavour = value,
+                                  })
+                            }),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -446,3 +480,11 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
     );
   }
 }
+
+DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+    value: item,
+    child: Text(item,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 15,
+        )));
