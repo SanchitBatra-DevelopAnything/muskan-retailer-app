@@ -68,6 +68,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
           showFlavourDropdown = false;
         });
       }
+
       this.selectedFlavour =
           showFlavourDropdown! ? "pineapple" : widget.cakeFlavour;
 
@@ -79,6 +80,8 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
               ? int.parse(widget.minPounds)
               : widget.minPounds;
 
+      poundController.text = minimumPounds.toString() + ".00";
+
       getCakePrice(selectedFlavour!, widget.designCategory!, minimumPounds);
     }
 
@@ -88,6 +91,8 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
   }
 
   getCakeItemId() {
+    print(poundController.text);
+    print(selectedFlavour!);
     return poundController.text +
         " Pounds- " +
         selectedFlavour! +
