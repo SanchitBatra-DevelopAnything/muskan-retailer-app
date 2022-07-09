@@ -394,7 +394,11 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                     ),
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 20,
+                  ),
+                  Flexible(flex: 2, child: Text("Flavours here")),
+                  SizedBox(
+                    height: 20,
                   ),
                   Flexible(
                     child: RaisedButton(
