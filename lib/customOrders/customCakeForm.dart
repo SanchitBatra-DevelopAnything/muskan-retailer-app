@@ -18,6 +18,8 @@ class CustomCakeForm extends StatefulWidget {
 class _CustomCakeFormState extends State<CustomCakeForm> {
   File? _pickedImage;
 
+  File? _photoOnCake;
+
   bool _isUploading = false;
   bool _isFetchingUrl = false;
   bool _isPlacingOrder = false;
@@ -36,6 +38,22 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
           await ImagePicker.pickImage(source: ImageSource.gallery);
       setState(() {
         _pickedImage = pickedImage;
+      });
+    }
+  }
+
+  void _pickPhotoOnCake(String sourceOfImage) async {
+    if (sourceOfImage == 'Camera') {
+      final pickedImage =
+          await ImagePicker.pickImage(source: ImageSource.camera);
+      setState(() {
+        _photoOnCake = pickedImage;
+      });
+    } else {
+      final pickedImage =
+          await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _photoOnCake = pickedImage;
       });
     }
   }
@@ -173,6 +191,15 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Flexible(
+                    child: Text(
+                      "Cake Image",
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Flexible(
                       flex: 2,
                       child: Container(
                         height: 200,
@@ -220,6 +247,79 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                   SizedBox(
                     height: 15,
                   ),
+                  orderType.toLowerCase() == "photo cakes"
+                      ? Flexible(
+                          child: Text(
+                            "Photo Image",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : Container(height: 0),
+                  orderType.toLowerCase() == "photo cakes"
+                      ? Flexible(
+                          flex: 2,
+                          child: Container(
+                            height: 200,
+                            width: 200,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: CircleAvatar(
+                                  backgroundColor:
+                                      Color.fromRGBO(51, 51, 51, 1),
+                                  backgroundImage: _photoOnCake != null
+                                      ? FileImage(_photoOnCake!)
+                                      : Image.asset("assets/default.png")
+                                          .image),
+                            ),
+                          ))
+                      : Container(height: 0),
+                  orderType.toLowerCase() == "photo cakes"
+                      ? SizedBox(
+                          height: 15,
+                        )
+                      : Container(
+                          height: 0,
+                        ),
+                  orderType.toLowerCase() == "photo cakes"
+                      ? Flexible(
+                          flex: 1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              RaisedButton(
+                                color: Colors.red,
+                                onPressed: () {
+                                  _pickPhotoOnCake('Gallery');
+                                },
+                                child: Text(
+                                  "Gallery Image",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ),
+                              RaisedButton(
+                                color: Colors.red,
+                                onPressed: () {
+                                  _pickPhotoOnCake('Camera');
+                                },
+                                child: Text(
+                                  "Camera Image",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      : Container(height: 0),
+                  orderType.toLowerCase() == "photo cakes"
+                      ? SizedBox(
+                          height: 15,
+                        )
+                      : Container(height: 0),
                   Flexible(
                     flex: 3,
                     child: Container(
