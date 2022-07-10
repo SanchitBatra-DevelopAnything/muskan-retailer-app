@@ -227,96 +227,83 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
           },
           child: Padding(
             padding: EdgeInsets.all(20),
-            child: Center(
+            child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Flexible(
-                    child: Text(
-                      "Cake Image",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
+                  Text(
+                    "Cake Image",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    height: 120,
+                    width: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: CircleAvatar(
+                          backgroundColor: Color.fromRGBO(51, 51, 51, 1),
+                          backgroundImage: _pickedImage != null
+                              ? FileImage(_pickedImage!)
+                              : Image.asset("assets/default.png").image),
                     ),
                   ),
-                  Flexible(
-                      flex: 2,
-                      child: Container(
-                        height: 200,
-                        width: 200,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: CircleAvatar(
-                              backgroundColor: Color.fromRGBO(51, 51, 51, 1),
-                              backgroundImage: _pickedImage != null
-                                  ? FileImage(_pickedImage!)
-                                  : Image.asset("assets/default.png").image),
-                        ),
-                      )),
                   SizedBox(
                     height: 15,
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        RaisedButton(
-                          color: Colors.red,
-                          onPressed: () {
-                            _pickImage('Gallery');
-                          },
-                          child: Text(
-                            "Gallery Image",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButton(
+                        color: Colors.red,
+                        onPressed: () {
+                          _pickImage('Gallery');
+                        },
+                        child: Text(
+                          "Gallery Image",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
-                        RaisedButton(
-                          color: Colors.red,
-                          onPressed: () {
-                            _pickImage('Camera');
-                          },
-                          child: Text(
-                            "Camera Image",
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      RaisedButton(
+                        color: Colors.red,
+                        onPressed: () {
+                          _pickImage('Camera');
+                        },
+                        child: Text(
+                          "Camera Image",
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   orderType.toLowerCase() == "photo cakes"
-                      ? Flexible(
-                          child: Text(
-                            "Photo Image",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
+                      ? Text(
+                          "Photo Image",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         )
                       : Container(height: 0),
                   orderType.toLowerCase() == "photo cakes"
-                      ? Flexible(
-                          flex: 2,
-                          child: Container(
-                            height: 200,
-                            width: 200,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: CircleAvatar(
-                                  backgroundColor:
-                                      Color.fromRGBO(51, 51, 51, 1),
-                                  backgroundImage: _photoOnCake != null
-                                      ? FileImage(_photoOnCake!)
-                                      : Image.asset("assets/default.png")
-                                          .image),
-                            ),
-                          ))
+                      ? Container(
+                          height: 120,
+                          width: 120,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: CircleAvatar(
+                                backgroundColor: Color.fromRGBO(51, 51, 51, 1),
+                                backgroundImage: _photoOnCake != null
+                                    ? FileImage(_photoOnCake!)
+                                    : Image.asset("assets/default.png").image),
+                          ),
+                        )
                       : Container(height: 0),
                   orderType.toLowerCase() == "photo cakes"
                       ? SizedBox(
@@ -326,35 +313,32 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                           height: 0,
                         ),
                   orderType.toLowerCase() == "photo cakes"
-                      ? Flexible(
-                          flex: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              RaisedButton(
-                                color: Colors.red,
-                                onPressed: () {
-                                  _pickPhotoOnCake('Gallery');
-                                },
-                                child: Text(
-                                  "Gallery Image",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            RaisedButton(
+                              color: Colors.red,
+                              onPressed: () {
+                                _pickPhotoOnCake('Gallery');
+                              },
+                              child: Text(
+                                "Gallery Image",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
-                              RaisedButton(
-                                color: Colors.red,
-                                onPressed: () {
-                                  _pickPhotoOnCake('Camera');
-                                },
-                                child: Text(
-                                  "Camera Image",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                            RaisedButton(
+                              color: Colors.red,
+                              onPressed: () {
+                                _pickPhotoOnCake('Camera');
+                              },
+                              child: Text(
+                                "Camera Image",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            )
+                          ],
                         )
                       : Container(height: 0),
                   orderType.toLowerCase() == "photo cakes"
@@ -362,115 +346,105 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                           height: 15,
                         )
                       : Container(height: 0),
-                  Flexible(
-                    flex: 3,
-                    child: Container(
-                      width: 300,
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 18),
-                        minLines: 1,
-                        maxLines: null,
-                        controller: cakeDescriptionController,
-                        keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            hintText: "Enter cake description here",
-                            hintStyle:
-                                TextStyle(color: Colors.black, fontSize: 18),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)))),
-                      ),
+                  Container(
+                    width: 300,
+                    child: TextFormField(
+                      style: TextStyle(fontSize: 18),
+                      minLines: 1,
+                      maxLines: null,
+                      controller: cakeDescriptionController,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
+                          hintText: "Enter cake description here",
+                          hintStyle:
+                              TextStyle(color: Colors.black, fontSize: 18),
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)))),
                     ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  Flexible(
-                    child: Text("POUNDS : "),
-                  ),
-                  Flexible(
-                    flex: 3,
-                    child: Container(
-                      height: 50,
-                      child: NumberInputWithIncrementDecrement(
-                        controller: TextEditingController(),
-                        min: 1,
-                        max: 10,
-                        initialValue: 1,
-                        onIncrement: (value) {
-                          pounds = value;
-                        },
-                        onDecrement: (value) {
-                          pounds = value;
-                        },
-                        scaleHeight: 1,
-                        scaleWidth: 1,
-                        incIconSize: 15,
-                        decIconSize: 15,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Flexible(
-                    flex: 3,
-                    child: DropdownButton<String>(
-                        items: flavours.map(buildMenuItem).toList(),
-                        isExpanded: true,
-                        iconSize: 22,
-                        dropdownColor: Colors.white,
-                        style: TextStyle(color: Colors.black),
-                        icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                        value: selectedFlavour,
-                        onChanged: (value) => {
-                              setState(() => {
-                                    this.selectedFlavour = value,
-                                  })
-                            }),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Flexible(
-                    child: RaisedButton(
-                      color: Colors.red,
-                      child: Text(
-                        "Place Order",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                      onPressed: () {
-                        placeCustomOrder(context, orderType);
+                  Text("POUNDS : ",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Container(
+                    height: 50,
+                    child: NumberInputWithIncrementDecrement(
+                      controller: TextEditingController(),
+                      min: 1,
+                      max: 10,
+                      initialValue: 1,
+                      onIncrement: (value) {
+                        pounds = value;
                       },
+                      onDecrement: (value) {
+                        pounds = value;
+                      },
+                      scaleHeight: 1,
+                      scaleWidth: 1,
+                      incIconSize: 15,
+                      decIconSize: 15,
                     ),
                   ),
-                  Flexible(
-                      flex: 1,
-                      child: _isUploading
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "SELECT FLAVOUR : ",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  DropdownButton<String>(
+                      items: flavours.map(buildMenuItem).toList(),
+                      isExpanded: true,
+                      iconSize: 22,
+                      dropdownColor: Colors.white,
+                      style: TextStyle(color: Colors.black),
+                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
+                      value: selectedFlavour,
+                      onChanged: (value) => {
+                            setState(() => {
+                                  this.selectedFlavour = value,
+                                })
+                          }),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RaisedButton(
+                    color: Colors.red,
+                    child: Text(
+                      "Place Order",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    onPressed: () {
+                      placeCustomOrder(context, orderType);
+                    },
+                  ),
+                  _isUploading
+                      ? Text(
+                          "Uploading Image.. Large images might take some time.",
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        )
+                      : _isFetchingUrl
                           ? Text(
-                              "Uploading Image.. Large images might take some time.",
+                              "Fetching the url..",
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             )
-                          : _isFetchingUrl
+                          : _isPlacingOrder
                               ? Text(
-                                  "Fetching the url..",
+                                  "Placing your order....",
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold),
                                 )
-                              : _isPlacingOrder
-                                  ? Text(
-                                      "Placing your order....",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  : SizedBox(
-                                      height: 1,
-                                    ))
+                              : SizedBox(
+                                  height: 1,
+                                )
                 ],
               ),
             ),
