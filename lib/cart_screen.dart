@@ -81,6 +81,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final cartProviderObject = Provider.of<CartProvider>(context);
     final cartItemsList = cartProviderObject.itemList;
+    final totalItems = cartItemsList.length;
     var totalOrderPrice = cartProviderObject.getTotalOrderPrice();
     return Scaffold(
       backgroundColor: Colors.black54,
@@ -142,30 +143,35 @@ class _CartScreenState extends State<CartScreen> {
                             margin: EdgeInsets.only(right: 15),
                             width: 300,
                             height: 50,
-                            child: RaisedButton(
-                                onPressed: () {
-                                  showOrderDialog(context, cartProviderObject);
-                                },
-                                color: Color.fromRGBO(51, 51, 51, 1),
-                                child: AnimatedTextKit(
-                                    onTap: () {
+                            child: totalItems != 0
+                                ? RaisedButton(
+                                    onPressed: () {
                                       showOrderDialog(
                                           context, cartProviderObject);
                                     },
-                                    repeatForever: true,
-                                    isRepeatingAnimation: true,
-                                    animatedTexts: [
-                                      TyperAnimatedText("Click here",
-                                          textStyle: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white)),
-                                      TyperAnimatedText("Checkout",
-                                          textStyle: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white))
-                                    ])),
+                                    color: Color.fromRGBO(51, 51, 51, 1),
+                                    child: AnimatedTextKit(
+                                        onTap: () {
+                                          showOrderDialog(
+                                              context, cartProviderObject);
+                                        },
+                                        repeatForever: true,
+                                        isRepeatingAnimation: true,
+                                        animatedTexts: [
+                                          TyperAnimatedText("Click here",
+                                              textStyle: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white)),
+                                          TyperAnimatedText("Checkout",
+                                              textStyle: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white))
+                                        ]))
+                                : SizedBox(
+                                    height: 0,
+                                  ),
                           ),
                         )
                       ],
