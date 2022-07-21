@@ -34,6 +34,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452914079596:android:4d16b208b03e30968db549",
+        "android_client_info": {
+          "package_name": "com.muskan.shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452914079596-05qumhaek96d52f9csdhfipn81h3v5b1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcpvkdwXxc5nUe6PLvu9VQhlB_mpp5LqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452914079596-05qumhaek96d52f9csdhfipn81h3v5b1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
