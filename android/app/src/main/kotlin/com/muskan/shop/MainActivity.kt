@@ -1,4 +1,4 @@
-package com.example.muskan_shop
+package com.muskan.shop
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -170,49 +170,65 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  "Pounds : ",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
                 SizedBox(
                   height: 10,
                 ),
-                NumberInputWithIncrementDecrement(
-                  controller: poundController,
-                  buttonArrangement: ButtonArrangement.incRightDecLeft,
-                  incDecBgColor: Colors.black,
-                  decIconColor: Colors.black,
-                  style: TextStyle(fontSize: 20),
-                  incIconColor: Colors.black,
-                  onIncrement: (num newValue) {
-                    getCakePrice(
-                        selectedFlavour!, widget.designCategory!, newValue);
-                  },
-                  onDecrement: (num newValue) {
-                    getCakePrice(
-                        selectedFlavour!, widget.designCategory!, newValue);
-                  },
-                  isInt: false,
-                  scaleHeight: 0.75,
-                  scaleWidth: 0.75,
-                  incDecFactor: 1,
-                  initialValue: (widget.minPounds is String &&
-                          widget.minPounds.toUpperCase() == "NO LIMIT ON SIZE")
-                      ? 0
-                      : (widget.minPounds is String &&
-                              widget.minPounds.toUpperCase() !=
-                                  "NO LIMIT ON SIZE")
-                          ? int.parse(widget.minPounds)
-                          : widget.minPounds,
-                  max: 10.0,
-                  min: (widget.minPounds is String &&
-                          widget.minPounds.toUpperCase() == "NO LIMIT ON SIZE")
-                      ? 0
-                      : (widget.minPounds is String &&
-                              widget.minPounds.toUpperCase() !=
-                                  "NO LIMIT ON SIZE")
-                          ? int.parse(widget.minPounds)
-                          : widget.minPounds,
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: NumberInputWithIncrementDecrement(
+                        controller: poundController,
+                        buttonArrangement: ButtonArrangement.incRightDecLeft,
+                        incDecBgColor: Colors.black,
+                        decIconColor: Colors.black,
+                        style: TextStyle(fontSize: 20),
+                        incIconColor: Colors.black,
+                        onIncrement: (num newValue) {
+                          getCakePrice(selectedFlavour!, widget.designCategory!,
+                              newValue);
+                        },
+                        onDecrement: (num newValue) {
+                          getCakePrice(selectedFlavour!, widget.designCategory!,
+                              newValue);
+                        },
+                        isInt: false,
+                        scaleHeight: 0.75,
+                        scaleWidth: 0.85,
+                        incDecFactor: 1,
+                        initialValue: (widget.minPounds is String &&
+                                widget.minPounds.toUpperCase() ==
+                                    "NO LIMIT ON SIZE")
+                            ? 0
+                            : (widget.minPounds is String &&
+                                    widget.minPounds.toUpperCase() !=
+                                        "NO LIMIT ON SIZE")
+                                ? int.parse(widget.minPounds)
+                                : widget.minPounds,
+                        max: 100.0,
+                        min: (widget.minPounds is String &&
+                                widget.minPounds.toUpperCase() ==
+                                    "NO LIMIT ON SIZE")
+                            ? 0
+                            : (widget.minPounds is String &&
+                                    widget.minPounds.toUpperCase() !=
+                                        "NO LIMIT ON SIZE")
+                                ? int.parse(widget.minPounds)
+                                : widget.minPounds,
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Center(
+                        child: Text(
+                          "POND",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 10,
@@ -253,6 +269,16 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                 SizedBox(
                   height: 10,
                 ),
+                Center(
+                  child: Text(
+                    "QTY : ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 !_isInCart
                     ? Container(
                         width: double.infinity - 200,
@@ -276,7 +302,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                                 parentCategory!,
                                 parentSubcategory!);
                           },
-                          child: Text("Add to cart",
+                          child: Text("Add",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,

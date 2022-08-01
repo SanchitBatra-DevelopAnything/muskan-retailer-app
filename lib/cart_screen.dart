@@ -182,13 +182,22 @@ class _CartScreenState extends State<CartScreen> {
                   color: Colors.white,
                   thickness: 5,
                 ),
-                Flexible(
-                    flex: 10,
-                    child: ListView.builder(
-                        itemExtent: 100,
-                        itemCount: cartItemsList.length,
-                        itemBuilder: ((context, index) =>
-                            CartProductCard(cartItem: cartItemsList[index])))),
+                totalItems != 0
+                    ? Flexible(
+                        flex: 10,
+                        child: ListView.builder(
+                            itemExtent: 100,
+                            itemCount: cartItemsList.length,
+                            itemBuilder: ((context, index) => CartProductCard(
+                                cartItem: cartItemsList[index]))))
+                    : Center(
+                        child: Text(
+                        "Cart is Empty.",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      )),
                 Flexible(
                     child: Divider(
                   thickness: 5,
