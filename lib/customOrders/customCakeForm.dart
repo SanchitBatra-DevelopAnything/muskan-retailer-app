@@ -368,7 +368,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                   SizedBox(
                     height: 15,
                   ),
-                  Text("POUNDS : ",
+                  Text("PONDS : ",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   Container(
