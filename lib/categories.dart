@@ -5,6 +5,7 @@ import 'package:muskan_shop/models/category.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
+import 'package:new_version/new_version.dart';
 import 'package:provider/provider.dart';
 
 import 'bottomNavigation.dart';
@@ -24,6 +25,7 @@ class _CategoriesState extends State<Categories> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     if (_isFirstTime) {
+      _checkVersion();
       if (mounted) {
         setState(() {
           isLoading = true;
@@ -49,6 +51,13 @@ class _CategoriesState extends State<Categories> {
     }
     _isFirstTime = false; //never run the above if again.
     super.didChangeDependencies();
+  }
+
+  void _checkVersion() {
+    final newVersion = NewVersion(
+      androidId: "com.muskan.shop",
+    );
+    newVersion.showAlertIfNecessary(context: context);
   }
 
   @override

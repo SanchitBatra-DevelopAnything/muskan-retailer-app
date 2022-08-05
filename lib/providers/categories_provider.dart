@@ -119,7 +119,7 @@ class CategoriesProvider with ChangeNotifier {
             shopPrice: flavourData['shopPrice'],
             flavourName: flavourData['flavourName']));
       });
-      _allFlavours = loadedCakeFlavours;
+      _allFlavours.sort(((a, b) => a.flavourName!.compareTo(b.flavourName!)));
       formFlavourNames();
       notifyListeners();
     } catch (error) {

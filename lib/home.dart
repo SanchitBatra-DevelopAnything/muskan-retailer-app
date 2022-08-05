@@ -17,7 +17,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _checkVersion();
   }
 
   var _activePage = "L";
@@ -26,13 +25,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _activePage = value;
     });
-  }
-
-  void _checkVersion() {
-    final newVersion = NewVersion(
-      androidId: "com.muskan.shop",
-    );
-    newVersion.showAlertIfNecessary(context: context);
   }
 
   @override
