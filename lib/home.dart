@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/login.dart';
 import 'package:muskan_shop/signup.dart';
+import 'package:new_version/new_version.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -12,12 +13,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkVersion();
+  }
+
   var _activePage = "L";
 
   void changeForm(String value) {
     setState(() {
       _activePage = value;
     });
+  }
+
+  void _checkVersion() {
+    final newVersion = NewVersion(
+      androidId: "com.muskan.shop",
+    );
+    newVersion.showAlertIfNecessary(context: context);
   }
 
   @override
