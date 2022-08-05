@@ -62,6 +62,9 @@ class AuthProvider with ChangeNotifier {
             area: shopData['areaName']));
       });
       _shops = loadedShops;
+      _shops.sort(
+        (a, b) => a.shopName.compareTo(b.shopName),
+      );
       notifyListeners();
     } catch (error) {
       throw error;
