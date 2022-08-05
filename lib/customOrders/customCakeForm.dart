@@ -125,7 +125,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
       _isPlacingOrder = false;
     });
 
-    final ref = FirebaseStorage.instance
+    var ref = FirebaseStorage.instance
         .ref()
         .child('custom_orders')
         .child(shopKeeper + "--" + shop + "--" + date + ".jpg");
@@ -143,8 +143,12 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
     var photoOnCakeUrl = "not-uploaded";
 
     if (_photoOnCake != null) {
-      await ref.putFile(_photoOnCake!).onComplete;
-      photoOnCakeUrl = await ref.getDownloadURL();
+      var ref1 = FirebaseStorage.instance
+          .ref()
+          .child("custom_order_photo_cakes")
+          .child(shopKeeper + "--" + shop + "--" + date + ".jpg");
+      await ref1.putFile(_photoOnCake!).onComplete;
+      photoOnCakeUrl = await ref1.getDownloadURL();
     }
 
     setState(() {
