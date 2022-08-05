@@ -231,99 +231,41 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
           },
           child: Padding(
             padding: EdgeInsets.all(20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Cake Image",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    height: 120,
-                    width: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: CircleAvatar(
-                          backgroundColor: Color.fromRGBO(51, 51, 51, 1),
-                          backgroundImage: _pickedImage != null
-                              ? FileImage(_pickedImage!)
-                              : Image.asset("assets/default.png").image),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      RaisedButton(
-                        color: Colors.red,
-                        onPressed: () {
-                          _pickImage('Gallery');
-                        },
-                        child: Text(
-                          "Gallery Image",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                      ),
-                      RaisedButton(
-                        color: Colors.red,
-                        onPressed: () {
-                          _pickImage('Camera');
-                        },
-                        child: Text(
-                          "Camera Image",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  orderType.toLowerCase() == "photo cakes"
-                      ? Text(
-                          "Photo Image",
+            child: (!_isUploading && !_isFetchingUrl && !_isPlacingOrder)
+                ? SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Cake Image",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black,
                               fontWeight: FontWeight.bold),
-                        )
-                      : Container(height: 0),
-                  orderType.toLowerCase() == "photo cakes"
-                      ? Container(
+                        ),
+                        Container(
                           height: 120,
                           width: 120,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: CircleAvatar(
                                 backgroundColor: Color.fromRGBO(51, 51, 51, 1),
-                                backgroundImage: _photoOnCake != null
-                                    ? FileImage(_photoOnCake!)
+                                backgroundImage: _pickedImage != null
+                                    ? FileImage(_pickedImage!)
                                     : Image.asset("assets/default.png").image),
                           ),
-                        )
-                      : Container(height: 0),
-                  orderType.toLowerCase() == "photo cakes"
-                      ? SizedBox(
-                          height: 15,
-                        )
-                      : Container(
-                          height: 0,
                         ),
-                  orderType.toLowerCase() == "photo cakes"
-                      ? Row(
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             RaisedButton(
                               color: Colors.red,
                               onPressed: () {
-                                _pickPhotoOnCake('Gallery');
+                                _pickImage('Gallery');
                               },
                               child: Text(
                                 "Gallery Image",
@@ -334,7 +276,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                             RaisedButton(
                               color: Colors.red,
                               onPressed: () {
-                                _pickPhotoOnCake('Camera');
+                                _pickImage('Camera');
                               },
                               child: Text(
                                 "Camera Image",
@@ -343,115 +285,196 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                               ),
                             )
                           ],
-                        )
-                      : Container(height: 0),
-                  orderType.toLowerCase() == "photo cakes"
-                      ? SizedBox(
+                        ),
+                        SizedBox(
                           height: 15,
-                        )
-                      : Container(height: 0),
-                  Container(
-                    width: 300,
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 18),
-                      minLines: 1,
-                      maxLines: null,
-                      controller: cakeDescriptionController,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                          hintText: "Enter cake description here",
-                          hintStyle:
-                              TextStyle(color: Colors.black, fontSize: 18),
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)))),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text("PONDS : ",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Container(
-                    height: 50,
-                    child: NumberInputWithIncrementDecrement(
-                      controller: TextEditingController(),
-                      min: 1,
-                      max: 100,
-                      initialValue: 1,
-                      onIncrement: (value) {
-                        pounds = value;
-                      },
-                      onDecrement: (value) {
-                        pounds = value;
-                      },
-                      scaleHeight: 1,
-                      scaleWidth: 1,
-                      incIconSize: 15,
-                      decIconSize: 15,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    "SELECT FLAVOUR : ",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  DropdownButton<String>(
-                      items: flavours.map(buildMenuItem).toList(),
-                      isExpanded: true,
-                      iconSize: 22,
-                      dropdownColor: Colors.white,
-                      style: TextStyle(color: Colors.black),
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                      value: selectedFlavour,
-                      onChanged: (value) => {
-                            setState(() => {
-                                  this.selectedFlavour = value,
-                                })
-                          }),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  RaisedButton(
-                    color: Colors.red,
-                    child: Text(
-                      "Place Order",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    onPressed: () {
-                      placeCustomOrder(context, orderType);
-                    },
-                  ),
-                  _isUploading
-                      ? Text(
-                          "Uploading Image.. Large images might take some time.",
+                        ),
+                        orderType.toLowerCase() == "photo cakes"
+                            ? Text(
+                                "Photo Image",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(height: 0),
+                        orderType.toLowerCase() == "photo cakes"
+                            ? Container(
+                                height: 120,
+                                width: 120,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: CircleAvatar(
+                                      backgroundColor:
+                                          Color.fromRGBO(51, 51, 51, 1),
+                                      backgroundImage: _photoOnCake != null
+                                          ? FileImage(_photoOnCake!)
+                                          : Image.asset("assets/default.png")
+                                              .image),
+                                ),
+                              )
+                            : Container(height: 0),
+                        orderType.toLowerCase() == "photo cakes"
+                            ? SizedBox(
+                                height: 15,
+                              )
+                            : Container(
+                                height: 0,
+                              ),
+                        orderType.toLowerCase() == "photo cakes"
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  RaisedButton(
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      _pickPhotoOnCake('Gallery');
+                                    },
+                                    child: Text(
+                                      "Gallery Image",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                    ),
+                                  ),
+                                  RaisedButton(
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      _pickPhotoOnCake('Camera');
+                                    },
+                                    child: Text(
+                                      "Camera Image",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : Container(height: 0),
+                        orderType.toLowerCase() == "photo cakes"
+                            ? SizedBox(
+                                height: 15,
+                              )
+                            : Container(height: 0),
+                        Container(
+                          width: 300,
+                          child: TextFormField(
+                            style: TextStyle(fontSize: 18),
+                            minLines: 1,
+                            maxLines: null,
+                            controller: cakeDescriptionController,
+                            keyboardType: TextInputType.multiline,
+                            decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 10.0),
+                                hintText: "Enter cake description here",
+                                hintStyle: TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)))),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text("PONDS : ",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold)),
+                        Container(
+                          height: 50,
+                          child: NumberInputWithIncrementDecrement(
+                            controller: TextEditingController(),
+                            min: 1,
+                            max: 100,
+                            initialValue: 1,
+                            onIncrement: (value) {
+                              pounds = value;
+                            },
+                            onDecrement: (value) {
+                              pounds = value;
+                            },
+                            scaleHeight: 1,
+                            scaleWidth: 1,
+                            incIconSize: 15,
+                            decIconSize: 15,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "SELECT FLAVOUR : ",
                           style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        )
-                      : _isFetchingUrl
-                          ? Text(
-                              "Fetching the url..",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            )
-                          : _isPlacingOrder
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        DropdownButton<String>(
+                            items: flavours.map(buildMenuItem).toList(),
+                            isExpanded: true,
+                            iconSize: 22,
+                            dropdownColor: Colors.white,
+                            style: TextStyle(color: Colors.black),
+                            icon: Icon(Icons.arrow_drop_down,
+                                color: Colors.black),
+                            value: selectedFlavour,
+                            onChanged: (value) => {
+                                  setState(() => {
+                                        this.selectedFlavour = value,
+                                      })
+                                }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        RaisedButton(
+                          color: Colors.red,
+                          child: Text(
+                            "Place Order",
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          onPressed: () {
+                            placeCustomOrder(context, orderType);
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(
+                            strokeWidth: 5,
+                            color: Colors.red,
+                          ),
+                          SizedBox(
+                            height: 1,
+                          ),
+                          _isUploading
                               ? Text(
-                                  "Placing your order....",
+                                  "Uploading Image.. Large images might take some time.",
                                   style: TextStyle(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.bold),
                                 )
-                              : SizedBox(
-                                  height: 1,
-                                )
-                ],
-              ),
-            ),
+                              : _isFetchingUrl
+                                  ? Text(
+                                      "Fetching the url..",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  : _isPlacingOrder
+                                      ? Text(
+                                          "Placing your order....",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : SizedBox(
+                                          height: 1,
+                                        )
+                        ]),
+                  ),
           ),
         ),
       ),
