@@ -58,7 +58,8 @@ class _CategoriesState extends State<Categories> {
       androidId: "com.muskan.shop",
     );
     final status = await newVersion.getVersionStatus();
-    if (status!.localVersion != status.storeVersion) {
+    print("Store version is ${status!.storeVersion}");
+    if (status.localVersion != status.storeVersion) {
       newVersion.showUpdateDialog(
           context: context,
           versionStatus: status,
