@@ -53,11 +53,18 @@ class _CategoriesState extends State<Categories> {
     super.didChangeDependencies();
   }
 
-  void _checkVersion() {
+  void _checkVersion() async {
     final newVersion = NewVersion(
       androidId: "com.muskan.shop",
     );
-    newVersion.showAlertIfNecessary(context: context);
+    final status = await newVersion.getVersionStatus();
+    if (status!.localVersion != status.storeVersion) {
+      newVersion.showUpdateDialog(
+          context: context,
+          versionStatus: status,
+          dialogText:
+              "Please update your app from ${status.localVersion} to ${status.storeVersion}");
+    }
   }
 
   @override
