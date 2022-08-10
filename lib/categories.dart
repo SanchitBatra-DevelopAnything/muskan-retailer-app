@@ -25,7 +25,6 @@ class _CategoriesState extends State<Categories> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     if (_isFirstTime) {
-      _checkVersion();
       if (mounted) {
         setState(() {
           isLoading = true;
@@ -39,7 +38,8 @@ class _CategoriesState extends State<Categories> {
                   {
                     setState(() {
                       isLoading = false;
-                    })
+                    }),
+                    _checkVersion()
                   }
               });
       bool shopOpened = Provider.of<AuthProvider>(context, listen: false)
@@ -49,6 +49,7 @@ class _CategoriesState extends State<Categories> {
             const Duration(seconds: 2), () => {showAlertBox(context)});
       }
     }
+    // _checkVersion();
     _isFirstTime = false; //never run the above if again.
     super.didChangeDependencies();
   }
@@ -58,8 +59,7 @@ class _CategoriesState extends State<Categories> {
       androidId: "com.muskan.shop",
     );
     final status = await newVersion.getVersionStatus();
-    print("Store version is ${status!.storeVersion}");
-    if (status.localVersion != status.storeVersion) {
+    if (status!.localVersion != status.storeVersion) {
       newVersion.showUpdateDialog(
           context: context,
           versionStatus: status,
