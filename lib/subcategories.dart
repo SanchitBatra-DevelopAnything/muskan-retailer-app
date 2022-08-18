@@ -63,7 +63,10 @@ class _SubcategoriesState extends State<Subcategories> {
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoriesProvider>(context);
-    final parentCategoryName = categoryProvider.activeCategoryName;
+    final parentCategoryName =
+        categoryProvider.activeCategoryName!.toUpperCase() == "CAKES & PASTRIES"
+            ? "CAKES"
+            : categoryProvider.activeCategoryName;
     final parentCategoryKey = categoryProvider.activeCategoryKey;
     final subCategories = categoryProvider.subCategories;
     return Scaffold(

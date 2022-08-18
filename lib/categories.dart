@@ -231,7 +231,10 @@ class _CategoriesState extends State<Categories> {
                           Padding(
                             padding: EdgeInsets.only(left: 5.0, bottom: 5.0),
                             child: Text(
-                              categories[i].categoryName,
+                              categories[i].categoryName.toUpperCase() ==
+                                      "CAKES & PASTRIES"
+                                  ? "CAKES"
+                                  : categories[i].categoryName,
                               style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
