@@ -33,7 +33,7 @@ class _CountButtonViewState extends State<CountButtonView> {
   }
 
   void updateCount(double addValue) {
-    if (quantity + addValue == 0) {
+    if (quantity + addValue <= 0) {
       setState(() {
         quantity = 0;
       });
@@ -76,11 +76,14 @@ class _CountButtonViewState extends State<CountButtonView> {
                         ? updateCount(-0.5)
                         : updateCount(-1);
                   },
+                  onLongPress: () {
+                    updateCount(-50);
+                  },
                   child: Container(
                       decoration: BoxDecoration(
                           color: Colors.black,
                           borderRadius: BorderRadius.circular(22.0)),
-                      width: 40.0,
+                      width: quantity < 100 ? 40 : 32,
                       child: Center(
                           child: Text(
                         '-',
@@ -95,7 +98,7 @@ class _CountButtonViewState extends State<CountButtonView> {
                     child: Text(
                   '$quantity',
                   style: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: quantity < 100 ? 18.0 : 15.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       decoration: TextDecoration.none),
@@ -107,16 +110,19 @@ class _CountButtonViewState extends State<CountButtonView> {
                         ? updateCount(0.5)
                         : updateCount(1);
                   },
+                  onLongPress: () {
+                    updateCount(50);
+                  },
                   child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(22.0),
                           color: Colors.black),
-                      width: 40.0,
+                      width: quantity < 100 ? 40 : 32,
                       child: Center(
                           child: Text(
                         '+',
                         style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: quantity < 100 ? 18.0 : 15.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             decoration: TextDecoration.none),

@@ -18,7 +18,7 @@ class _CartProductCardState extends State<CartProductCard> {
     final cartProviderObject = Provider.of<CartProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(5),
-      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Flexible(
           flex: 5,
           child: Image.network(widget.cartItem.imageUrl,
@@ -52,9 +52,10 @@ class _CartProductCardState extends State<CartProductCard> {
           ),
         ),
         Flexible(
-          flex: 5,
+          flex: 6,
+          fit: FlexFit.tight,
           child: Container(
-            height: 30,
+            height: 35,
             child: CountButtonView(
                 itemId: widget.cartItem.id,
                 parentCategory: widget.cartItem.parentCategoryType,
