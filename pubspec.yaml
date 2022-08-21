@@ -37,6 +37,7 @@ dependencies:
   firebase_storage: ^3.1.5
   number_inc_dec: ^0.8.0
   new_version: ^0.3.1
+  sqflite: ^2.0.0+3
 
 
   # The following adds the Cupertino Icons font to your application.
