@@ -385,6 +385,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                           height: 50,
                           child: NumberInputWithIncrementDecrement(
                             controller: TextEditingController(),
+                            onChanged: ((newValue) => {pounds = newValue}),
                             min: 1,
                             max: 100,
                             initialValue: 1,
