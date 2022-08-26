@@ -5,7 +5,7 @@ import 'package:muskan_shop/models/category.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
-import 'package:new_version/new_version.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 import 'package:provider/provider.dart';
 
 import 'bottomNavigation.dart';
@@ -55,7 +55,7 @@ class _CategoriesState extends State<Categories> {
   }
 
   void _checkVersion() async {
-    final newVersion = NewVersion(
+    final newVersion = NewVersionPlus(
       androidId: "com.muskan.shop",
     );
     final status = await newVersion.getVersionStatus();

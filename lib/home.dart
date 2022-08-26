@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/login.dart';
 import 'package:muskan_shop/signup.dart';
-import 'package:new_version/new_version.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
