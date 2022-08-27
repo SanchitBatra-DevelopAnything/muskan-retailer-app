@@ -184,6 +184,10 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                         decIconColor: Colors.black,
                         style: TextStyle(fontSize: 20),
                         incIconColor: Colors.black,
+                        onChanged: ((newValue) {
+                          getCakePrice(selectedFlavour!, widget.designCategory!,
+                              newValue);
+                        }),
                         onIncrement: (num newValue) {
                           getCakePrice(selectedFlavour!, widget.designCategory!,
                               newValue);
