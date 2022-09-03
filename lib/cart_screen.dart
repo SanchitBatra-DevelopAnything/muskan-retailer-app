@@ -78,7 +78,8 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  void showSaveCartDialog(BuildContext context, CartProvider cartObject) {
+  void showSaveCartDialog(BuildContext context, CartProvider cartObject,
+      String retailer, String shop) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -114,9 +115,8 @@ class _CartScreenState extends State<CartScreen> {
               setState(() {
                 _isSavingCart = true;
               });
-              cartObject
-                  .deleteCartOnDB()
-                  .then((value) => cartObject.saveCart().then((value) => {
+              cartObject.deleteCartOnDB(retailer, shop).then((value) =>
+                  cartObject.saveCart(retailer, shop).then((value) => {
                         setState(
                           () => _isSavingCart = false,
                         ),
@@ -134,6 +134,8 @@ class _CartScreenState extends State<CartScreen> {
     final cartItemsList = cartProviderObject.itemList;
     final totalItems = cartItemsList.length;
     var totalOrderPrice = cartProviderObject.getTotalOrderPrice();
+    final authProviderObject =
+        Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Colors.black54,
@@ -177,7 +179,10 @@ class _CartScreenState extends State<CartScreen> {
                                   Navigator.of(context).pop();
                                 } else {
                                   showSaveCartDialog(
-                                      context, cartProviderObject);
+                                      context,
+                                      cartProviderObject,
+                                      authProviderObject.loggedInRetailer,
+                                      authProviderObject.loggedInShop);
                                 }
                               },
                             )),

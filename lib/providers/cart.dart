@@ -210,9 +210,9 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteCartOnDB() async {
+  Future<void> deleteCartOnDB(String retailer, String shop) async {
     var url =
-        "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/shop/retailer.json";
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/${shop}/${retailer}.json";
     try {
       await http.delete(Uri.parse(url));
     } catch (error) {
@@ -222,9 +222,9 @@ class CartProvider with ChangeNotifier {
     }
   }
 
-  Future<void> saveCart() async {
+  Future<void> saveCart(String retailer, String shop) async {
     var url =
-        "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/shop/retailer.json";
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/${shop}/${retailer}.json";
     try {
       await http.put(Uri.parse(url),
           body: json.encode({"items": formSaveCartList()}));
