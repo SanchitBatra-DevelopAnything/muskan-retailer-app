@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:muskan_shop/models/regularShopOrderItem.dart';
+import 'package:muskan_shop/providers/auth.dart';
 
 class CartItem {
   final String id;
@@ -22,6 +23,17 @@ class CartItem {
       required this.quantity,
       required this.totalPrice,
       required this.price});
+
+  Map toJson() => {
+        'id': this.id,
+        'title': this.title,
+        'quantity': this.quantity,
+        'price': this.price,
+        'parentSubcategoryType': this.parentSubcategoryType,
+        'imageUrl': this.imageUrl,
+        'parentCategoryType': this.parentCategoryType,
+        'totalPrice': this.totalPrice
+      };
 }
 
 class CartProvider with ChangeNotifier {
@@ -196,6 +208,39 @@ class CartProvider with ChangeNotifier {
       print(error);
       throw error;
     }
+  }
+
+  Future<void> deleteCartOnDB() async {
+    var url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/shop/retailer.json";
+    try {
+      await http.delete(Uri.parse(url));
+    } catch (error) {
+      print("ERROR IS");
+      print(error);
+      throw error;
+    }
+  }
+
+  Future<void> saveCart() async {
+    var url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/shop/retailer.json";
+    try {
+      await http.put(Uri.parse(url),
+          body: json.encode({"items": formSaveCartList()}));
+    } catch (error) {
+      print("ERROR IS");
+      print(error);
+      throw error;
+    }
+  }
+
+  formSaveCartList() {
+    var items = [];
+    itemList.forEach((cartItem) {
+      items.add(cartItem.toJson());
+    });
+    return items;
   }
 
   formOrderItemList() {

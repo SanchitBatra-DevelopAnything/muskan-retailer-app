@@ -15,6 +15,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   var _isPlacingOrder = false;
+  var _isSavingCart = false;
 
   void showOrderDialog(BuildContext context, CartProvider cartObject) {
     showDialog(
@@ -77,12 +78,63 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+  void showSaveCartDialog(BuildContext context, CartProvider cartObject) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Save Cart?',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          "Saved cart items will remain after you close the app.",
+          style: TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        actions: <Widget>[
+          RaisedButton(
+            color: Colors.red,
+            child: const Text(
+              'No',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          RaisedButton(
+            color: Colors.red,
+            child: const Text(
+              'Yes',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {
+                _isSavingCart = true;
+              });
+              cartObject
+                  .deleteCartOnDB()
+                  .then((value) => cartObject.saveCart().then((value) => {
+                        setState(
+                          () => _isSavingCart = false,
+                        ),
+                      }));
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final cartProviderObject = Provider.of<CartProvider>(context);
     final cartItemsList = cartProviderObject.itemList;
     final totalItems = cartItemsList.length;
     var totalOrderPrice = cartProviderObject.getTotalOrderPrice();
+
     return Scaffold(
       backgroundColor: Colors.black54,
       body: _isPlacingOrder
@@ -121,7 +173,12 @@ class _CartScreenState extends State<CartScreen> {
                               color: Colors.white,
                               iconSize: 20,
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                if (cartItemsList.length == 0) {
+                                  Navigator.of(context).pop();
+                                } else {
+                                  showSaveCartDialog(
+                                      context, cartProviderObject);
+                                }
                               },
                             )),
                         Flexible(
@@ -182,22 +239,27 @@ class _CartScreenState extends State<CartScreen> {
                   color: Colors.white,
                   thickness: 5,
                 ),
-                totalItems != 0
-                    ? Flexible(
-                        flex: 10,
-                        child: ListView.builder(
-                            itemExtent: 100,
-                            itemCount: cartItemsList.length,
-                            itemBuilder: ((context, index) => CartProductCard(
-                                cartItem: cartItemsList[index]))))
-                    : Center(
-                        child: Text(
-                        "Cart is Empty.",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      )),
+                _isSavingCart
+                    ? Center(
+                        child: CircularProgressIndicator(color: Colors.red),
+                      )
+                    : totalItems != 0
+                        ? Flexible(
+                            flex: 10,
+                            child: ListView.builder(
+                                itemExtent: 100,
+                                itemCount: cartItemsList.length,
+                                itemBuilder: ((context, index) =>
+                                    CartProductCard(
+                                        cartItem: cartItemsList[index]))))
+                        : Center(
+                            child: Text(
+                            "Cart is Empty.",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )),
                 Flexible(
                     child: Divider(
                   thickness: 5,
