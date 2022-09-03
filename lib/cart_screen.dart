@@ -214,8 +214,16 @@ class _CartScreenState extends State<CartScreen> {
                                     color: Color.fromRGBO(51, 51, 51, 1),
                                     child: AnimatedTextKit(
                                         onTap: () {
-                                          showOrderDialog(
-                                              context, cartProviderObject);
+                                          cartProviderObject
+                                              .deleteCartOnDB(
+                                                  authProviderObject
+                                                      .loggedInRetailer,
+                                                  authProviderObject
+                                                      .loggedInShop)
+                                              .then((_) => {
+                                                    showOrderDialog(context,
+                                                        cartProviderObject)
+                                                  });
                                         },
                                         repeatForever: true,
                                         isRepeatingAnimation: true,
