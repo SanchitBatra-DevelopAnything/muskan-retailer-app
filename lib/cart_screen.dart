@@ -56,6 +56,8 @@ class _CartScreenState extends State<CartScreen> {
               final shopkeeper =
                   Provider.of<AuthProvider>(context, listen: false)
                       .loggedInRetailer;
+              final retailer = Provider.of<AuthProvider>(context, listen: false)
+                  .loggedInRetailer;
               final shop = Provider.of<AuthProvider>(context, listen: false)
                   .loggedInShop;
               final timeArrayComponent =
@@ -65,11 +67,13 @@ class _CartScreenState extends State<CartScreen> {
                   timeArrayComponent[timeArrayComponent.length - 1];
               cartObject.PlaceShopOrder(shop, shopkeeper, time).then((_) => {
                     cartObject.clearCart(),
+                    cartObject.deleteCartOnDB(retailer, shop).then((value) => {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, "/orderPlaced", (r) => false)
+                        })
                     // setState(() {
                     //   _isPlacingOrder = false;
                     // }),
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, "/orderPlaced", (r) => false)
                   });
             },
           )

@@ -240,8 +240,14 @@ class CartProvider with ChangeNotifier {
         "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/${shop}/${retailer}/items.json";
     try {
       final response = await http.get(Uri.parse(url));
+      if (response == null) {
+        return;
+      }
       // final List<CartItem> loadedItems = [];
       final extractedData = json.decode(response.body) as List<dynamic>;
+      if (extractedData == null) {
+        return;
+      }
       extractedData.forEach((cartItem) {
         // loadedItems.add(CartItem(
         //     id: cartItem['id'],
