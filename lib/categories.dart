@@ -30,17 +30,37 @@ class _CategoriesState extends State<Categories> {
           isLoading = true;
         });
       }
+      var retailer =
+          Provider.of<AuthProvider>(context, listen: false).loggedInRetailer;
+
+      var shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
 
       Provider.of<CategoriesProvider>(context, listen: false)
           .fetchCategoriesFromDB()
           .then((_) => {
                 if (mounted)
                   {
-                    setState(() {
-                      isLoading = false;
-                    }),
-                    _checkVersion()
+                    Provider.of<CartProvider>(context, listen: false)
+                        .fetchCartFromDB(retailer, shop)
+                        .then(
+                          (value) => {
+                            setState(() {
+                              isLoading = false;
+                            }),
+                            _checkVersion()
+                          },
+                        )
                   }
+                // Provider.of<CartProvider>(context, listen: false)
+                //     .fetchCartFromDB(retailer, shop)
+                //     .then(
+                //       (value) => {
+                //         setState(() {
+                //           isLoading = false;
+                //         }),
+                //         _checkVersion()
+                //       },
+                //     )
               });
       bool shopOpened = Provider.of<AuthProvider>(context, listen: false)
           .checkShopStatus("09:00PM", "06:00AM");

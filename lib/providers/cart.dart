@@ -235,6 +235,39 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  Future<void> fetchCartFromDB(String retailer, String shop) async {
+    var url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/${shop}/${retailer}/items.json";
+    try {
+      final response = await http.get(Uri.parse(url));
+      // final List<CartItem> loadedItems = [];
+      final extractedData = json.decode(response.body) as List<dynamic>;
+      extractedData.forEach((cartItem) {
+        // loadedItems.add(CartItem(
+        //     id: cartItem['id'],
+        //     imageUrl: cartItem['imageUrl'],
+        //     parentCategoryType: cartItem['parentCategoryType'],
+        //     parentSubcategoryType: cartItem['parentSubcategoryType'],
+        //     price: cartItem['price'],
+        //     quantity: cartItem['quantity'],
+        //     title: cartItem['title'],
+        //     totalPrice: cartItem['totalPrice']));
+        addItem(
+            cartItem['id'],
+            cartItem['price'],
+            cartItem['quantity'],
+            cartItem['title'],
+            cartItem['imageUrl'],
+            cartItem['parentCategoryType'],
+            cartItem['parentSubcategoryType']);
+      });
+    } catch (error) {
+      print("ERROR IS");
+      print(error);
+      throw error;
+    }
+  }
+
   formSaveCartList() {
     var items = [];
     itemList.forEach((cartItem) {
