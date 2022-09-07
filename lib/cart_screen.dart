@@ -192,18 +192,28 @@ class _CartScreenState extends State<CartScreen> {
                                 iconSize: 20,
                                 onPressed: () async {
                                   if (cartItemsList.length == 0) {
+                                    setState(() {
+                                      _isSavingCart = true;
+                                    });
+                                    await cartProviderObject.deleteCartOnDB(
+                                        authProviderObject.loggedInRetailer,
+                                        authProviderObject.loggedInShop);
+                                    setState(() {
+                                      _isSavingCart = false;
+                                    });
+                                    Navigator.of(context).pop();
+                                  } else {
+                                    setState(() {
+                                      _isSavingCart = true;
+                                    });
+                                    await cartProviderObject.saveCart(
+                                        authProviderObject.loggedInRetailer,
+                                        authProviderObject.loggedInShop);
+                                    setState(() {
+                                      _isSavingCart = false;
+                                    });
                                     Navigator.of(context).pop();
                                   }
-                                  setState(() {
-                                    _isSavingCart = true;
-                                  });
-                                  await cartProviderObject.saveCart(
-                                      authProviderObject.loggedInRetailer,
-                                      authProviderObject.loggedInShop);
-                                  setState(() {
-                                    _isSavingCart = false;
-                                  });
-                                  Navigator.of(context).pop();
                                 },
                               )),
                           Flexible(
