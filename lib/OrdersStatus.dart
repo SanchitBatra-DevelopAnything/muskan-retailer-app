@@ -110,11 +110,16 @@ class _OrdersStatusState extends State<OrdersStatus> {
                                   color: Colors.white,
                                 ),
                                 title: Text(
-                                  "ORDER NUMBER",
+                                  "Order No.1",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(
+                                  "IN PROGRESS",
+                                  style: TextStyle(
+                                      color: Colors.orangeAccent, fontSize: 18),
                                 ),
                               ),
                             ),
