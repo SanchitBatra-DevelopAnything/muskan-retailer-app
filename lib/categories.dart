@@ -181,7 +181,7 @@ class _CategoriesState extends State<Categories> {
                   Padding(
                     padding: EdgeInsets.only(left: 23, top: 25),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
                           "Categories".toUpperCase(),
@@ -191,6 +191,21 @@ class _CategoriesState extends State<Categories> {
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.normal),
+                        ),
+                        Tooltip(
+                          message: "My Orders",
+                          verticalOffset: 24,
+                          height: 30,
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/myOrders');
+                            },
+                            icon: Icon(
+                              Icons.shopping_bag,
+                              color: Colors.white,
+                            ),
+                            iconSize: 30,
+                          ),
                         ),
                         Consumer<CartProvider>(
                           builder: (_, cart, ch) => Badge(

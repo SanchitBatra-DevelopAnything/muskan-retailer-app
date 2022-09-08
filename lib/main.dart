@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import './home.dart';
 
 import './providers/auth.dart';
+import 'OrdersStatus.dart';
 import 'categories.dart';
 import 'customOrders/customCakeForm.dart';
 import 'customOrders/customOptions.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           '/storeClosed': (context) => BakeryClosed(),
           '/customOrderOptions': (context) => CustomOrderOptions(),
           '/customCakeForm': (context) => CustomCakeForm(),
+          '/myOrders': (context) => OrdersStatus(),
         },
       ),
     );
