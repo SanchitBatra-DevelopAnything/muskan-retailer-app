@@ -12,6 +12,11 @@ class OrdersStatus extends StatefulWidget {
 }
 
 class _OrdersStatusState extends State<OrdersStatus> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   var _isLoading = false;
   var orders = ["1", "2", "3"];
 
