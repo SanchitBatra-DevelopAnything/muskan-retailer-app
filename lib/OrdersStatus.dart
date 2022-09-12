@@ -31,10 +31,19 @@ class _OrdersStatusState extends State<OrdersStatus> {
 
   moveToItems(BuildContext context, String order) {}
 
+  void _showDatePicker(BuildContext context) {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now().subtract(Duration(days: 3)),
+            lastDate: DateTime.now())
+        .then((value) => print(value));
+  }
+
   void moveToCart(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
-    var orders = Provider.of<OrderProvider>(context).customOrders;
+    var orders = Provider.of<OrderProvider>(context).regularOrders;
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
@@ -77,24 +86,14 @@ class _OrdersStatusState extends State<OrdersStatus> {
                             ),
                           ),
                           Flexible(
-                            child: Consumer<CartProvider>(
-                              builder: (_, cart, ch) => Badge(
-                                child: ch,
-                                value: cart.itemCount.toString(),
-                                color: Colors.red,
-                              ),
                               child: IconButton(
-                                onPressed: () {
-                                  moveToCart(context);
-                                },
-                                icon: Icon(
-                                  Icons.shopping_cart,
-                                  color: Colors.white,
-                                ),
-                                iconSize: 30,
-                              ),
-                            ),
-                          )
+                            icon: Icon(Icons.calendar_month),
+                            color: Colors.white,
+                            iconSize: 30,
+                            onPressed: () {
+                              _showDatePicker(context);
+                            },
+                          ))
                         ],
                       ),
                     ),
@@ -125,7 +124,9 @@ class _OrdersStatusState extends State<OrdersStatus> {
                                   color: Colors.white,
                                 ),
                                 title: Text(
-                                  "Order No.1",
+                                  orders[index].orderDate +
+                                      "-" +
+                                      orders[index].orderTime,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
