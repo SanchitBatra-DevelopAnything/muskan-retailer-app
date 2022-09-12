@@ -6,6 +6,7 @@ import 'package:muskan_shop/itemDetail&Customize.dart';
 import 'package:muskan_shop/orderDone.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
+import 'package:muskan_shop/providers/order.dart';
 import 'package:muskan_shop/storeClosed.dart';
 import 'package:muskan_shop/subcategories.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           create: (context) => CategoriesProvider(),
         ),
         ChangeNotifierProvider(create: (context) => CartProvider()),
+        ChangeNotifierProvider(create: (context) => OrderProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

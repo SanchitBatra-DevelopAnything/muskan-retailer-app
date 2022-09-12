@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/providers/cart.dart';
+import 'package:muskan_shop/providers/order.dart';
 import 'package:provider/provider.dart';
 
 import 'badge.dart';
@@ -12,19 +13,28 @@ class OrdersStatus extends StatefulWidget {
 }
 
 class _OrdersStatusState extends State<OrdersStatus> {
+  var _isLoading = false;
+  var _isFirstTime = true;
   @override
   void didChangeDependencies() {
+    if (_isFirstTime) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<OrderProvider>(context, listen: false)
+          .getActiveOrders()
+          .then((value) => setState((() => _isLoading = false)));
+      _isFirstTime = false;
+    }
     super.didChangeDependencies();
   }
-
-  var _isLoading = false;
-  var orders = ["1", "2", "3"];
 
   moveToItems(BuildContext context, String order) {}
 
   void moveToCart(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
+    var orders = Provider.of<OrderProvider>(context).customOrders;
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
@@ -96,7 +106,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            moveToItems(context, orders[index]);
+                            moveToItems(context, "jdkajs");
                           },
                           child: Container(
                             height: 100,
