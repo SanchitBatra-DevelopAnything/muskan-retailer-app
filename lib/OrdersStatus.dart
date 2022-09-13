@@ -15,6 +15,7 @@ class OrdersStatus extends StatefulWidget {
 class _OrdersStatusState extends State<OrdersStatus> {
   var _isLoading = false;
   var _isFirstTime = true;
+  var _toggled = false;
   @override
   void didChangeDependencies() {
     if (_isFirstTime) {
@@ -98,6 +99,19 @@ class _OrdersStatusState extends State<OrdersStatus> {
                       ),
                     ),
                   ),
+                  SwitchListTile(
+                      activeColor: Colors.green,
+                      title: Text(
+                        "Show Custom Orders",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      value: _toggled,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _toggled = value;
+                        });
+                      }),
                   Flexible(
                     flex: 10,
                     child: ListView.builder(
