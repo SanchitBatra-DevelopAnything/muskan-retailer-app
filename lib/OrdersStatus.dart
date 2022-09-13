@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/order.dart';
@@ -16,6 +18,8 @@ class _OrdersStatusState extends State<OrdersStatus> {
   var _isLoading = false;
   var _isFirstTime = true;
   var _toggled = false;
+  DateTime _dateTime = DateTime.now();
+  var selectedDate = "";
   @override
   void didChangeDependencies() {
     if (_isFirstTime) {
@@ -25,6 +29,9 @@ class _OrdersStatusState extends State<OrdersStatus> {
       Provider.of<OrderProvider>(context, listen: false)
           .getActiveOrders()
           .then((value) => setState((() => _isLoading = false)));
+      selectedDate = _dateTime.day.toString() +
+          _dateTime.month.toString() +
+          _dateTime.year.toString();
       _isFirstTime = false;
     }
     super.didChangeDependencies();
@@ -38,7 +45,16 @@ class _OrdersStatusState extends State<OrdersStatus> {
             initialDate: DateTime.now(),
             firstDate: DateTime.now().subtract(Duration(days: 3)),
             lastDate: DateTime.now())
-        .then((value) => print(value));
+        .then((value) => {
+              if (value == null)
+                {
+                  // do processing for orders for the date today..
+                }
+              else
+                {
+                  //do processing for orders for the selected date...
+                }
+            });
   }
 
   void moveToCart(BuildContext context) {}
@@ -104,7 +120,9 @@ class _OrdersStatusState extends State<OrdersStatus> {
                       title: Text(
                         "Show Custom Orders",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
                       ),
                       value: _toggled,
                       onChanged: (bool value) {
