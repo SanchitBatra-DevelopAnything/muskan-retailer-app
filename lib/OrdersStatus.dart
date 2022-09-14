@@ -99,6 +99,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
   @override
   Widget build(BuildContext context) {
     var orders = Provider.of<OrderProvider>(context).clubbedRegularOrders;
+    var customOrders = Provider.of<OrderProvider>(context).clubbedCustomOrders;
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
@@ -176,56 +177,109 @@ class _OrdersStatusState extends State<OrdersStatus> {
                   Divider(
                     color: Colors.white,
                   ),
-                  Flexible(
-                    flex: 10,
-                    child: ListView.builder(
-                      itemCount: orders.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            moveToItems(context, "jdkajs");
-                          },
-                          child: Container(
-                            height: 100,
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              elevation: 15,
-                              color: Color.fromRGBO(51, 51, 51, 1),
-                              margin:
-                                  EdgeInsets.only(left: 30, right: 30, top: 15),
-                              child: ListTile(
-                                trailing: Icon(
-                                  Icons.arrow_forward_ios,
-                                  size: 20,
-                                  color: Colors.white,
+                  !_toggled
+                      ? Flexible(
+                          flex: 10,
+                          child: ListView.builder(
+                            itemCount: orders.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  moveToItems(context, "jdkajs");
+                                },
+                                child: Container(
+                                  height: 100,
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    elevation: 15,
+                                    color: Color.fromRGBO(51, 51, 51, 1),
+                                    margin: EdgeInsets.only(
+                                        left: 30, right: 30, top: 15),
+                                    child: ListTile(
+                                      trailing: Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                      title: Text(
+                                        orders[index].orderDate +
+                                            "-" +
+                                            orders[index].orderTime,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      subtitle: Text(
+                                        orders[index].status.toString(),
+                                        style: TextStyle(
+                                            color: orders[index].status ==
+                                                    "ACCEPTED"
+                                                ? Colors.green
+                                                : Colors.orangeAccent,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                                title: Text(
-                                  orders[index].orderDate +
-                                      "-" +
-                                      orders[index].orderTime,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                subtitle: Text(
-                                  orders[index].status.toString(),
-                                  style: TextStyle(
-                                      color: orders[index].status == "ACCEPTED"
-                                          ? Colors.green
-                                          : Colors.orangeAccent,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  ),
+                        )
+                      : Flexible(
+                          flex: 10,
+                          child: ListView.builder(
+                            itemCount: customOrders.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  moveToItems(context, "jdkajs");
+                                },
+                                child: Container(
+                                  height: 100,
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    elevation: 15,
+                                    color: Color.fromRGBO(51, 51, 51, 1),
+                                    margin: EdgeInsets.only(
+                                        left: 30, right: 30, top: 15),
+                                    child: ListTile(
+                                      trailing: Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                      title: Text(
+                                        customOrders[index].orderDate +
+                                            "-" +
+                                            customOrders[index].orderTime,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      subtitle: Text(
+                                        customOrders[index].status.toString(),
+                                        style: TextStyle(
+                                            color: customOrders[index].status ==
+                                                    "ACCEPTED"
+                                                ? Colors.green
+                                                : Colors.orangeAccent,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                 ],
               ));
   }

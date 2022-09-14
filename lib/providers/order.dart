@@ -108,12 +108,7 @@ class OrderProvider with ChangeNotifier {
               order.orderedBy.toString().toLowerCase() ==
                   retailer.toLowerCase() &&
               order.shopAddress.toLowerCase() == shop.toLowerCase())
-          .toList();
-      print("PROCESSED REGS FETCHED WITH LENGTH ON" +
-          date +
-          "LENGTH = " +
-          _processedRegularOrders.length
-              .toString()); //already filtered for a particular selected date.
+          .toList(); //already filtered for a particular selected date.
       notifyListeners();
     } catch (error) {
       throw error;
@@ -144,6 +139,7 @@ class OrderProvider with ChangeNotifier {
             orderedBy: orderData['orderedBy'],
             photoOnCakeUrl: orderData['photoOnCakeUrl'],
             pounds: orderData['pounds'],
+            status: "ACCEPTED",
             shopAddress: orderData['shopAddress']));
       });
       _processedCustomOrders = loadedCustomOrders
@@ -179,6 +175,7 @@ class OrderProvider with ChangeNotifier {
               orderKey: orderData['orderKey'],
               orderTime: orderData['orderTime'],
               orderedBy: orderData['orderedBy'],
+              status: "IN PROGRESS",
               photoOnCakeUrl: orderData['photoOnCakeUrl'],
               pounds: orderData['pounds'],
               shopAddress: orderData['shopAddress']));

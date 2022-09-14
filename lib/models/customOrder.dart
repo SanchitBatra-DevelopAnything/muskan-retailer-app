@@ -25,5 +25,6 @@ class customOrder {
       required this.orderedBy,
       required this.photoOnCakeUrl,
       required this.pounds,
+      this.status,
       required this.shopAddress});
 }
