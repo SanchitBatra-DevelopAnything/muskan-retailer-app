@@ -15,12 +15,42 @@ class OrderProvider with ChangeNotifier {
   List<regularOrder> _processedRegularOrders = [];
   List<customOrder> _processedCustomOrders = [];
 
-  List<regularOrder> get regularOrders {
+  List<regularOrder> _selectedDateActiveRegularOrders = [];
+  List<customOrder> _selectedDateActiveCustomOrders = [];
+
+  List<regularOrder> get activeRegularOrders {
     return [..._activeRegularOrders];
   }
 
-  List<customOrder> get customOrders {
+  List<customOrder> get activeCustomOrders {
     return [..._activeCustomOrders];
+  }
+
+  List<regularOrder> get selectedDateActiveRegularOrders {
+    return [..._selectedDateActiveRegularOrders];
+  }
+
+  List<customOrder> get selectedDateActiveCustomOrders {
+    return [..._selectedDateActiveCustomOrders];
+  }
+
+  List<regularOrder> get processedRegularOrders {
+    return [..._processedRegularOrders];
+  }
+
+  List<customOrder> get processedCustomOrders {
+    return [..._processedCustomOrders];
+  }
+
+  void filterOrders(String date) {
+    _selectedDateActiveRegularOrders = _activeRegularOrders
+        .where((order) => order.orderDate.toString() == date.toString())
+        .toList();
+
+    _selectedDateActiveCustomOrders = _activeCustomOrders
+        .where((order) => order.orderDate.toString() == date.toString())
+        .toList();
+    notifyListeners();
   }
 
   Future<void> getProcessedRegularOrders(String date) async {

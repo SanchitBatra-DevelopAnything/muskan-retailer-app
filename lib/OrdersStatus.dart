@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/order.dart';
@@ -39,6 +37,24 @@ class _OrdersStatusState extends State<OrdersStatus> {
 
   moveToItems(BuildContext context, String order) {}
 
+  void allStuff(String date) {
+    Provider.of<OrderProvider>(context, listen: false)
+        .getActiveOrders()
+        .then((value) => {
+              Provider.of<OrderProvider>(context, listen: false)
+                  .getProcessedRegularOrders(date)
+                  .then((value) => {
+                        Provider.of<OrderProvider>(context, listen: false)
+                            .getProcessedCustomOrders(date)
+                            .then((value) => {
+                                  Provider.of<OrderProvider>(context,
+                                          listen: false)
+                                      .filterOrders(date)
+                                })
+                      })
+            });
+  }
+
   void _showDatePicker(BuildContext context) {
     showDatePicker(
             context: context,
@@ -49,6 +65,13 @@ class _OrdersStatusState extends State<OrdersStatus> {
               if (value == null)
                 {
                   // do processing for orders for the date today..
+                  setState((() => {_isLoading = true})),
+                  this.allStuff(DateTime.now().day.toString() +
+                      DateTime.now().month.toString() +
+                      DateTime.now().year.toString()),
+                  setState(() {
+                    _isLoading = false;
+                  })
                 }
               else
                 {
@@ -60,7 +83,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
   void moveToCart(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
-    var orders = Provider.of<OrderProvider>(context).regularOrders;
+    var orders = Provider.of<OrderProvider>(context).activeRegularOrders;
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
