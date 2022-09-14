@@ -11,6 +11,7 @@ class customOrder {
   String photoOnCakeUrl;
   dynamic pounds;
   String shopAddress;
+  String? status;
 
   customOrder(
       {required this.cakeDescription,

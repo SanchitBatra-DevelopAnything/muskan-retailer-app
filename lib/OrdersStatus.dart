@@ -66,19 +66,20 @@ class _OrdersStatusState extends State<OrdersStatus> {
   void _showDatePicker(BuildContext context) {
     showDatePicker(
             context: context,
-            initialDate: DateTime.now(),
+            initialDate: _dateTime,
             firstDate: DateTime.now().subtract(Duration(days: 3)),
             lastDate: DateTime.now())
         .then((value) => {
               if (value == null)
                 {
+                  _dateTime = DateTime.now(),
                   // do processing for orders for the date today..
                   allStuff(DateTime.now().day.toString() +
                       DateTime.now().month.toString() +
                       DateTime.now().year.toString())
                 }
               else
-                {allStuff(getCalendarDate(value.toString()))}
+                {_dateTime = value, allStuff(getCalendarDate(value.toString()))}
             });
   }
 
@@ -97,7 +98,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
   void moveToCart(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
-    var orders = Provider.of<OrderProvider>(context).activeRegularOrders;
+    var orders = Provider.of<OrderProvider>(context).clubbedRegularOrders;
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
@@ -143,7 +144,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
                               child: IconButton(
                             icon: Icon(Icons.calendar_month),
                             color: Colors.white,
-                            iconSize: 30,
+                            iconSize: 25,
                             onPressed: () {
                               _showDatePicker(context);
                             },
@@ -152,8 +153,13 @@ class _OrdersStatusState extends State<OrdersStatus> {
                       ),
                     ),
                   ),
+                  Divider(
+                    color: Colors.white,
+                    thickness: 3.0,
+                  ),
                   SwitchListTile(
                       activeColor: Colors.green,
+                      inactiveTrackColor: Colors.grey,
                       title: Text(
                         "Show Custom Orders",
                         style: TextStyle(
@@ -167,6 +173,9 @@ class _OrdersStatusState extends State<OrdersStatus> {
                           _toggled = value;
                         });
                       }),
+                  Divider(
+                    color: Colors.white,
+                  ),
                   Flexible(
                     flex: 10,
                     child: ListView.builder(
@@ -202,9 +211,13 @@ class _OrdersStatusState extends State<OrdersStatus> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 subtitle: Text(
-                                  "IN PROGRESS",
+                                  orders[index].status.toString(),
                                   style: TextStyle(
-                                      color: Colors.orangeAccent, fontSize: 18),
+                                      color: orders[index].status == "ACCEPTED"
+                                          ? Colors.green
+                                          : Colors.orangeAccent,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),

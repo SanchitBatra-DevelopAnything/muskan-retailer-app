@@ -7,11 +7,13 @@ class regularOrder {
   String shopAddress;
   dynamic totalPrice;
   List<RegularShopOrderItem> items;
+  String? status;
 
   regularOrder(
       {required this.orderDate,
       required this.orderTime,
       required this.orderedBy,
       required this.shopAddress,
+      this.status,
       required this.items});
 }

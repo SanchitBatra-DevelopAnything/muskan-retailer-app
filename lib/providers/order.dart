@@ -21,27 +21,43 @@ class OrderProvider with ChangeNotifier {
   List<customOrder> _selectedDateActiveCustomOrders = [];
 
   List<regularOrder> get activeRegularOrders {
+    //all just for ref.
     return [..._activeRegularOrders];
   }
 
   List<customOrder> get activeCustomOrders {
+    //all just for ref.
     return [..._activeCustomOrders];
   }
 
   List<regularOrder> get selectedDateActiveRegularOrders {
+    //useful for a particular date.
     return [..._selectedDateActiveRegularOrders];
   }
 
   List<customOrder> get selectedDateActiveCustomOrders {
+    //useful for a particular date.
     return [..._selectedDateActiveCustomOrders];
   }
 
   List<regularOrder> get processedRegularOrders {
+    //already based on date on DB design.
     return [..._processedRegularOrders];
   }
 
   List<customOrder> get processedCustomOrders {
+    //already based on date on DB design.
     return [..._processedCustomOrders];
+  }
+
+  List<regularOrder> get clubbedRegularOrders {
+    //all useful regular orders for UI.
+    return [..._selectedDateActiveRegularOrders, ..._processedRegularOrders];
+  }
+
+  List<customOrder> get clubbedCustomOrders {
+    //all useful custom orders for UI.
+    return [..._selectedDateActiveCustomOrders, ..._processedCustomOrders];
   }
 
   void filterOrders(String date) {
@@ -80,14 +96,24 @@ class OrderProvider with ChangeNotifier {
             orderDate: orderData['orderDate'],
             orderTime: orderData['orderTime'],
             orderedBy: orderData['orderedBy'],
+            status: "ACCEPTED",
             shopAddress: orderData['shopAddress'],
             items: items));
       });
+      print("FULL PROCESSED LIST LENGTH = " +
+          loadedRegularOrders.length.toString());
+
       _processedRegularOrders = loadedRegularOrders
           .where((order) =>
-              order.orderedBy.toLowerCase() == retailer.toLowerCase() &&
-              order.shopAddress == shop.toLowerCase())
-          .toList(); //already filtered for a particular selected date.
+              order.orderedBy.toString().toLowerCase() ==
+                  retailer.toLowerCase() &&
+              order.shopAddress.toLowerCase() == shop.toLowerCase())
+          .toList();
+      print("PROCESSED REGS FETCHED WITH LENGTH ON" +
+          date +
+          "LENGTH = " +
+          _processedRegularOrders.length
+              .toString()); //already filtered for a particular selected date.
       notifyListeners();
     } catch (error) {
       throw error;
@@ -172,6 +198,7 @@ class OrderProvider with ChangeNotifier {
               orderDate: orderData['orderDate'],
               orderTime: orderData['orderTime'],
               orderedBy: orderData['orderedBy'],
+              status: "IN PROGRESS",
               shopAddress: orderData['shopAddress'],
               items: items));
           print("ADDED A REGULAR ORDER");
