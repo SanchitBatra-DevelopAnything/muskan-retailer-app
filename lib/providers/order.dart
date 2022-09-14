@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/models/regularShopOrderItem.dart';
+import 'package:muskan_shop/providers/auth.dart';
+import 'package:provider/provider.dart';
 
 class OrderProvider with ChangeNotifier {
   List<regularOrder> _activeRegularOrders = [];
@@ -53,7 +55,8 @@ class OrderProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getProcessedRegularOrders(String date) async {
+  Future<void> getProcessedRegularOrders(
+      String date, String retailer, String shop) async {
     var url =
         "https://muskan-admin-app-default-rtdb.firebaseio.com/ProcessedShopOrders/" +
             date +
@@ -80,15 +83,19 @@ class OrderProvider with ChangeNotifier {
             shopAddress: orderData['shopAddress'],
             items: items));
       });
-      _processedRegularOrders =
-          loadedRegularOrders; //already filtered for a particular selected date.
+      _processedRegularOrders = loadedRegularOrders
+          .where((order) =>
+              order.orderedBy.toLowerCase() == retailer.toLowerCase() &&
+              order.shopAddress == shop.toLowerCase())
+          .toList(); //already filtered for a particular selected date.
       notifyListeners();
     } catch (error) {
       throw error;
     }
   }
 
-  Future<void> getProcessedCustomOrders(String date) async {
+  Future<void> getProcessedCustomOrders(
+      String date, String retailer, String shop) async {
     var url =
         "https://muskan-admin-app-default-rtdb.firebaseio.com/processedShopCustomOrders/" +
             date +
@@ -113,14 +120,18 @@ class OrderProvider with ChangeNotifier {
             pounds: orderData['pounds'],
             shopAddress: orderData['shopAddress']));
       });
-      _processedCustomOrders = loadedCustomOrders;
+      _processedCustomOrders = loadedCustomOrders
+          .where((order) =>
+              order.orderedBy.toLowerCase() == retailer.toLowerCase() &&
+              order.shopAddress.toLowerCase() == shop.toLowerCase())
+          .toList();
       notifyListeners();
     } catch (error) {
       throw error;
     }
   }
 
-  Future<void> getActiveOrders() async {
+  Future<void> getActiveOrders(String retailer, String shop) async {
     const url =
         "https://muskan-admin-app-default-rtdb.firebaseio.com/activeShopOrders.json";
     try {
@@ -166,8 +177,16 @@ class OrderProvider with ChangeNotifier {
           print("ADDED A REGULAR ORDER");
         }
       });
-      _activeRegularOrders = loadedRegularOrders;
-      _activeCustomOrders = loadedCustomOrders;
+      _activeRegularOrders = loadedRegularOrders
+          .where((order) =>
+              order.orderedBy.toLowerCase() == retailer.toLowerCase() &&
+              order.shopAddress.toLowerCase() == shop.toLowerCase())
+          .toList();
+      _activeCustomOrders = loadedCustomOrders
+          .where((order) =>
+              order.orderedBy.toLowerCase() == retailer.toLowerCase() &&
+              order.shopAddress.toLowerCase() == shop.toLowerCase())
+          .toList();
       print("OUT OF LOOP");
       notifyListeners();
     } catch (error) {

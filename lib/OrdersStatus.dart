@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/order.dart';
 import 'package:provider/provider.dart';
@@ -36,17 +37,20 @@ class _OrdersStatusState extends State<OrdersStatus> {
   moveToItems(BuildContext context, String order) {}
 
   Future<void> allStuff(String date) async {
+    var retailer =
+        Provider.of<AuthProvider>(context, listen: false).loggedInRetailer;
+    var shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
     setState(() {
       _isLoading = true;
     });
     Provider.of<OrderProvider>(context, listen: false)
-        .getActiveOrders()
+        .getActiveOrders(retailer, shop)
         .then((value) => {
               Provider.of<OrderProvider>(context, listen: false)
-                  .getProcessedRegularOrders(date)
+                  .getProcessedRegularOrders(date, retailer, shop)
                   .then((value) => {
                         Provider.of<OrderProvider>(context, listen: false)
-                            .getProcessedCustomOrders(date)
+                            .getProcessedCustomOrders(date, retailer, shop)
                             .then((value) => {
                                   Provider.of<OrderProvider>(context,
                                           listen: false)
@@ -93,7 +97,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
   void moveToCart(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
-    var orders = Provider.of<OrderProvider>(context).processedRegularOrders;
+    var orders = Provider.of<OrderProvider>(context).activeRegularOrders;
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
