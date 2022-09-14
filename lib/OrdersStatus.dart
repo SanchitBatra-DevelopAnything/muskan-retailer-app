@@ -24,12 +24,10 @@ class _OrdersStatusState extends State<OrdersStatus> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<OrderProvider>(context, listen: false)
-          .getActiveOrders()
-          .then((value) => setState((() => _isLoading = false)));
       selectedDate = _dateTime.day.toString() +
           _dateTime.month.toString() +
           _dateTime.year.toString();
+      allStuff(selectedDate);
       _isFirstTime = false;
     }
     super.didChangeDependencies();
@@ -71,26 +69,31 @@ class _OrdersStatusState extends State<OrdersStatus> {
               if (value == null)
                 {
                   // do processing for orders for the date today..
-                  this.allStuff(DateTime.now().day.toString() +
+                  allStuff(DateTime.now().day.toString() +
                       DateTime.now().month.toString() +
                       DateTime.now().year.toString())
                 }
               else
-                {
-                  //do processing for orders for the selected date...
-                  print(DateTime.now().day.toString() +
-                      DateTime.now().month.toString() +
-                      DateTime.now().year.toString()),
-
-                  print(value)
-                }
+                {allStuff(getCalendarDate(value.toString()))}
             });
+  }
+
+  String getCalendarDate(String value) {
+    var year = value.toString().split(" ")[0].split("-")[0];
+    var month = value.toString().split(" ")[0].split("-")[1];
+    var day = value.toString().split(" ")[0].split("-")[2];
+
+    if (month.length == 2 && month[0] == '0') {
+      month = month[1].toString();
+    }
+
+    return day.toString() + month.toString() + year.toString();
   }
 
   void moveToCart(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
-    var orders = Provider.of<OrderProvider>(context).activeRegularOrders;
+    var orders = Provider.of<OrderProvider>(context).processedRegularOrders;
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
