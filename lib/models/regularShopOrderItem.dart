@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class RegularShopOrderItem {
   final String item;
-  final double quantity;
-  final double price;
+  final dynamic quantity;
+  final dynamic price;
   final String imageUrl;
   final String CategoryName;
 

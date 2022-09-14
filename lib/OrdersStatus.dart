@@ -37,7 +37,10 @@ class _OrdersStatusState extends State<OrdersStatus> {
 
   moveToItems(BuildContext context, String order) {}
 
-  void allStuff(String date) {
+  Future<void> allStuff(String date) async {
+    setState(() {
+      _isLoading = true;
+    });
     Provider.of<OrderProvider>(context, listen: false)
         .getActiveOrders()
         .then((value) => {
@@ -50,6 +53,9 @@ class _OrdersStatusState extends State<OrdersStatus> {
                                   Provider.of<OrderProvider>(context,
                                           listen: false)
                                       .filterOrders(date)
+                                })
+                            .then((value) => {
+                                  setState((() => {_isLoading = false}))
                                 })
                       })
             });
@@ -65,17 +71,18 @@ class _OrdersStatusState extends State<OrdersStatus> {
               if (value == null)
                 {
                   // do processing for orders for the date today..
-                  setState((() => {_isLoading = true})),
                   this.allStuff(DateTime.now().day.toString() +
                       DateTime.now().month.toString() +
-                      DateTime.now().year.toString()),
-                  setState(() {
-                    _isLoading = false;
-                  })
+                      DateTime.now().year.toString())
                 }
               else
                 {
                   //do processing for orders for the selected date...
+                  print(DateTime.now().day.toString() +
+                      DateTime.now().month.toString() +
+                      DateTime.now().year.toString()),
+
+                  print(value)
                 }
             });
   }
