@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/models/regularOrder.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/order.dart';
@@ -34,7 +35,9 @@ class _OrdersStatusState extends State<OrdersStatus> {
     super.didChangeDependencies();
   }
 
-  moveToItems(BuildContext context, String order) {}
+  moveToItems(BuildContext context, regularOrder order) {
+    Navigator.of(context).pushNamed('/regularOrderStatus', arguments: order);
+  }
 
   Future<void> allStuff(String date) async {
     var retailer =
@@ -185,7 +188,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  moveToItems(context, "jdkajs");
+                                  moveToItems(context, orders[index]);
                                 },
                                 child: Container(
                                   height: 100,
@@ -236,7 +239,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  moveToItems(context, "jdkajs");
+                                  // moveToItems(context);
                                 },
                                 child: Container(
                                   height: 100,

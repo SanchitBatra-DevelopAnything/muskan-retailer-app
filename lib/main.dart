@@ -7,6 +7,7 @@ import 'package:muskan_shop/orderDone.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:muskan_shop/providers/order.dart';
+import 'package:muskan_shop/regularOrderStatusView.dart';
 import 'package:muskan_shop/storeClosed.dart';
 import 'package:muskan_shop/subcategories.dart';
 import 'package:provider/provider.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
           '/customOrderOptions': (context) => CustomOrderOptions(),
           '/customCakeForm': (context) => CustomCakeForm(),
           '/myOrders': (context) => OrdersStatus(),
+          '/regularOrderStatus': (context) => RegularOrderStatusView(),
         },
       ),
     );
