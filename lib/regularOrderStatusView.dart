@@ -73,10 +73,13 @@ class RegularOrderStatusView extends StatelessWidget {
                 itemBuilder: ((context, index) => ListTile(
                       title: Text(
                         items[index].item,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                       trailing: Text(items[index].quantity.toString(),
-                          style: TextStyle(color: Colors.white)),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
                     ))),
           )
         ],

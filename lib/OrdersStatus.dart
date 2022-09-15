@@ -6,6 +6,7 @@ import 'package:muskan_shop/providers/order.dart';
 import 'package:provider/provider.dart';
 
 import 'badge.dart';
+import 'models/customOrder.dart';
 
 class OrdersStatus extends StatefulWidget {
   const OrdersStatus({Key? key}) : super(key: key);
@@ -37,6 +38,10 @@ class _OrdersStatusState extends State<OrdersStatus> {
 
   moveToItems(BuildContext context, regularOrder order) {
     Navigator.of(context).pushNamed('/regularOrderStatus', arguments: order);
+  }
+
+  moveToDetails(BuildContext context, customOrder order) {
+    Navigator.of(context).pushNamed('/customOrderStatus', arguments: order);
   }
 
   Future<void> allStuff(String date) async {
@@ -240,6 +245,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
                               return GestureDetector(
                                 onTap: () {
                                   // moveToItems(context);
+                                  moveToDetails(context, customOrders[index]);
                                 },
                                 child: Container(
                                   height: 100,
