@@ -105,10 +105,12 @@ class OrderProvider with ChangeNotifier {
 
       _processedRegularOrders = loadedRegularOrders
           .where((order) =>
-              order.orderedBy.toString().toLowerCase() ==
-                  retailer.toLowerCase() &&
-              order.shopAddress.toLowerCase() == shop.toLowerCase())
+              order.orderedBy.toString().toLowerCase().trim() ==
+                  retailer.toLowerCase().trim() &&
+              order.shopAddress.toLowerCase().trim() ==
+                  shop.toLowerCase().trim())
           .toList(); //already filtered for a particular selected date.
+      print("final length = " + _processedRegularOrders.length.toString());
       notifyListeners();
     } catch (error) {
       throw error;
@@ -144,8 +146,10 @@ class OrderProvider with ChangeNotifier {
       });
       _processedCustomOrders = loadedCustomOrders
           .where((order) =>
-              order.orderedBy.toLowerCase() == retailer.toLowerCase() &&
-              order.shopAddress.toLowerCase() == shop.toLowerCase())
+              order.orderedBy.toLowerCase().trim() ==
+                  retailer.toLowerCase().trim() &&
+              order.shopAddress.toLowerCase().trim() ==
+                  shop.toLowerCase().trim())
           .toList();
       notifyListeners();
     } catch (error) {
@@ -182,34 +186,40 @@ class OrderProvider with ChangeNotifier {
         } else {
           print("REACHED REGULAR FETCH");
           List<RegularShopOrderItem> items = [];
-          orderData['items'].forEach((itemData) => {
-                items.add(RegularShopOrderItem(
-                    item: itemData['item'],
-                    imageUrl: itemData['imageUrl'],
-                    CategoryName: itemData['CategoryName'],
-                    quantity: itemData['quantity'],
-                    price: itemData['price']))
-              });
-          print("FOR EACH WORKED");
-          loadedRegularOrders.add(regularOrder(
-              orderDate: orderData['orderDate'],
-              orderTime: orderData['orderTime'],
-              orderedBy: orderData['orderedBy'],
-              status: "IN PROGRESS",
-              shopAddress: orderData['shopAddress'],
-              items: items));
-          print("ADDED A REGULAR ORDER");
+          if (orderData['items'] != null) {
+            orderData['items'].forEach((itemData) => {
+                  items.add(RegularShopOrderItem(
+                      item: itemData['item'],
+                      imageUrl: itemData['imageUrl'],
+                      CategoryName: itemData['CategoryName'],
+                      quantity: itemData['quantity'],
+                      price: itemData['price']))
+                });
+            print("FOR EACH WORKED");
+            loadedRegularOrders.add(regularOrder(
+                orderDate: orderData['orderDate'],
+                orderTime: orderData['orderTime'],
+                orderedBy: orderData['orderedBy'],
+                status: "IN PROGRESS",
+                shopAddress: orderData['shopAddress'],
+                items: items));
+            print("ADDED A REGULAR ORDER");
+          }
         }
       });
       _activeRegularOrders = loadedRegularOrders
           .where((order) =>
-              order.orderedBy.toLowerCase() == retailer.toLowerCase() &&
-              order.shopAddress.toLowerCase() == shop.toLowerCase())
+              order.orderedBy.toLowerCase().trim() ==
+                  retailer.toLowerCase().trim() &&
+              order.shopAddress.toLowerCase().trim() ==
+                  shop.toLowerCase().trim())
           .toList();
       _activeCustomOrders = loadedCustomOrders
           .where((order) =>
-              order.orderedBy.toLowerCase() == retailer.toLowerCase() &&
-              order.shopAddress.toLowerCase() == shop.toLowerCase())
+              order.orderedBy.toLowerCase().trim() ==
+                  retailer.toLowerCase().trim() &&
+              order.shopAddress.toLowerCase().trim() ==
+                  shop.toLowerCase().trim())
           .toList();
       print("OUT OF LOOP");
       notifyListeners();
