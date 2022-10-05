@@ -238,8 +238,12 @@ class _CartScreenState extends State<CartScreen> {
                               child: totalItems != 0
                                   ? RaisedButton(
                                       onPressed: () {
-                                        showOrderDialog(
-                                            context, cartProviderObject);
+                                        Future.delayed(
+                                            const Duration(milliseconds: 0),
+                                            () {
+                                          showOrderDialog(
+                                              context, cartProviderObject);
+                                        });
                                       },
                                       color: Color.fromRGBO(51, 51, 51, 1),
                                       child: AnimatedTextKit(
