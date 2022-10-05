@@ -100,6 +100,10 @@ class _OrdersStatusState extends State<OrdersStatus> {
       month = month[1].toString();
     }
 
+    if (day.length == 2 && day[0] == '0') {
+      day = day[1].toString();
+    }
+
     return day.toString() + month.toString() + year.toString();
   }
 

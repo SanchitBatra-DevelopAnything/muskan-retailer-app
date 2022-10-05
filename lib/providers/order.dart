@@ -77,11 +77,14 @@ class OrderProvider with ChangeNotifier {
         "https://muskan-admin-app-default-rtdb.firebaseio.com/ProcessedShopOrders/" +
             date +
             ".json";
+    print(date);
     try {
       final response = await http.get(Uri.parse(url));
       final List<regularOrder> loadedRegularOrders = [];
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      if (extractedData == null) return;
+      if (extractedData == null) {
+        return;
+      }
       extractedData.forEach((orderId, orderData) {
         List<RegularShopOrderItem> items = [];
         orderData['items'].forEach((itemData) => {
