@@ -11,6 +11,7 @@ import 'package:muskan_shop/providers/order.dart';
 import 'package:muskan_shop/regularOrderStatusView.dart';
 import 'package:muskan_shop/storeClosed.dart';
 import 'package:muskan_shop/subcategories.dart';
+import 'package:muskan_shop/whoUser.dart';
 import 'package:provider/provider.dart';
 import './home.dart';
 
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primarySwatch: Colors.red),
         initialRoute: '/',
         routes: {
-          '/': (context) => HomePage(),
+          '/': (context) => WhoIsUser(),
           '/categories': (context) => Categories(),
           '/subcategories': (context) => Subcategories(),
           '/items': (context) => Items(),
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
           '/myOrders': (context) => OrdersStatus(),
           '/regularOrderStatus': (context) => RegularOrderStatusView(),
           '/customOrderStatus': (context) => CustomOrderStatusView(),
+          '/retailerHome': (context) => HomePage(),
         },
       ),
     );
