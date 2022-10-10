@@ -6,7 +6,9 @@ import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:new_version_plus/new_version_plus.dart';
+
 import 'package:provider/provider.dart';
+import 'package:store_redirect/store_redirect.dart';
 
 import 'bottomNavigation.dart';
 
@@ -80,11 +82,12 @@ class _CategoriesState extends State<Categories> {
     );
     final status = await newVersion.getVersionStatus();
     if (status!.localVersion != status.storeVersion) {
-      newVersion.showUpdateDialog(
-          context: context,
-          versionStatus: status,
-          dialogText:
-              "Please update your app from ${status.localVersion} to ${status.storeVersion}");
+      //   newVersion.showUpdateDialog(
+      //       context: context,
+      //       versionStatus: status,
+      //       dialogText:
+      //           "Please update your app from ${status.localVersion} to ${status.storeVersion}");
+      showUpdateBox(context);
     }
   }
 
@@ -117,6 +120,36 @@ class _CategoriesState extends State<Categories> {
             ),
             onPressed: () {
               Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  showUpdateBox(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'App needs an update',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          "Please update to avoid issues",
+          style: TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        actions: <Widget>[
+          RaisedButton(
+            color: Colors.green,
+            child: const Text(
+              'UPDATE',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            onPressed: () {
+              StoreRedirect.redirect(androidAppId: 'com.muskan.shop');
             },
           )
         ],
@@ -265,16 +298,21 @@ class _CategoriesState extends State<Categories> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5.0, bottom: 5.0),
-                            child: Text(
-                              categories[i].categoryName.toUpperCase() ==
-                                      "CAKES & PASTRIES"
-                                  ? "CAKES"
-                                  : categories[i].categoryName,
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  backgroundColor: Colors.black54),
+                            child: GestureDetector(
+                              child: Text(
+                                categories[i].categoryName.toUpperCase() ==
+                                        "CAKES & PASTRIES"
+                                    ? "CAKES"
+                                    : categories[i].categoryName,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    backgroundColor: Colors.black54),
+                              ),
+                              onTap: () {
+                                moveToSubcategories(context, categories[i]);
+                              },
                             ),
                           )
                         ],
