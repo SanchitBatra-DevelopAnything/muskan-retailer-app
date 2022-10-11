@@ -21,6 +21,7 @@ class _ItemsState extends State<Items> {
   var _loadDirectVariety = false;
   var _isSearching = false;
   var _cakeCategoryOpened = false;
+  var _noItems = false;
 
   @override
   void didChangeDependencies() {
@@ -35,13 +36,22 @@ class _ItemsState extends State<Items> {
           "DIRECT VARIETY") {
         Provider.of<CategoriesProvider>(context, listen: false)
             .getItemsForDirectVariety()
-            .then((value) => setState(
-                () => {_isLoading = false, _loadDirectVariety = true}));
+            .then((value) => setState(() => {
+                  _isLoading = false,
+                  _loadDirectVariety = true,
+                  _noItems = false
+                }))
+            .catchError((_) => {
+                  setState((() => {_isLoading = false, _noItems = true})),
+                });
       } else {
         Provider.of<CategoriesProvider>(context, listen: false)
             .getItemsForSubcategory()
             .then((value) => setState(
-                () => {_isLoading = false, _loadDirectVariety = false}));
+                () => {_isLoading = false, _loadDirectVariety = false}))
+            .catchError((_) => {
+                  setState((() => {_isLoading = false, _noItems = true}))
+                });
       }
       var categorySelected =
           Provider.of<CategoriesProvider>(context, listen: false)
@@ -197,74 +207,94 @@ class _ItemsState extends State<Items> {
                     ),
                   ),
                 ),
-                Flexible(
-                  flex: 5,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: GridView.builder(
-                      primary: false,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.8,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 15,
-                      ),
-                      itemBuilder: (ctx, index) => _loadDirectVariety
-                          ? Item(
-                              imgPath: directVarietyItems[index].imageUrl,
-                              itemId: directVarietyItems[index].itemId,
-                              price: ((cat!.toUpperCase() == "CAKES") ||
-                                      (cat.toUpperCase() == "CAKES & PASTRIES"))
-                                  ? "Rs." +
-                                      CategoriesProviderObject.getCakePrice(
-                                              directVarietyItems[index]
-                                                  .cakeFlavour,
-                                              directVarietyItems[index]
-                                                  .designCategory,
-                                              1)
-                                          .toString()
-                                  : "Rs." +
-                                      directVarietyItems[index]
-                                          .shopPrice
-                                          .toString(),
-                              itemName: directVarietyItems[index].itemName,
-                              cakeFlavour:
-                                  directVarietyItems[index].cakeFlavour,
-                              designCategory:
-                                  directVarietyItems[index].designCategory,
-                              minPounds: checkMinimumPoundValue(
-                                  directVarietyItems[index].minPounds),
-                            )
-                          : Item(
-                              imgPath: itemsUnderSubcategory[index].imageUrl,
-                              itemId: itemsUnderSubcategory[index].itemId,
-                              price: ((cat!.toUpperCase() == "CAKES") ||
-                                      (cat.toUpperCase() == "CAKES & PASTRIES"))
-                                  ? "Rs." +
-                                      CategoriesProviderObject.getCakePrice(
-                                              itemsUnderSubcategory[index]
-                                                  .cakeFlavour,
-                                              itemsUnderSubcategory[index]
-                                                  .designCategory,
-                                              1)
-                                          .toString()
-                                  : "Rs." +
-                                      itemsUnderSubcategory[index]
-                                          .shopPrice
-                                          .toString(),
-                              itemName: itemsUnderSubcategory[index].itemName,
-                              cakeFlavour:
-                                  itemsUnderSubcategory[index].cakeFlavour,
-                              minPounds: checkMinimumPoundValue(
-                                  itemsUnderSubcategory[index].minPounds),
-                              designCategory:
-                                  itemsUnderSubcategory[index].designCategory),
-                      itemCount: _loadDirectVariety
-                          ? directVarietyItems.length
-                          : itemsUnderSubcategory.length,
-                    ),
-                  ),
-                )
+                _noItems
+                    ? Center(
+                        child: Text("No Items Here!",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                      )
+                    : Flexible(
+                        flex: 5,
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: GridView.builder(
+                            primary: false,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.8,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 15,
+                            ),
+                            itemBuilder: (ctx, index) => _loadDirectVariety
+                                ? Item(
+                                    imgPath: directVarietyItems[index].imageUrl,
+                                    itemId: directVarietyItems[index].itemId,
+                                    price: ((cat!.toUpperCase() == "CAKES") ||
+                                            (cat.toUpperCase() ==
+                                                "CAKES & PASTRIES"))
+                                        ? "Rs." +
+                                            CategoriesProviderObject
+                                                    .getCakePrice(
+                                                        directVarietyItems[
+                                                                index]
+                                                            .cakeFlavour,
+                                                        directVarietyItems[
+                                                                index]
+                                                            .designCategory,
+                                                        1)
+                                                .toString()
+                                        : "Rs." +
+                                            directVarietyItems[index]
+                                                .shopPrice
+                                                .toString(),
+                                    itemName:
+                                        directVarietyItems[index].itemName,
+                                    cakeFlavour:
+                                        directVarietyItems[index].cakeFlavour,
+                                    designCategory: directVarietyItems[index]
+                                        .designCategory,
+                                    minPounds: checkMinimumPoundValue(
+                                        directVarietyItems[index].minPounds),
+                                  )
+                                : Item(
+                                    imgPath: itemsUnderSubcategory[index]
+                                        .imageUrl,
+                                    itemId: itemsUnderSubcategory[index].itemId,
+                                    price: ((cat!.toUpperCase() == "CAKES") ||
+                                            (cat.toUpperCase() ==
+                                                "CAKES & PASTRIES"))
+                                        ? "Rs." +
+                                            CategoriesProviderObject
+                                                    .getCakePrice(
+                                                        itemsUnderSubcategory[
+                                                                index]
+                                                            .cakeFlavour,
+                                                        itemsUnderSubcategory[
+                                                                index]
+                                                            .designCategory,
+                                                        1)
+                                                .toString()
+                                        : "Rs." +
+                                            itemsUnderSubcategory[index]
+                                                .shopPrice
+                                                .toString(),
+                                    itemName:
+                                        itemsUnderSubcategory[index].itemName,
+                                    cakeFlavour: itemsUnderSubcategory[index]
+                                        .cakeFlavour,
+                                    minPounds: checkMinimumPoundValue(
+                                        itemsUnderSubcategory[index].minPounds),
+                                    designCategory: itemsUnderSubcategory[index]
+                                        .designCategory),
+                            itemCount: _loadDirectVariety
+                                ? directVarietyItems.length
+                                : itemsUnderSubcategory.length,
+                          ),
+                        ),
+                      )
               ],
             ),
     );
