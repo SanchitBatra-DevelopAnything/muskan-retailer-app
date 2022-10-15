@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/distributors/distLogin.dart';
 
 import '../login.dart';
 import '../signup.dart';
@@ -71,7 +72,7 @@ class _DistributorHomeState extends State<DistributorHome> {
                         changeForm("L");
                       },
                     )
-                  : Login(
+                  : DistributorLogin(
                       onFormChange: () {
                         changeForm("S");
                       },
