@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/cart_screen.dart';
 import 'package:muskan_shop/customOrderStatusView.dart';
+import 'package:muskan_shop/distributors/distHome.dart';
 import 'package:muskan_shop/itemDetail&Customize.dart';
 import 'package:muskan_shop/orderDone.dart';
 import 'package:muskan_shop/providers/cart.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
           '/regularOrderStatus': (context) => RegularOrderStatusView(),
           '/customOrderStatus': (context) => CustomOrderStatusView(),
           '/retailerHome': (context) => HomePage(),
+          '/distributorHome': (context) => DistributorHome(),
         },
       ),
     );

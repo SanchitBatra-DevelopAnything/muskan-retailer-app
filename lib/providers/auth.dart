@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/distributors/models/Distributor.dart';
 import 'package:muskan_shop/models/shop.dart';
 
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../distributors/models/DistributorArea.dart';
 import '../models/retailer.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -12,6 +14,11 @@ class AuthProvider with ChangeNotifier {
   List<Retailer> _retailers = [];
   String loggedInRetailer = "";
   String loggedInShop = "";
+
+  List<DistributorArea> _areas = [];
+  List<Distributor> _distributors = [];
+  String loggedInDistributor = "";
+  String loggedInDistributorArea = "";
 
   List<Shop> get shops {
     return [..._shops];
@@ -85,6 +92,49 @@ class AuthProvider with ChangeNotifier {
             retailerName: retailerData['retailerName']));
       });
       _retailers = loadedRetailers;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> fetchDistributorsFromDB() async {
+    const url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/Retailers.json";
+    try {
+      final response = await http.get(Uri.parse(url));
+      final List<Distributor> loadedDistributors = [];
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      extractedData.forEach((distributorId, distributorData) {
+        loadedDistributors.add(Distributor(
+            id: distributorId,
+            areaAddress: distributorData['areaAddress'],
+            distributorName: distributorData['distributorName']));
+      });
+      _distributors = loadedDistributors;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> fetchDistributorAreasFromDB() async {
+    const url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/DistributorAreas.json";
+    try {
+      final response = await http.get(Uri.parse(url));
+      final List<DistributorArea> loadedAreas = [];
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      extractedData.forEach((areaId, areaData) {
+        loadedAreas.add(DistributorArea(
+          id: areaId,
+          areaAddress: areaData['areaAddress'],
+        ));
+      });
+      _areas = loadedAreas;
+      _areas.sort(
+        (a, b) => a.areaAddress.trim().compareTo(b.areaAddress.trim()),
+      );
       notifyListeners();
     } catch (error) {
       throw error;

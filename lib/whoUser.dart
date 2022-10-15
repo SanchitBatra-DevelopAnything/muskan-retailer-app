@@ -112,7 +112,11 @@ class _WhoIsUserState extends State<WhoIsUser> {
             ),
             RaisedButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed("/retailerHome");
+                userType.toLowerCase() == "retailer"
+                    ? Navigator.of(context)
+                        .pushReplacementNamed("/retailerHome")
+                    : Navigator.of(context)
+                        .pushReplacementNamed("/distributorHome");
               },
               color: Colors.red,
               child: Text(
