@@ -48,15 +48,15 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
   void _pickImage(String sourceOfImage) async {
     if (sourceOfImage == 'Camera') {
       final pickedImage =
-          await ImagePicker.pickImage(source: ImageSource.camera);
+          await ImagePicker().pickImage(source: ImageSource.camera);
       setState(() {
-        _pickedImage = pickedImage;
+        _pickedImage = File(pickedImage!.path);
       });
     } else {
       final pickedImage =
-          await ImagePicker.pickImage(source: ImageSource.gallery);
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       setState(() {
-        _pickedImage = pickedImage;
+        _pickedImage = File(pickedImage!.path);
       });
     }
   }
@@ -64,15 +64,15 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
   void _pickPhotoOnCake(String sourceOfImage) async {
     if (sourceOfImage == 'Camera') {
       final pickedImage =
-          await ImagePicker.pickImage(source: ImageSource.camera);
+          await ImagePicker().pickImage(source: ImageSource.camera);
       setState(() {
-        _photoOnCake = pickedImage;
+        _photoOnCake = File(pickedImage!.path);
       });
     } else {
       final pickedImage =
-          await ImagePicker.pickImage(source: ImageSource.gallery);
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       setState(() {
-        _photoOnCake = pickedImage;
+        _photoOnCake = File(pickedImage!.path);
       });
     }
   }
