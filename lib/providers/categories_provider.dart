@@ -140,7 +140,7 @@ class CategoriesProvider with ChangeNotifier {
         loadedCakeDesigns.add(CakeDesignCategory(
             customerPrice: cakeDesignData['customerPrice'],
             shopPrice: cakeDesignData['shopPrice'],
-            designCategoryName: cakeDesignData['flavourName']));
+            designCategoryName: cakeDesignData['designName']));
       });
       _allCakeDesignCategories = loadedCakeDesigns;
       notifyListeners();
@@ -310,23 +310,33 @@ class CategoriesProvider with ChangeNotifier {
       selectedFlavour = "PINEAPPLE";
     }
 
+    // print("Design = " + designCategoryOfCake);
+
     //price due to flavour.
     for (var i = 0; i < _allFlavours.length; i++) {
       if (_allFlavours[i].flavourName.toString().toUpperCase() ==
           selectedFlavour.toString().toUpperCase()) {
-        price += _allFlavours[i].shopPrice;
+        price += double.parse(_allFlavours[i].shopPrice.toString());
         break;
       }
     }
 
     //price due to designCategory.
     for (var i = 0; i < _allCakeDesignCategories.length; i++) {
+      // print("CURRENT DESIGN = " +
+      //     _allCakeDesignCategories[i].designCategoryName.toString());
       if (_allCakeDesignCategories[i]
               .designCategoryName
               .toString()
-              .toUpperCase() ==
-          designCategoryOfCake.toString().toUpperCase()) {
-        price += _allCakeDesignCategories[i].shopPrice;
+              .toUpperCase()
+              .trim() ==
+          designCategoryOfCake.toString().toUpperCase().trim()) {
+        print("Matched and adding price for = " + designCategoryOfCake);
+        price += double.parse(_allCakeDesignCategories[i].shopPrice.toString());
+
+        print("Added rupees exception= " +
+            double.parse(_allCakeDesignCategories[i].shopPrice.toString())
+                .toString());
         break;
       }
     }
