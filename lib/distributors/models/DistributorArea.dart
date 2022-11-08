@@ -1,9 +1,9 @@
 class DistributorArea {
   String id;
-  String areaAddress;
+  String distributorship;
 
   DistributorArea({
     required this.id,
-    required this.areaAddress,
+    required this.distributorship,
   });
 }

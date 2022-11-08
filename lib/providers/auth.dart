@@ -15,7 +15,7 @@ class AuthProvider with ChangeNotifier {
   String loggedInRetailer = "";
   String loggedInShop = "";
 
-  List<DistributorArea> _areas = [];
+  List<DistributorArea> _distributorships = [];
   List<Distributor> _distributors = [];
   String loggedInDistributor = "";
   String loggedInDistributorArea = "";
@@ -36,6 +36,10 @@ class AuthProvider with ChangeNotifier {
     return [..._retailers].map((retailer) => retailer.retailerName).toList();
   }
 
+  List<String> get distributorships {
+    return [..._distributorships].map((e) => e.distributorship).toList();
+  }
+
   Future<void> retailerSignUp(
       String retailerName, String shopAddress, String contactNumber) async {
     //send http post here.
@@ -45,6 +49,19 @@ class AuthProvider with ChangeNotifier {
         body: json.encode({
           'retailerName': retailerName,
           'shopAddress': shopAddress,
+          'mobileNumber': contactNumber
+        }));
+  }
+
+  Future<void> DistributorSignUp(String distributorId, String distributorship,
+      String contactNumber) async {
+    //send http post here.
+    const url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/distributorNotifications.json";
+    await http.post(Uri.parse(url),
+        body: json.encode({
+          'distributorId': distributorId,
+          'distributorship': distributorship,
           'mobileNumber': contactNumber
         }));
   }
@@ -118,9 +135,9 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchDistributorAreasFromDB() async {
+  Future<void> fetchDistributorshipsFromDB() async {
     const url =
-        "https://muskan-admin-app-default-rtdb.firebaseio.com/DistributorAreas.json";
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/Distributorships.json";
     try {
       final response = await http.get(Uri.parse(url));
       final List<DistributorArea> loadedAreas = [];
@@ -128,12 +145,12 @@ class AuthProvider with ChangeNotifier {
       extractedData.forEach((areaId, areaData) {
         loadedAreas.add(DistributorArea(
           id: areaId,
-          areaAddress: areaData['areaAddress'],
+          distributorship: areaData['distributorship'],
         ));
       });
-      _areas = loadedAreas;
-      _areas.sort(
-        (a, b) => a.areaAddress.trim().compareTo(b.areaAddress.trim()),
+      _distributorships = loadedAreas;
+      _distributorships.sort(
+        (a, b) => a.distributorship.trim().compareTo(b.distributorship.trim()),
       );
       notifyListeners();
     } catch (error) {
