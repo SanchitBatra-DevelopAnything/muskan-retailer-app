@@ -149,7 +149,7 @@ class CategoriesProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchCategoriesFromDB() async {
+  Future<void> fetchCategoriesFromDB(appType) async {
     const url =
         "https://muskan-admin-app-default-rtdb.firebaseio.com/Categories.json";
     try {
@@ -157,10 +157,20 @@ class CategoriesProvider with ChangeNotifier {
       final List<Category> loadedCategories = [];
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       extractedData.forEach((categoryId, categoryData) {
-        loadedCategories.add(Category(
-            id: categoryId,
-            categoryName: categoryData['categoryName'],
-            imageUrl: categoryData['imageUrl']));
+        if (appType == "distributor") {
+          if (categoryData['forDistributor'] == true ||
+              categoryData['forDistributor'] == "true") {
+            loadedCategories.add(Category(
+                id: categoryId,
+                categoryName: categoryData['categoryName'],
+                imageUrl: categoryData['imageUrl']));
+          }
+        } else {
+          loadedCategories.add(Category(
+              id: categoryId,
+              categoryName: categoryData['categoryName'],
+              imageUrl: categoryData['imageUrl']));
+        }
       });
       _categories = loadedCategories;
       notifyListeners();

@@ -22,6 +22,7 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
   var isLoading = false;
   var _isFirstTime = true;
+  var appType = "retailer";
 
   @override
   void didChangeDependencies() {
@@ -37,8 +38,10 @@ class _CategoriesState extends State<Categories> {
 
       var shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
 
+      var appType = Provider.of<AuthProvider>(context, listen: false).appType;
+
       Provider.of<CategoriesProvider>(context, listen: false)
-          .fetchCategoriesFromDB()
+          .fetchCategoriesFromDB(appType)
           .then((_) => {
                 if (mounted)
                   {
