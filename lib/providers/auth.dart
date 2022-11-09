@@ -62,7 +62,7 @@ class AuthProvider with ChangeNotifier {
       String contactNumber) async {
     //send http post here.
     const url =
-        "https://muskan-admin-app-default-rtdb.firebaseio.com/distributorNotifications.json";
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/retailerNotifications.json";
     await http.post(Uri.parse(url),
         body: json.encode({
           'distributorId': distributorId,
