@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/distributors/distLogin.dart';
+import 'package:muskan_shop/distributors/distSignUp.dart';
 
 import '../login.dart';
 import '../signup.dart';
@@ -67,7 +68,7 @@ class _DistributorHomeState extends State<DistributorHome> {
             SizedBox(height: 15),
             Container(
               child: _activePage == "S"
-                  ? SignUp(
+                  ? DistributorSignup(
                       onFormChange: () {
                         changeForm("L");
                       },

@@ -14,11 +14,12 @@ class AuthProvider with ChangeNotifier {
   List<Retailer> _retailers = [];
   String loggedInRetailer = "";
   String loggedInShop = "";
+  String loggedInDistributor = "";
+  String loggedInDistributorship = "";
+  String appType = "";
 
   List<DistributorArea> _distributorships = [];
   List<Distributor> _distributors = [];
-  String loggedInDistributor = "";
-  String loggedInDistributorArea = "";
 
   List<Shop> get shops {
     return [..._shops];
@@ -30,6 +31,10 @@ class AuthProvider with ChangeNotifier {
 
   List<Retailer> get retailers {
     return [..._retailers];
+  }
+
+  List<Distributor> get distributors {
+    return [..._distributors];
   }
 
   List<String> get retailerNames {
@@ -69,6 +74,14 @@ class AuthProvider with ChangeNotifier {
   void setLoggedInRetailerAndShop(String retailerName, String shopName) {
     this.loggedInRetailer = retailerName;
     this.loggedInShop = shopName;
+    this.appType = "retailer";
+    notifyListeners();
+  }
+
+  void setLoggedInDistributor(String distributorId, String distributorship) {
+    this.loggedInDistributor = distributorId;
+    this.loggedInDistributorship = distributorship;
+    this.appType = "distributor";
     notifyListeners();
   }
 
@@ -117,7 +130,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> fetchDistributorsFromDB() async {
     const url =
-        "https://muskan-admin-app-default-rtdb.firebaseio.com/Retailers.json";
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/Distributors.json";
     try {
       final response = await http.get(Uri.parse(url));
       final List<Distributor> loadedDistributors = [];
@@ -125,8 +138,8 @@ class AuthProvider with ChangeNotifier {
       extractedData.forEach((distributorId, distributorData) {
         loadedDistributors.add(Distributor(
             id: distributorId,
-            areaAddress: distributorData['areaAddress'],
-            distributorName: distributorData['distributorName']));
+            distributorship: distributorData['distributorship'],
+            distributorId: distributorData['distributorId']));
       });
       _distributors = loadedDistributors;
       notifyListeners();
@@ -153,7 +166,9 @@ class AuthProvider with ChangeNotifier {
         (a, b) => a.distributorship.trim().compareTo(b.distributorship.trim()),
       );
       notifyListeners();
+      print("Fetched");
     } catch (error) {
+      print("Failed");
       throw error;
     }
   }

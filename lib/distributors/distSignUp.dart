@@ -16,7 +16,7 @@ class _DistributorSignupState extends State<DistributorSignup> {
   var contactNumberController = TextEditingController();
   String? selectedDistributorship;
   bool _isSigningUp = false;
-  bool _isFirstTime = false;
+  bool _isFirstTime = true;
 
   @override
   void didChangeDependencies() {

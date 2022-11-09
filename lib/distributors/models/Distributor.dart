@@ -1,10 +1,10 @@
 class Distributor {
   String id;
-  String distributorName;
-  String areaAddress;
+  String distributorId;
+  String distributorship;
 
   Distributor(
       {required this.id,
-      required this.areaAddress,
-      required this.distributorName});
+      required this.distributorship,
+      required this.distributorId});
 }

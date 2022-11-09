@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/distributors/models/Distributor.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/auth.dart';
@@ -15,6 +16,7 @@ class DistributorLogin extends StatefulWidget {
 class _DistributorLoginState extends State<DistributorLogin> {
   var distributorIdController = new TextEditingController();
   var passwordController = new TextEditingController();
+  String? selectedDistributorship;
 
   bool _isFirstTime = true;
   bool _invalidLogin = false;
@@ -27,28 +29,69 @@ class _DistributorLoginState extends State<DistributorLogin> {
       return;
     }
     if (_isFirstTime) {
-      //   Provider.of<AuthProvider>(context, listen: false)
-      //       .fetchDistributorAreasFromDB();
-      //   if (mounted) {
-      //     setState(() {
-      //       isLoading = true;
-      //     });
-      //   }
-      //   Provider.of<AuthProvider>(context, listen: false)
-      //       .fetchDistributorsFromDB();
-      //   if (mounted) {
-      //     setState(() {
-      //       isLoading = false;
-      //     });
-      //   }
+      Provider.of<AuthProvider>(context, listen: false)
+          .fetchDistributorshipsFromDB();
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+        });
+      }
+      Provider.of<AuthProvider>(context, listen: false)
+          .fetchDistributorsFromDB();
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
     _isFirstTime = false; //never run the above if again.
-    isLoading = false;
     super.didChangeDependencies();
+  }
+
+  void login(List<Distributor> distributors) {
+    var isPresent = false;
+    distributors.forEach((distributor) {
+      // print("RETAILER INFORMATION");
+      // print(retailer.retailerName + "--" + retailer.shopAddress);
+      if (distributorIdController.text.trim().toLowerCase() ==
+              distributor.distributorId.toLowerCase() &&
+          selectedDistributorship == distributor.distributorship) {
+        // print("Compared " +
+        //     retailerNameController.text.toLowerCase() +
+        //     " to " +
+        //     retailer.retailerName +
+        //     " & " +
+        //     selectedShop! +
+        //     " to " +
+        //     retailer.shopAddress);
+        isPresent = true;
+      }
+      if (isPresent) {
+        if (mounted) {
+          setState(() {
+            _invalidLogin = false;
+          });
+        }
+        // set the loggedIn shopkeeper and the shop.
+        Provider.of<AuthProvider>(context, listen: false)
+            .setLoggedInDistributor(distributorIdController.text.toUpperCase(),
+                selectedDistributorship!);
+        Navigator.of(context).pushReplacementNamed('/categories');
+      } else {
+        if (mounted) {
+          setState(() {
+            _invalidLogin = true;
+          });
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final AuthProviderObject = Provider.of<AuthProvider>(context);
+    final distributorships = AuthProviderObject.distributorships;
+    final distributors = AuthProviderObject.distributors;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -72,7 +115,7 @@ class _DistributorLoginState extends State<DistributorLogin> {
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
-              labelText: "Distributor Id",
+              labelText: "Distributor ID",
               labelStyle: const TextStyle(fontSize: 18, color: Colors.white),
             ),
           ),
@@ -80,23 +123,26 @@ class _DistributorLoginState extends State<DistributorLogin> {
         SizedBox(
           height: 10,
         ),
+        Text(
+          "Select your area from the dropdown below",
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
+        ),
         Container(
-          width: 350,
-          child: TextField(
-            controller: passwordController,
-            obscureText: true,
-            style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-            decoration: InputDecoration(
-              enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-              ),
-              labelText: "password",
-              labelStyle: const TextStyle(fontSize: 18, color: Colors.white),
-            ),
-          ),
+          width: 300,
+          child: DropdownButton<String>(
+              items: distributorships.map(buildMenuItem).toList(),
+              isExpanded: true,
+              iconSize: 36,
+              dropdownColor: Colors.black,
+              style: TextStyle(color: Colors.white),
+              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+              value: selectedDistributorship,
+              onChanged: (value) => {
+                    setState(() => {
+                          this.selectedDistributorship = value,
+                        })
+                  }),
         ),
         SizedBox(
           height: 10,
@@ -107,7 +153,9 @@ class _DistributorLoginState extends State<DistributorLogin> {
             isLoading
                 ? CircularProgressIndicator()
                 : RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      login(distributors);
+                    },
                     child: Text(
                       "Login",
                       style: TextStyle(color: Colors.white, fontSize: 20),
@@ -142,3 +190,11 @@ class _DistributorLoginState extends State<DistributorLogin> {
     );
   }
 }
+
+DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+    value: item,
+    child: Text(item,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 15,
+        )));
