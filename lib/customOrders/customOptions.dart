@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/providers/auth.dart';
 import 'package:provider/provider.dart';
 
 import '../badge.dart';
@@ -15,6 +16,7 @@ class CustomOrderOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appType = Provider.of<AuthProvider>(context, listen: false);
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
@@ -39,9 +41,11 @@ class CustomOrderOptions extends StatelessWidget {
       },
       child: Scaffold(
           backgroundColor: Color.fromARGB(137, 43, 40, 40),
-          bottomNavigationBar: BottomNavigator(
-            index: 1,
-          ),
+          bottomNavigationBar: appType != "distributor"
+              ? BottomNavigator(
+                  index: 1,
+                )
+              : null,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

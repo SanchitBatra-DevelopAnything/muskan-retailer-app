@@ -178,6 +178,8 @@ class _CategoriesState extends State<Categories> {
         Provider.of<CategoriesProvider>(context, listen: false);
     final categories = categoryProviderObject.categories;
 
+    final appType = Provider.of<AuthProvider>(context, listen: false).appType;
+
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
@@ -202,9 +204,11 @@ class _CategoriesState extends State<Categories> {
       },
       child: Scaffold(
         backgroundColor: Color.fromARGB(137, 43, 40, 40),
-        bottomNavigationBar: BottomNavigator(
-          index: 0,
-        ),
+        bottomNavigationBar: appType != "distributor"
+            ? BottomNavigator(
+                index: 0,
+              )
+            : null,
         body: isLoading
             ? Center(
                 child: CircularProgressIndicator(
