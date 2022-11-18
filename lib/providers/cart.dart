@@ -171,6 +171,32 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  Future<void> PlaceDistributorOrder(
+      String distributorship, String distributor, String time) async {
+    var todaysDate = DateTime.now();
+    var year = todaysDate.year.toString();
+    var month = todaysDate.month.toString();
+    var day = todaysDate.day.toString();
+    var date = day + month + year;
+    var url =
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/activeDistributorOrders.json";
+    try {
+      await http.post(Uri.parse(url),
+          body: json.encode({
+            "shopAddress": distributorship,
+            "orderedBy": distributor,
+            "orderTime": time,
+            "orderDate": date,
+            "items": formOrderItemList(),
+            "totalPrice": getTotalOrderPrice(),
+          }));
+    } catch (error) {
+      print("ERROR IS");
+      print(error);
+      throw error;
+    }
+  }
+
   Future<void> PlaceCustomOrder(
       {String? shopAddress,
       String? loggedInRetailer,

@@ -65,16 +65,42 @@ class _CartScreenState extends State<CartScreen> {
               final time = timeArrayComponent[timeArrayComponent.length - 2] +
                   " " +
                   timeArrayComponent[timeArrayComponent.length - 1];
-              cartObject.PlaceShopOrder(shop, shopkeeper, time).then((_) => {
-                    cartObject.clearCart(),
-                    cartObject.deleteCartOnDB(retailer, shop).then((value) => {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, "/orderPlaced", (r) => false)
-                        })
-                    // setState(() {
-                    //   _isPlacingOrder = false;
-                    // }),
-                  });
+              final distributorship =
+                  Provider.of<AuthProvider>(context, listen: false)
+                      .loggedInDistributorship;
+              final distributor =
+                  Provider.of<AuthProvider>(context, listen: false)
+                      .loggedInDistributor;
+              final appType =
+                  Provider.of<AuthProvider>(context, listen: false).appType;
+              if (appType != "distributor") {
+                cartObject.PlaceShopOrder(shop, shopkeeper, time).then((_) => {
+                      cartObject.clearCart(),
+                      cartObject.deleteCartOnDB(retailer, shop).then((value) =>
+                          {
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/orderPlaced", (r) => false)
+                          })
+                      // setState(() {
+                      //   _isPlacingOrder = false;
+                      // }),
+                    });
+              } else {
+                cartObject.PlaceDistributorOrder(
+                        distributorship, distributor, time)
+                    .then((_) => {
+                          cartObject.clearCart(),
+                          cartObject
+                              .deleteCartOnDB(distributorship, distributor)
+                              .then((value) => {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context, "/orderPlaced", (r) => false)
+                                  })
+                          // setState(() {
+                          //   _isPlacingOrder = false;
+                          // }),
+                        });
+              }
             },
           )
         ],
