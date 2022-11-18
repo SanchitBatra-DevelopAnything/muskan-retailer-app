@@ -40,32 +40,33 @@ class _CategoriesState extends State<Categories> {
 
       var appType = Provider.of<AuthProvider>(context, listen: false).appType;
 
+      // Future.wait([
+      //   fetchCategoriesFromDB(appType),
+      //   Future.delayed(Duration(microseconds: 1)),
+      //   fetchCartBasedOnAppType(
+      //       Provider.of<AuthProvider>(context, listen: false),
+      //       Provider.of<CartProvider>(context, listen: false))
+      // ]);
+
+      // _checkVersion();
+
       Provider.of<CategoriesProvider>(context, listen: false)
           .fetchCategoriesFromDB(appType)
           .then((_) => {
                 if (mounted)
                   {
-                    Provider.of<CartProvider>(context, listen: false)
-                        .fetchCartFromDB(retailer, shop)
+                    fetchCartBasedOnAppType(
+                            Provider.of<AuthProvider>(context, listen: false),
+                            Provider.of<CartProvider>(context, listen: false))
                         .then(
-                          (value) => {
-                            setState(() {
-                              isLoading = false;
-                            }),
-                            _checkVersion()
-                          },
-                        )
+                      (value) => {
+                        setState(() {
+                          isLoading = false;
+                        }),
+                        _checkVersion()
+                      },
+                    )
                   }
-                // Provider.of<CartProvider>(context, listen: false)
-                //     .fetchCartFromDB(retailer, shop)
-                //     .then(
-                //       (value) => {
-                //         setState(() {
-                //           isLoading = false;
-                //         }),
-                //         _checkVersion()
-                //       },
-                //     )
               });
       bool shopOpened = Provider.of<AuthProvider>(context, listen: false)
           .checkShopStatus("09:00PM", "06:00AM");
@@ -77,6 +78,23 @@ class _CategoriesState extends State<Categories> {
     // _checkVersion();
     _isFirstTime = false; //never run the above if again.
     super.didChangeDependencies();
+  }
+
+  // Future<void> fetchCategoriesFromDB(String appType) {
+  //   return Provider.of<CategoriesProvider>(context, listen: false)
+  //       .fetchCategoriesFromDB(appType);
+  // }
+
+  Future<void> fetchCartBasedOnAppType(
+      AuthProvider authProviderObject, CartProvider cartProviderObject) {
+    if (authProviderObject.appType != "distributor") {
+      return cartProviderObject.fetchCartFromDB(
+          authProviderObject.loggedInRetailer, authProviderObject.loggedInShop);
+    } else {
+      return cartProviderObject.fetchCartFromDB(
+          authProviderObject.loggedInDistributor,
+          authProviderObject.loggedInDistributorship);
+    }
   }
 
   void _checkVersion() async {

@@ -158,6 +158,29 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+  saveCartBasedOnAppType(
+      AuthProvider authProviderObject, CartProvider cartProviderObject) async {
+    if (authProviderObject.appType != "distributor") {
+      await cartProviderObject.saveCart(
+          authProviderObject.loggedInRetailer, authProviderObject.loggedInShop);
+    } else {
+      await cartProviderObject.saveCart(authProviderObject.loggedInDistributor,
+          authProviderObject.loggedInDistributorship);
+    }
+  }
+
+  deleteCartBasedOnAppType(
+      AuthProvider authProviderObject, CartProvider cartProviderObject) async {
+    if (authProviderObject.appType != "distributor") {
+      await cartProviderObject.deleteCartOnDB(
+          authProviderObject.loggedInRetailer, authProviderObject.loggedInShop);
+    } else {
+      await cartProviderObject.deleteCartOnDB(
+          authProviderObject.loggedInDistributor,
+          authProviderObject.loggedInDistributorship);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final cartProviderObject = Provider.of<CartProvider>(context);
@@ -172,8 +195,7 @@ class _CartScreenState extends State<CartScreen> {
         setState(() {
           _isSavingCart = true;
         });
-        await cartProviderObject.saveCart(authProviderObject.loggedInRetailer,
-            authProviderObject.loggedInShop);
+        await saveCartBasedOnAppType(authProviderObject, cartProviderObject);
         setState(() {
           _isSavingCart = false;
         });
@@ -221,9 +243,8 @@ class _CartScreenState extends State<CartScreen> {
                                     setState(() {
                                       _isSavingCart = true;
                                     });
-                                    await cartProviderObject.deleteCartOnDB(
-                                        authProviderObject.loggedInRetailer,
-                                        authProviderObject.loggedInShop);
+                                    await deleteCartBasedOnAppType(
+                                        authProviderObject, cartProviderObject);
                                     setState(() {
                                       _isSavingCart = false;
                                     });
@@ -232,9 +253,8 @@ class _CartScreenState extends State<CartScreen> {
                                     setState(() {
                                       _isSavingCart = true;
                                     });
-                                    await cartProviderObject.saveCart(
-                                        authProviderObject.loggedInRetailer,
-                                        authProviderObject.loggedInShop);
+                                    await saveCartBasedOnAppType(
+                                        authProviderObject, cartProviderObject);
                                     setState(() {
                                       _isSavingCart = false;
                                     });
@@ -274,12 +294,9 @@ class _CartScreenState extends State<CartScreen> {
                                       color: Color.fromRGBO(51, 51, 51, 1),
                                       child: AnimatedTextKit(
                                           onTap: () {
-                                            cartProviderObject
-                                                .deleteCartOnDB(
-                                                    authProviderObject
-                                                        .loggedInRetailer,
-                                                    authProviderObject
-                                                        .loggedInShop)
+                                            deleteCartBasedOnAppType(
+                                                    authProviderObject,
+                                                    cartProviderObject)
                                                 .then((_) => {
                                                       showOrderDialog(context,
                                                           cartProviderObject)
