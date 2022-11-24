@@ -151,7 +151,7 @@ class CategoriesProvider with ChangeNotifier {
 
   Future<void> fetchCategoriesFromDB(appType) async {
     const url =
-        "https://muskan-admin-app-default-rtdb.firebaseio.com/Categories.json";
+        "https://muskan-admin-app-default-rtdb.firebaseio.com/onlyCategories.json";
     try {
       final response = await http.get(Uri.parse(url));
       final List<Category> loadedCategories = [];
