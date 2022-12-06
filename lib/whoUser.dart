@@ -88,13 +88,14 @@ class _WhoIsUserState extends State<WhoIsUser> {
               child: RadioListTile(
                 value: "Distributor",
                 groupValue: userType,
-                onChanged: (value) {
-                  setState(() {
-                    userType = value.toString();
-                  });
-                },
+                onChanged: null,
+                // onChanged: (value) {
+                //   setState(() {
+                //     userType = value.toString();
+                //   });
+                // },
                 title: Text(
-                  "Distributor",
+                  "Distributor (Launching Soon)",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
