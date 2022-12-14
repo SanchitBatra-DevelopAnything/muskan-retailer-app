@@ -30,7 +30,9 @@ class _OrdersStatusState extends State<OrdersStatus> {
       selectedDate = _dateTime.day.toString() +
           _dateTime.month.toString() +
           _dateTime.year.toString();
-      allStuff(selectedDate);
+      String appType =
+          Provider.of<AuthProvider>(context, listen: false).appType;
+      allStuff(selectedDate, appType.toLowerCase());
       _isFirstTime = false;
     }
     super.didChangeDependencies();
@@ -44,34 +46,59 @@ class _OrdersStatusState extends State<OrdersStatus> {
     Navigator.of(context).pushNamed('/customOrderStatus', arguments: order);
   }
 
-  Future<void> allStuff(String date) async {
-    var retailer =
-        Provider.of<AuthProvider>(context, listen: false).loggedInRetailer;
-    var shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
-    setState(() {
-      _isLoading = true;
-    });
-    Provider.of<OrderProvider>(context, listen: false)
-        .getActiveOrders(retailer, shop)
-        .then((value) => {
-              Provider.of<OrderProvider>(context, listen: false)
-                  .getProcessedRegularOrders(date, retailer, shop)
-                  .then((value) => {
-                        Provider.of<OrderProvider>(context, listen: false)
-                            .getProcessedCustomOrders(date, retailer, shop)
-                            .then((value) => {
-                                  Provider.of<OrderProvider>(context,
-                                          listen: false)
-                                      .filterOrders(date)
-                                })
-                            .then((value) => {
-                                  setState((() => {_isLoading = false}))
-                                })
-                      })
-            });
+  Future<void> allStuff(String date, String appType) async {
+    // Provider.of<OrderProvider>(context, listen: false).clearAllOrders();
+    if (appType == "distributor") {
+      var distributor =
+          Provider.of<AuthProvider>(context, listen: false).loggedInDistributor;
+      var distributorship = Provider.of<AuthProvider>(context, listen: false)
+          .loggedInDistributorship;
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<OrderProvider>(context, listen: false)
+          .getActiveDistributorOrders(distributor, distributorship)
+          .then((value) => {
+                Provider.of<OrderProvider>(context, listen: false)
+                    .getProcessedRegularDistributorOrders(
+                        date, distributor, distributorship)
+                    .then((value) => {
+                          Provider.of<OrderProvider>(context, listen: false)
+                              .filterDistributorOrders(date)
+                        })
+                    .then((value) => {
+                          setState((() => {_isLoading = false}))
+                        })
+              });
+    } else {
+      var retailer =
+          Provider.of<AuthProvider>(context, listen: false).loggedInRetailer;
+      var shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<OrderProvider>(context, listen: false)
+          .getActiveOrders(retailer, shop)
+          .then((value) => {
+                Provider.of<OrderProvider>(context, listen: false)
+                    .getProcessedRegularOrders(date, retailer, shop)
+                    .then((value) => {
+                          Provider.of<OrderProvider>(context, listen: false)
+                              .getProcessedCustomOrders(date, retailer, shop)
+                              .then((value) => {
+                                    Provider.of<OrderProvider>(context,
+                                            listen: false)
+                                        .filterOrders(date)
+                                  })
+                              .then((value) => {
+                                    setState((() => {_isLoading = false}))
+                                  })
+                        })
+              });
+    }
   }
 
-  void _showDatePicker(BuildContext context) {
+  void _showDatePicker(BuildContext context, String appType) {
     showDatePicker(
             context: context,
             initialDate: _dateTime,
@@ -82,12 +109,17 @@ class _OrdersStatusState extends State<OrdersStatus> {
                 {
                   _dateTime = DateTime.now(),
                   // do processing for orders for the date today..
-                  allStuff(DateTime.now().day.toString() +
-                      DateTime.now().month.toString() +
-                      DateTime.now().year.toString())
+                  allStuff(
+                      DateTime.now().day.toString() +
+                          DateTime.now().month.toString() +
+                          DateTime.now().year.toString(),
+                      appType)
                 }
               else
-                {_dateTime = value, allStuff(getCalendarDate(value.toString()))}
+                {
+                  _dateTime = value,
+                  allStuff(getCalendarDate(value.toString()), appType)
+                }
             });
   }
 
@@ -110,8 +142,13 @@ class _OrdersStatusState extends State<OrdersStatus> {
   void moveToCart(BuildContext context) {}
   @override
   Widget build(BuildContext context) {
-    var orders = Provider.of<OrderProvider>(context).clubbedRegularOrders;
+    var appType =
+        Provider.of<AuthProvider>(context, listen: false).appType.toLowerCase();
+    var orders = appType == "distributor"
+        ? Provider.of<OrderProvider>(context).clubbedDistributorRegularOrders
+        : Provider.of<OrderProvider>(context).clubbedRegularOrders;
     var customOrders = Provider.of<OrderProvider>(context).clubbedCustomOrders;
+
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
@@ -159,7 +196,7 @@ class _OrdersStatusState extends State<OrdersStatus> {
                             color: Colors.white,
                             iconSize: 25,
                             onPressed: () {
-                              _showDatePicker(context);
+                              _showDatePicker(context, appType);
                             },
                           ))
                         ],
@@ -170,22 +207,24 @@ class _OrdersStatusState extends State<OrdersStatus> {
                     color: Colors.white,
                     thickness: 3.0,
                   ),
-                  SwitchListTile(
-                      activeColor: Colors.green,
-                      inactiveTrackColor: Colors.grey,
-                      title: Text(
-                        "Show Custom Orders",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                      value: _toggled,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _toggled = value;
-                        });
-                      }),
+                  appType == "distributor"
+                      ? Container()
+                      : SwitchListTile(
+                          activeColor: Colors.green,
+                          inactiveTrackColor: Colors.grey,
+                          title: Text(
+                            "Show Custom Orders",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          value: _toggled,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _toggled = value;
+                            });
+                          }),
                   Divider(
                     color: Colors.white,
                   ),
