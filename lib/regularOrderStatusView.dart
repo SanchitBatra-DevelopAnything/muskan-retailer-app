@@ -5,6 +5,15 @@ import 'package:muskan_shop/models/regularShopOrderItem.dart';
 class RegularOrderStatusView extends StatelessWidget {
   const RegularOrderStatusView({Key? key}) : super(key: key);
 
+  getTotalPrice(List<RegularShopOrderItem> items) {
+    dynamic totalPrice = 0;
+    items.forEach((element) {
+      totalPrice = totalPrice + (element.price);
+    });
+
+    return totalPrice;
+  }
+
   @override
   Widget build(BuildContext context) {
     final routeArgs =
@@ -65,6 +74,15 @@ class RegularOrderStatusView extends StatelessWidget {
           Divider(
             thickness: 3,
             color: Colors.white,
+          ),
+          Text(
+            "Total : Rs. ${getTotalPrice(items)}",
+            style: TextStyle(
+                color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+          ),
+          Divider(
+            color: Colors.white,
+            thickness: 2,
           ),
           Flexible(
             flex: 10,
