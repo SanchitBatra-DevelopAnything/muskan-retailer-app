@@ -148,6 +148,46 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
+  showLogoutBox(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Logout?',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          "Are you sure you want to logout?",
+          style: TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        actions: <Widget>[
+          RaisedButton(
+            color: Colors.red,
+            child: const Text(
+              'YES',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          RaisedButton(
+            color: Colors.red,
+            child: const Text(
+              'NO',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   showUpdateBox(BuildContext context) async {
     await showDialog(
       context: context,
@@ -277,6 +317,21 @@ class _CategoriesState extends State<Categories> {
                             },
                             icon: Icon(
                               Icons.shopping_cart,
+                              color: Colors.white,
+                            ),
+                            iconSize: 30,
+                          ),
+                        ),
+                        Tooltip(
+                          message: "Logout",
+                          verticalOffset: 24,
+                          height: 30,
+                          child: IconButton(
+                            onPressed: () {
+                              showLogoutBox(context);
+                            },
+                            icon: Icon(
+                              Icons.logout,
                               color: Colors.white,
                             ),
                             iconSize: 30,
