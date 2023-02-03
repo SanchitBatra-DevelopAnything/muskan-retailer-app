@@ -8,6 +8,7 @@ import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:store_redirect/store_redirect.dart';
 
 import 'bottomNavigation.dart';
@@ -148,6 +149,11 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
+  Future<bool> logout() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    return sp.clear();
+  }
+
   showLogoutBox(BuildContext context) async {
     await showDialog(
       context: context,
@@ -169,8 +175,12 @@ class _CategoriesState extends State<Categories> {
               'YES',
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
-            onPressed: () {
-              Navigator.of(context).pop();
+            onPressed: () async {
+              bool cleared = await logout();
+              if (cleared) {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/', (route) => false);
+              }
             },
           ),
           RaisedButton(

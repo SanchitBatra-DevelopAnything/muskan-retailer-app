@@ -38,6 +38,7 @@ dependencies:
   number_inc_dec: ^0.8.0
   new_version_plus: ^0.0.2
   store_redirect: ^2.0.1
+  shared_preferences:
 
 
   # The following adds the Cupertino Icons font to your application.

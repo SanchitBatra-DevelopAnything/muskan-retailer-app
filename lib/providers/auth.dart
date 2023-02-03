@@ -4,6 +4,7 @@ import 'package:muskan_shop/models/shop.dart';
 
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import '../distributors/models/DistributorArea.dart';
@@ -71,16 +72,28 @@ class AuthProvider with ChangeNotifier {
         }));
   }
 
-  void setLoggedInRetailerAndShop(String retailerName, String shopName) {
-    this.loggedInRetailer = retailerName;
-    this.loggedInShop = shopName;
+  void setLoggedInRetailerAndShop(String retailerName, String shopName) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setString("loggedInRetailer", retailerName);
+    sharedPreferences.setString("loggedInShop", shopName);
+    this.loggedInRetailer != sharedPreferences.getString("loggedInRetailer");
+    this.loggedInShop != sharedPreferences.getString("loggedInShop");
     this.appType = "retailer";
     notifyListeners();
   }
 
-  void setLoggedInDistributor(String distributorId, String distributorship) {
-    this.loggedInDistributor = distributorId;
-    this.loggedInDistributorship = distributorship;
+  void setLoggedInDistributor(
+      String distributorId, String distributorship) async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setString("loggedInDistributor", distributorId);
+    sharedPreferences.setString(
+        "loggedInDistributorship", loggedInDistributorship);
+    this.loggedInDistributor !=
+        sharedPreferences.getString("loggedInDistributor");
+    this.loggedInDistributorship !=
+        sharedPreferences.getString("loggedInDistributorship");
     this.appType = "distributor";
     notifyListeners();
   }
