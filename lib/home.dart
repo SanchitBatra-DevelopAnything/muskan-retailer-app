@@ -79,11 +79,13 @@ class _HomePageState extends State<HomePage> {
                         changeForm("L");
                       },
                     )
-                  : Login(
-                      onFormChange: () {
-                        changeForm("S");
-                      },
-                    ),
+                  : _activePage == "L"
+                      ? Login(onFormChange: () {
+                          changeForm("S");
+                        }, onAnimation: (_) {
+                          changeForm("A");
+                        })
+                      : CredentialSaverAnimation(),
             ),
           ],
         ),

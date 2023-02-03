@@ -6,7 +6,10 @@ import 'models/retailer.dart';
 
 class Login extends StatefulWidget {
   final VoidCallback? onFormChange;
-  const Login({Key? key, @required this.onFormChange}) : super(key: key);
+  final Function onAnimation;
+  const Login(
+      {Key? key, @required this.onFormChange, required this.onAnimation})
+      : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -71,7 +74,8 @@ class _LoginState extends State<Login> {
         Provider.of<AuthProvider>(context, listen: false)
             .setLoggedInRetailerAndShop(
                 retailerNameController.text.toUpperCase(), selectedShop!);
-        Navigator.of(context).pushReplacementNamed('/categories');
+        // Navigator.of(context).pushReplacementNamed('/categories');
+        widget.onAnimation("A");
       } else {
         if (mounted) {
           setState(() {

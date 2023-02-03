@@ -23,16 +23,24 @@ class _CredentialSaverAnimationState extends State<CredentialSaverAnimation>
     // TODO: implement initState
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 2),
     )..addListener(() {
         setState(() {});
       });
-    controller.repeat();
+    controller.forward();
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/categories', (route) => false);
+      }
+    });
+
     super.initState();
   }
 
   @override
   void dispose() {
+    controller.dispose();
     super.dispose();
   }
 
