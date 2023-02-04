@@ -72,29 +72,61 @@ class AuthProvider with ChangeNotifier {
         }));
   }
 
-  void setLoggedInRetailerAndShop(String retailerName, String shopName) async {
+  Future<void> setLoggedInRetailerAndShop(
+      String retailerName, String shopName) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     sharedPreferences.setString("loggedInRetailer", retailerName);
     sharedPreferences.setString("loggedInShop", shopName);
-    this.loggedInRetailer != sharedPreferences.getString("loggedInRetailer");
-    this.loggedInShop != sharedPreferences.getString("loggedInShop");
+    this.loggedInRetailer = retailerName;
+    this.loggedInShop = shopName;
     this.appType = "retailer";
     notifyListeners();
   }
 
-  void setLoggedInDistributor(
+  Future<void> loadLoggedInRetailerAndShop() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    this.loggedInRetailer =
+        sharedPreferences.getString("loggedInRetailer").toString();
+    this.loggedInShop = sharedPreferences.getString("loggedInShop").toString();
+    notifyListeners();
+  }
+
+  Future<void> setAppTypeOnInitialLoad() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    if (sp.containsKey("loggedInRetailer")) {
+      this.appType = "retailer";
+    } else if (sp.containsKey("loggedInDistributor")) {
+      this.appType = "distributor";
+    }
+    notifyListeners();
+  }
+
+  Future<void> setLoggedInDistributor(
       String distributorId, String distributorship) async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     sharedPreferences.setString("loggedInDistributor", distributorId);
-    sharedPreferences.setString(
-        "loggedInDistributorship", loggedInDistributorship);
-    this.loggedInDistributor !=
-        sharedPreferences.getString("loggedInDistributor");
-    this.loggedInDistributorship !=
-        sharedPreferences.getString("loggedInDistributorship");
+    sharedPreferences.setString("loggedInDistributorship", distributorship);
+    this.loggedInDistributor = distributorId;
+    this.loggedInDistributorship = distributorship;
     this.appType = "distributor";
+    notifyListeners();
+  }
+
+  Future<bool> logout() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return sp.clear();
+  }
+
+  Future<void> loadLoggedInDistributorData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    this.loggedInDistributor =
+        sharedPreferences.getString("loggedInDistributor").toString();
+    this.loggedInDistributorship =
+        sharedPreferences.getString("loggedInDistributorship").toString();
     notifyListeners();
   }
 

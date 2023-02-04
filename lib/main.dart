@@ -73,6 +73,7 @@ class MaterialAppWithInitialRoute extends StatelessWidget {
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {
+            print(snapshot.data);
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Muskan Shop',

@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:muskan_shop/badge.dart';
 import 'package:muskan_shop/models/category.dart';
 import 'package:muskan_shop/providers/auth.dart';
@@ -12,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:store_redirect/store_redirect.dart';
 
 import 'bottomNavigation.dart';
+import 'package:flutter/widgets.dart';
 
 class Categories extends StatefulWidget {
   const Categories({Key? key}) : super(key: key);
@@ -34,12 +36,36 @@ class _CategoriesState extends State<Categories> {
           isLoading = true;
         });
       }
-      var retailer =
-          Provider.of<AuthProvider>(context, listen: false).loggedInRetailer;
+      // var retailer = "";
 
-      var shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
+      // var shop = "";
 
-      var appType = Provider.of<AuthProvider>(context, listen: false).appType;
+      // var distributor = "";
+      // var distributorship = "";
+
+      doAuthStuff().then((_) => {
+            Provider.of<CategoriesProvider>(context, listen: false)
+                .fetchCategoriesFromDB(
+                    Provider.of<AuthProvider>(context, listen: false).appType)
+                .then((_) => {
+                      if (mounted)
+                        {
+                          fetchCartBasedOnAppType(
+                                  Provider.of<AuthProvider>(context,
+                                      listen: false),
+                                  Provider.of<CartProvider>(context,
+                                      listen: false))
+                              .then(
+                            (value) => {
+                              setState(() {
+                                isLoading = false;
+                              }),
+                              _checkVersion()
+                            },
+                          )
+                        }
+                    })
+          });
 
       // Future.wait([
       //   fetchCategoriesFromDB(appType),
@@ -51,24 +77,6 @@ class _CategoriesState extends State<Categories> {
 
       // _checkVersion();
 
-      Provider.of<CategoriesProvider>(context, listen: false)
-          .fetchCategoriesFromDB(appType)
-          .then((_) => {
-                if (mounted)
-                  {
-                    fetchCartBasedOnAppType(
-                            Provider.of<AuthProvider>(context, listen: false),
-                            Provider.of<CartProvider>(context, listen: false))
-                        .then(
-                      (value) => {
-                        setState(() {
-                          isLoading = false;
-                        }),
-                        _checkVersion()
-                      },
-                    )
-                  }
-              });
       bool shopOpened = Provider.of<AuthProvider>(context, listen: false)
           .checkShopStatus("09:00PM", "06:00AM");
       if (shopOpened) {
@@ -85,6 +93,21 @@ class _CategoriesState extends State<Categories> {
   //   return Provider.of<CategoriesProvider>(context, listen: false)
   //       .fetchCategoriesFromDB(appType);
   // }
+
+  Future<void> doAuthStuff() async {
+    var authObject = Provider.of<AuthProvider>(context, listen: false);
+    await authObject.setAppTypeOnInitialLoad();
+    print(authObject.appType + " is been set as apptype");
+    if (authObject.appType == "retailer") {
+      await authObject.loadLoggedInRetailerAndShop();
+      print(authObject.loggedInRetailer + " & " + authObject.loggedInShop);
+    } else if (authObject.appType == "distributor") {
+      await authObject.loadLoggedInDistributorData();
+      print(authObject.loggedInDistributor +
+          " &&& " +
+          authObject.loggedInDistributorship);
+    }
+  }
 
   Future<void> fetchCartBasedOnAppType(
       AuthProvider authProviderObject, CartProvider cartProviderObject) {
@@ -150,8 +173,7 @@ class _CategoriesState extends State<Categories> {
   }
 
   Future<bool> logout() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    return sp.clear();
+    return Provider.of<AuthProvider>(context, listen: false).logout();
   }
 
   showLogoutBox(BuildContext context) async {
@@ -247,7 +269,6 @@ class _CategoriesState extends State<Categories> {
     final categories = categoryProviderObject.categories;
 
     final appType = Provider.of<AuthProvider>(context, listen: false).appType;
-
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
@@ -260,7 +281,8 @@ class _CategoriesState extends State<Categories> {
                     ElevatedButton(
                         onPressed: () {
                           willLeave = true;
-                          Navigator.of(context).pop();
+                          SystemNavigator
+                              .pop(); //yahan app band ho jaani chahiye! , autoLogin ke baad autoLoad se jab back jaara hu to whoUser() dikhra h dont know y! , isliye yhan forcefully quit kro.
                         },
                         child: const Text('Yes')),
                     TextButton(
