@@ -88,12 +88,10 @@ class CategoriesProvider with ChangeNotifier {
     } else {
       _activeDirectVarietyFilteredItems = [
         ..._activeDirectVarietyItems
-            .where((item) =>
-                appType ==
-                item.distributorItemName
-                    .toString()
-                    .toLowerCase()
-                    .contains(searchFor.toLowerCase()))
+            .where((item) => item.distributorItemName
+                .toString()
+                .toLowerCase()
+                .contains(searchFor.toLowerCase()))
             .toList()
       ];
     }

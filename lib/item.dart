@@ -131,8 +131,10 @@ class _ItemState extends State<Item> {
                           Navigator.of(context)
                               .pushNamed('/item-detail', arguments: {
                             'imgPath': widget.imgPath,
-                            'price': widget.price,
-                            'itemName': widget.itemName,
+                            'price': getPrice(),
+                            'itemName': appType == "retailer"
+                                ? widget.itemName
+                                : widget.distributorItemName,
                             'cakeFlavour': widget.cakeFlavour,
                             'designCategory': widget.designCategory,
                             'minPounds': widget.minPounds
