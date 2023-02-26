@@ -115,6 +115,8 @@ class CartProvider with ChangeNotifier {
 
   void addItem(String itemId, String price, double quantity, String title,
       String imgPath, String parentCategory, String parentSubcategory) {
+    print("request to add : " + title + " with price : " + price);
+
     if (_items!.containsKey(itemId)) {
       //change quantity..
       _items!.update(

@@ -221,12 +221,15 @@ class _ItemState extends State<Item> {
                                       onPressed: () {
                                         cartProviderObject.addItem(
                                             widget.itemId,
-                                            widget.price,
+                                            getPrice(),
                                             parentSubcategory!.toUpperCase() ==
                                                     "PATTIES"
                                                 ? 0.5
                                                 : 1,
-                                            widget.itemName,
+                                            appType == "retailer"
+                                                ? widget.itemName
+                                                : widget.distributorItemName
+                                                    .toString(),
                                             widget.imgPath,
                                             parentCategory,
                                             parentSubcategory);
@@ -251,9 +254,15 @@ class _ItemState extends State<Item> {
                                               {
                                                 cartProviderObject.addItem(
                                                     widget.itemId,
-                                                    widget.price,
+                                                    getPrice(),
                                                     count,
-                                                    widget.itemName,
+                                                    appType == "retailer"
+                                                        ? widget.itemName
+                                                            .toLowerCase()
+                                                        : widget
+                                                            .distributorItemName
+                                                            .toString()
+                                                            .toLowerCase(),
                                                     widget.imgPath,
                                                     parentCategory,
                                                     parentSubcategory)
