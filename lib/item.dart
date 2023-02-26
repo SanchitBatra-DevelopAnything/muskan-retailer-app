@@ -223,7 +223,9 @@ class _ItemState extends State<Item> {
                                       onPressed: () {
                                         cartProviderObject.addItem(
                                             widget.itemId,
-                                            getPrice(),
+                                            appType == "retailer"
+                                                ? widget.price
+                                                : widget.distributorPrice,
                                             parentSubcategory!.toUpperCase() ==
                                                     "PATTIES"
                                                 ? 0.5
@@ -256,7 +258,10 @@ class _ItemState extends State<Item> {
                                               {
                                                 cartProviderObject.addItem(
                                                     widget.itemId,
-                                                    getPrice(),
+                                                    appType == "retailer"
+                                                        ? widget.price
+                                                        : widget
+                                                            .distributorPrice,
                                                     count,
                                                     appType == "retailer"
                                                         ? widget.itemName
