@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
@@ -70,12 +71,13 @@ class _ItemsState extends State<Items> {
   }
 
   void onSearch(String text) {
+    var appType = Provider.of<AuthProvider>(context, listen: false).appType;
     if (_loadDirectVariety) {
       Provider.of<CategoriesProvider>(context, listen: false)
-          .filterDirectVariety(text);
+          .filterDirectVariety(text, appType);
     } else {
       Provider.of<CategoriesProvider>(context, listen: false)
-          .filterSubcategoryItems(text);
+          .filterSubcategoryItems(text, appType);
     }
   }
 

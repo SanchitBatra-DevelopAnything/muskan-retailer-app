@@ -69,39 +69,63 @@ class CategoriesProvider with ChangeNotifier {
   String? activeSubcategoryKey = '';
   String? activeSubcategoryName = '';
 
-  void filterDirectVariety(String searchFor) {
+  void filterDirectVariety(String searchFor, String appType) {
     if (searchFor == '') {
       _activeDirectVarietyFilteredItems = [..._activeDirectVarietyItems];
       notifyListeners();
       return;
     }
     _activeDirectVarietyFilteredItems = [];
-    _activeDirectVarietyFilteredItems = [
-      ..._activeDirectVarietyItems
-          .where((item) => item.itemName
-              .toString()
-              .toLowerCase()
-              .contains(searchFor.toLowerCase()))
-          .toList()
-    ];
+    if (appType == "retailer") {
+      _activeDirectVarietyFilteredItems = [
+        ..._activeDirectVarietyItems
+            .where((item) => item.itemName
+                .toString()
+                .toLowerCase()
+                .contains(searchFor.toLowerCase()))
+            .toList()
+      ];
+    } else {
+      _activeDirectVarietyFilteredItems = [
+        ..._activeDirectVarietyItems
+            .where((item) =>
+                appType ==
+                item.distributorItemName
+                    .toString()
+                    .toLowerCase()
+                    .contains(searchFor.toLowerCase()))
+            .toList()
+      ];
+    }
     notifyListeners();
   }
 
-  void filterSubcategoryItems(String searchFor) {
+  void filterSubcategoryItems(String searchFor, String appType) {
     if (searchFor == '') {
       _activeSubcategoryFilteredItems = [..._activeSubcategoryItems];
       notifyListeners();
       return;
     }
     _activeSubcategoryFilteredItems = [];
-    _activeSubcategoryFilteredItems = [
-      ..._activeSubcategoryItems
-          .where((item) => item.itemName
-              .toString()
-              .toLowerCase()
-              .contains(searchFor.toLowerCase()))
-          .toList()
-    ];
+    if (appType == "retailer") {
+      _activeSubcategoryFilteredItems = [
+        ..._activeSubcategoryItems
+            .where((item) => item.itemName
+                .toString()
+                .toLowerCase()
+                .contains(searchFor.toLowerCase()))
+            .toList()
+      ];
+    } else {
+      _activeSubcategoryFilteredItems = [
+        ..._activeSubcategoryItems
+            .where((item) => item.distributorItemName
+                .toString()
+                .toLowerCase()
+                .contains(searchFor.toLowerCase()))
+            .toList()
+      ];
+    }
     notifyListeners();
   }
 
