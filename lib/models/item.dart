@@ -9,6 +9,8 @@ class Item {
   dynamic offer;
   dynamic shopPrice;
   dynamic subcategoryName;
+  dynamic distributorItemName;
+  dynamic distributorPrice;
 
   Item(
       {required this.cakeFlavour,
@@ -20,5 +22,7 @@ class Item {
       required this.offer,
       required this.itemId,
       required this.shopPrice,
-      required this.subcategoryName});
+      required this.subcategoryName,
+      required this.distributorItemName,
+      required this.distributorPrice});
 }

@@ -210,6 +210,8 @@ class CategoriesProvider with ChangeNotifier {
                 ? 1
                 : ItemData['minPounds'],
             offer: ItemData['offer'],
+            distributorItemName: ItemData['distributorItemName'],
+            distributorPrice: ItemData['distributorPrice'],
             designCategory: ItemData['designCategory']));
       });
       _activeDirectVarietyItems = loadedItems;
@@ -250,6 +252,8 @@ class CategoriesProvider with ChangeNotifier {
             customerPrice: ItemData['customerPrice'],
             minPounds: ItemData['minPounds'],
             offer: ItemData['offer'],
+            distributorItemName: ItemData['distributorItemName'],
+            distributorPrice: ItemData['distributorPrice'],
             designCategory: ItemData['designCategory']));
       });
       _activeSubcategoryItems = loadedItems;

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/cakeCustomizePopup.dart';
 import 'package:muskan_shop/itemQuantityCounter.dart';
+import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
@@ -17,6 +18,8 @@ class Item extends StatefulWidget {
       required this.cakeFlavour,
       required this.designCategory,
       required this.itemId,
+      required this.distributorItemName,
+      required this.distributorPrice,
       required this.minPounds})
       : super(key: key);
 
@@ -27,6 +30,8 @@ class Item extends StatefulWidget {
   final String designCategory;
   final String itemId;
   final dynamic minPounds;
+  final dynamic distributorItemName;
+  final String distributorPrice;
 
   @override
   State<Item> createState() => _ItemState();
@@ -65,6 +70,27 @@ class _ItemState extends State<Item> {
         });
   }
 
+  getPrice() {
+    final parentCategory =
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .activeCategoryName;
+    final parentSubcategory =
+        Provider.of<CategoriesProvider>(context, listen: false)
+            .activeSubcategoryName;
+    final appType = Provider.of<AuthProvider>(context, listen: false).appType;
+
+    if (appType == "distributor") {
+      return widget.distributorPrice + "";
+    } else {
+      return (parentCategory!.toUpperCase() == "CAKES & PASTRIES") ||
+              (parentCategory.toUpperCase() == "CAKES")
+          ? widget.price + " / pd."
+          : (parentSubcategory!.toUpperCase() == "PATTIES")
+              ? widget.price + " / dozen."
+              : widget.price + "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final cartProviderObject = Provider.of<CartProvider>(context);
@@ -78,6 +104,7 @@ class _ItemState extends State<Item> {
     final parentSubcategory =
         Provider.of<CategoriesProvider>(context, listen: false)
             .activeSubcategoryName;
+    final appType = Provider.of<AuthProvider>(context, listen: false).appType;
     return Padding(
         padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
         child: GestureDetector(
@@ -133,12 +160,7 @@ class _ItemState extends State<Item> {
                     Flexible(
                       flex: 1,
                       child: Text(
-                        (parentCategory!.toUpperCase() == "CAKES & PASTRIES") ||
-                                (parentCategory.toUpperCase() == "CAKES")
-                            ? widget.price + " / pd."
-                            : (parentSubcategory!.toUpperCase() == "PATTIES")
-                                ? widget.price + " / dozen."
-                                : widget.price,
+                        getPrice(),
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -150,7 +172,11 @@ class _ItemState extends State<Item> {
                       child: Padding(
                         padding: EdgeInsets.all(5),
                         child: Text(
-                          widget.itemName.toLowerCase(),
+                          appType == "retailer"
+                              ? widget.itemName.toLowerCase()
+                              : widget.distributorItemName
+                                  .toString()
+                                  .toLowerCase(),
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colors.white,
@@ -163,7 +189,7 @@ class _ItemState extends State<Item> {
                     Flexible(
                       flex: 2,
                       child: Center(
-                          child: (parentCategory.toUpperCase() ==
+                          child: (parentCategory!.toUpperCase() ==
                                       "CAKES & PASTRIES" ||
                                   parentCategory.toUpperCase() == "CAKES")
                               ? RaisedButton(

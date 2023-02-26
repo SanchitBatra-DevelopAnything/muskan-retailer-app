@@ -258,29 +258,40 @@ class _ItemsState extends State<Items> {
                                         .designCategory,
                                     minPounds: checkMinimumPoundValue(
                                         directVarietyItems[index].minPounds),
+                                    distributorItemName:
+                                        directVarietyItems[index]
+                                            .distributorItemName,
+                                    distributorPrice: "Rs." +
+                                        directVarietyItems[index]
+                                            .distributorPrice
+                                            .toString(),
                                   )
                                 : Item(
-                                    imgPath: itemsUnderSubcategory[index]
-                                        .imageUrl,
+                                    imgPath:
+                                        itemsUnderSubcategory[index].imageUrl,
                                     itemId: itemsUnderSubcategory[index].itemId,
                                     price: ((cat!.toUpperCase() == "CAKES") ||
                                             (cat.toUpperCase() ==
                                                 "CAKES & PASTRIES"))
                                         ? "Rs." +
-                                            CategoriesProviderObject
-                                                    .getCakePrice(
-                                                        itemsUnderSubcategory[
-                                                                index]
-                                                            .cakeFlavour,
-                                                        itemsUnderSubcategory[
-                                                                index]
-                                                            .designCategory,
-                                                        1)
+                                            CategoriesProviderObject.getCakePrice(
+                                                    itemsUnderSubcategory[index]
+                                                        .cakeFlavour,
+                                                    itemsUnderSubcategory[index]
+                                                        .designCategory,
+                                                    1)
                                                 .toString()
                                         : "Rs." +
                                             itemsUnderSubcategory[index]
                                                 .shopPrice
                                                 .toString(),
+                                    distributorItemName:
+                                        itemsUnderSubcategory[index]
+                                            .distributorItemName,
+                                    distributorPrice: "Rs." +
+                                        itemsUnderSubcategory[index]
+                                            .distributorPrice
+                                            .toString(),
                                     itemName:
                                         itemsUnderSubcategory[index].itemName,
                                     cakeFlavour: itemsUnderSubcategory[index]
