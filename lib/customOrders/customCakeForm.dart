@@ -130,7 +130,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
         .child('custom_orders')
         .child(shopKeeper + "--" + shop + "--" + date + ".jpg");
 
-    await ref.putFile(_pickedImage!).onComplete;
+    await ref.putFile(_pickedImage!);
 
     setState(() {
       _isFetchingUrl = true;
@@ -147,7 +147,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
           .ref()
           .child("custom_order_photo_cakes")
           .child(shopKeeper + "--" + shop + "--" + date + ".jpg");
-      await ref1.putFile(_photoOnCake!).onComplete;
+      await ref1.putFile(_photoOnCake!);
       photoOnCakeUrl = await ref1.getDownloadURL();
     }
 

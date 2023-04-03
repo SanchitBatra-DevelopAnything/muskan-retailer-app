@@ -39,6 +39,9 @@ dependencies:
   new_version_plus: ^0.0.2
   store_redirect: ^2.0.1
   shared_preferences:
+  firebase_core: ^1.12.0
+  firebase_messaging: ^11.2.6
+  flutter_local_notifications: ^9.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

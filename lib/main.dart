@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/cart_screen.dart';
 import 'package:muskan_shop/customOrderStatusView.dart';
@@ -26,6 +27,8 @@ import 'items.dart';
 
 void main() async {
   HttpOverrides.global = MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
