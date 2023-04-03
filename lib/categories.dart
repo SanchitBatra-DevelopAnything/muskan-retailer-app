@@ -41,8 +41,6 @@ class _CategoriesState extends State<Categories> {
     // 1. This method call when app in terminated state and you get a notification
     // when you click on notification app open from terminated state and you can get notification data in this method
 
-    FirebaseMessaging.instance.subscribeToTopic("newArrivals");
-
     FirebaseMessaging.instance.getInitialMessage().then(
       (message) {
         print("FirebaseMessaging.instance.getInitialMessage");
