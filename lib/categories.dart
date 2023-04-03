@@ -8,6 +8,7 @@ import 'package:muskan_shop/notificationBanner.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
+import 'package:muskan_shop/providers/notificationManager.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 
 import 'package:provider/provider.dart';
@@ -326,6 +327,8 @@ class _CategoriesState extends State<Categories> {
     final categories = categoryProviderObject.categories;
 
     final appType = Provider.of<AuthProvider>(context, listen: false).appType;
+    final alreadyNotificationSetup =
+        Provider.of<NotificationProvider>(context).notificationAlreadySetup;
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
@@ -429,7 +432,9 @@ class _CategoriesState extends State<Categories> {
                       ],
                     ),
                   ),
-                  notificationBanner(),
+                  !alreadyNotificationSetup
+                      ? notificationBanner()
+                      : Container(),
                   Flexible(
                     child: GridView.builder(
                       padding: const EdgeInsets.all(20.0),
