@@ -34,7 +34,7 @@ dependencies:
   animated_text_kit: ^4.2.1
   intl: ^0.17.0
   image_picker: ^0.8.6
-  firebase_storage: ^3.1.5
+  firebase_storage: 
   number_inc_dec: ^0.8.0
   new_version_plus: ^0.0.2
   store_redirect: ^2.0.1
