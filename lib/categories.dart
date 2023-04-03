@@ -114,11 +114,14 @@ class _CategoriesState extends State<Categories> {
                                   Provider.of<CartProvider>(context,
                                       listen: false))
                               .then(
-                            (value) => {
+                            (value) async => {
                               setState(() {
                                 isLoading = false;
                               }),
-                              _checkVersion()
+                              _checkVersion(),
+                              await Provider.of<NotificationProvider>(context,
+                                      listen: false)
+                                  .checkNotificationSetupOnInitialLoad(),
                             },
                           )
                         }
