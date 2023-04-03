@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:muskan_shop/badge.dart';
 import 'package:muskan_shop/models/category.dart';
+import 'package:muskan_shop/notificationBanner.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
@@ -372,6 +373,7 @@ class _CategoriesState extends State<Categories> {
                       ],
                     ),
                   ),
+                  notificationBanner(),
                   Flexible(
                     child: GridView.builder(
                       padding: const EdgeInsets.all(20.0),
