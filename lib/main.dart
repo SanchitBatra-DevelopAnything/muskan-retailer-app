@@ -38,7 +38,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-  await FirebaseMessaging.instance.subscribeToTopic("items");
+  await FirebaseMessaging.instance.subscribeToTopic("items_2");
   LocalNotificationService.initialize();
   runApp(MyApp());
 }
