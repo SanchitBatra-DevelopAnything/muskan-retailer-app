@@ -7,6 +7,12 @@ class LocalNotificationService {
 
   static void initialize() {
     // initializationSettings  for Android
+
+    _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()!
+        .requestPermission();
+
     const InitializationSettings initializationSettings =
         InitializationSettings(
       android: AndroidInitializationSettings("@mipmap/ic_launcher"),

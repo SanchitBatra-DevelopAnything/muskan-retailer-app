@@ -26,6 +26,10 @@ class _notificationBannerState extends State<notificationBanner> {
     final distributorName =
         Provider.of<AuthProvider>(context).loggedInDistributor;
 
+    final shopName = Provider.of<AuthProvider>(context).loggedInShop;
+    final distributorship =
+        Provider.of<AuthProvider>(context).loggedInDistributorship;
+
     return MaterialBanner(
       leading: Icon(
         Icons.notification_important,
@@ -48,11 +52,11 @@ class _notificationBannerState extends State<notificationBanner> {
                     },
                   );
                   if (appType == "retailer") {
-                    await notificationProvider
-                        .getDeviceTokenToSendNotification(retailerName);
+                    await notificationProvider.getDeviceTokenToSendNotification(
+                        retailerName, shopName, "R");
                   } else {
-                    await notificationProvider
-                        .getDeviceTokenToSendNotification(distributorName);
+                    await notificationProvider.getDeviceTokenToSendNotification(
+                        distributorName, distributorship, "D");
                   }
                 },
               )
