@@ -11,7 +11,7 @@ class ShimmerBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-        baseColor: Colors.grey.withOpacity(0.9),
+        baseColor: Colors.grey.withOpacity(0.6),
         highlightColor: Colors.white.withOpacity(0.6),
         period: const Duration(seconds: 1),
         child: Container(

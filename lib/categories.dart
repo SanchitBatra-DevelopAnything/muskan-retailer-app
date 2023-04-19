@@ -364,15 +364,52 @@ class _CategoriesState extends State<Categories> {
               )
             : null,
         body: isLoading
-            ? GridView.builder(
-                padding: const EdgeInsets.all(20),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 3 / 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10),
-                itemCount: 10,
-                itemBuilder: (ctx, i) => ShimmerBody(height: 300, width: 300),
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 35,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 23, top: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ShimmerBody(
+                          height: 45,
+                          width: 160,
+                        ),
+                        ShimmerBody(
+                          height: 20,
+                          width: 50,
+                        ),
+                        ShimmerBody(
+                          height: 20,
+                          width: 50,
+                        ),
+                        ShimmerBody(
+                          height: 20,
+                          width: 50,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Flexible(
+                    child: GridView.builder(
+                      itemBuilder: (ctx, i) =>
+                          ShimmerBody(height: 300, width: 300),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 3 / 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10),
+                      itemCount: 8,
+                    ),
+                  )
+                ],
               )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
