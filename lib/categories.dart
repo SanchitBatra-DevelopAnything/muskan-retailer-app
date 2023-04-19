@@ -9,6 +9,7 @@ import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:muskan_shop/providers/notificationManager.dart';
+import 'package:muskan_shop/shimmerBody.dart';
 import 'package:new_version_plus/new_version_plus.dart';
 
 import 'package:provider/provider.dart';
@@ -363,10 +364,16 @@ class _CategoriesState extends State<Categories> {
               )
             : null,
         body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                strokeWidth: 5,
-              ))
+            ? GridView.builder(
+                padding: const EdgeInsets.all(20),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                itemCount: 10,
+                itemBuilder: (ctx, i) => ShimmerBody(height: 300, width: 300),
+              )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
