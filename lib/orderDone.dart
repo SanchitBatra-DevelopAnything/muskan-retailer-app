@@ -1,11 +1,25 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
-class OrderPlaced extends StatelessWidget {
+class OrderPlaced extends StatefulWidget {
   const OrderPlaced({Key? key}) : super(key: key);
 
   @override
+  State<OrderPlaced> createState() => _OrderPlacedState();
+}
+
+class _OrderPlacedState extends State<OrderPlaced> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    final player = AudioCache();
+    player.play('orderDone.mp3');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, '/categories');
     });
 
