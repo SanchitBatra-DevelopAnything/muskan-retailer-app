@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:muskan_shop/cart_screen.dart';
 import 'package:muskan_shop/customOrderStatusView.dart';
 import 'package:muskan_shop/distributors/distHome.dart';
@@ -16,6 +17,7 @@ import 'package:muskan_shop/regularOrderStatusView.dart';
 import 'package:muskan_shop/storeClosed.dart';
 import 'package:muskan_shop/subcategories.dart';
 import 'package:muskan_shop/whoUser.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './home.dart';
@@ -40,6 +42,16 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   await FirebaseMessaging.instance.subscribeToTopic("items_2");
   LocalNotificationService.initialize();
+
+  //adding notifications permissions
+  WidgetsFlutterBinding.ensureInitialized();
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(MyApp());
 }
 

@@ -380,15 +380,15 @@ class _CategoriesState extends State<Categories> {
                           width: 160,
                         ),
                         ShimmerBody(
-                          height: 20,
+                          height: 30,
                           width: 50,
                         ),
                         ShimmerBody(
-                          height: 20,
+                          height: 30,
                           width: 50,
                         ),
                         ShimmerBody(
-                          height: 20,
+                          height: 30,
                           width: 50,
                         ),
                       ],
@@ -406,7 +406,7 @@ class _CategoriesState extends State<Categories> {
                           childAspectRatio: 3 / 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10),
-                      itemCount: 8,
+                      itemCount: 10,
                     ),
                   )
                 ],
