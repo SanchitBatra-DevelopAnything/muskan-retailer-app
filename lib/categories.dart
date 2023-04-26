@@ -406,7 +406,7 @@ class _CategoriesState extends State<Categories> {
                           childAspectRatio: 3 / 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10),
-                      itemCount: 10,
+                      itemCount: 8,
                     ),
                   )
                 ],

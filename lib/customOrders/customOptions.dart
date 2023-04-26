@@ -9,7 +9,11 @@ import '../providers/cart.dart';
 class CustomOrderOptions extends StatelessWidget {
   const CustomOrderOptions({Key? key}) : super(key: key);
 
-  static const customOptions = ["Custom Cakes", "Photo Cakes"];
+  static const customOptions = [
+    {'title': "Custom Cakes", "subtitle": "Cakes of your choice."},
+    {"title": "Photo Cakes", "subtitle": "Cakes & Photos of your choice."},
+    {"title": "Message Cakes", "subtitle": "Regular Cakes with message."}
+  ];
   void moveToCart(BuildContext context) {
     Navigator.of(context).pushNamed('/cart');
   }
@@ -94,9 +98,12 @@ class CustomOrderOptions extends StatelessWidget {
                         if (index == 1) {
                           Navigator.of(context).pushNamed('/customCakeForm',
                               arguments: {'orderType': 'Photo Cakes'});
-                        } else {
+                        } else if (index == 0) {
                           Navigator.of(context).pushNamed('/customCakeForm',
                               arguments: {'orderType': 'Regular Custom Cakes'});
+                        } else {
+                          Navigator.of(context).pushNamed('/customCakeForm',
+                              arguments: {'orderType': 'Message Cakes'});
                         }
                       },
                       child: Container(
@@ -115,12 +122,17 @@ class CustomOrderOptions extends StatelessWidget {
                               color: Colors.white,
                             ),
                             title: Text(
-                              customOptions[index],
+                              customOptions[index]['title']!,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold),
                             ),
+                            subtitle: Text(customOptions[index]['subtitle']!,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold)),
                           ),
                         ),
                       ),

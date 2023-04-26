@@ -237,55 +237,71 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          "Cake Image",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          height: 120,
-                          width: 120,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: CircleAvatar(
-                                backgroundColor: Color.fromRGBO(51, 51, 51, 1),
-                                backgroundImage: _pickedImage != null
-                                    ? FileImage(_pickedImage!)
-                                    : Image.asset("assets/default.png").image),
-                          ),
-                        ),
+                        orderType.toLowerCase() != "message cakes"
+                            ? Text(
+                                "Cake Image",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Container(height: 0),
+                        orderType.toLowerCase() != "message cakes"
+                            ? Container(
+                                height: 120,
+                                width: 120,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: CircleAvatar(
+                                      backgroundColor:
+                                          Color.fromRGBO(51, 51, 51, 1),
+                                      backgroundImage: _pickedImage != null
+                                          ? FileImage(_pickedImage!)
+                                          : Image.asset("assets/default.png")
+                                              .image),
+                                ),
+                              )
+                            : Container(height: 0),
                         SizedBox(
                           height: 15,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            RaisedButton(
-                              color: Colors.red,
-                              onPressed: () {
-                                _pickImage('Gallery');
-                              },
-                              child: Text(
-                                "Gallery Image",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                        orderType.toLowerCase() != "message cakes"
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  RaisedButton(
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      _pickImage('Gallery');
+                                    },
+                                    child: Text(
+                                      "Gallery Image",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                    ),
+                                  ),
+                                  RaisedButton(
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      _pickImage('Camera');
+                                    },
+                                    child: Text(
+                                      "Camera Image",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 18),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : Container(
+                                child: Text(
+                                  "Type message and cake description.",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                            ),
-                            RaisedButton(
-                              color: Colors.red,
-                              onPressed: () {
-                                _pickImage('Camera');
-                              },
-                              child: Text(
-                                "Camera Image",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            )
-                          ],
-                        ),
                         SizedBox(
                           height: 15,
                         ),
