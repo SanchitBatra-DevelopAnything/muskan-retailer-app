@@ -78,7 +78,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
   }
 
   void placeCustomOrder(BuildContext context, String orderType) async {
-    if (_pickedImage == null) {
+    if (_pickedImage == null && orderType.toLowerCase() != "message cakes") {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           duration: const Duration(
             milliseconds: 700,
@@ -130,15 +130,18 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
         .child('custom_orders')
         .child(shopKeeper + "--" + shop + "--" + date + ".jpg");
 
-    await ref.putFile(_pickedImage!);
-
+    if (orderType.toLowerCase() != "message cakes") {
+      await ref.putFile(_pickedImage!);
+    }
     setState(() {
       _isFetchingUrl = true;
       _isPlacingOrder = false;
       _isUploading = false;
     });
 
-    final imgUrl = await ref.getDownloadURL();
+    final imgUrl = orderType.toLowerCase() != "message cakes"
+        ? await ref.getDownloadURL()
+        : "not-uploaded";
 
     var photoOnCakeUrl = "not-uploaded";
 
