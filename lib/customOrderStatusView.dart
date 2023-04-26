@@ -72,24 +72,38 @@ class CustomOrderStatusView extends StatelessWidget {
             height: 15,
           ),
           Center(
-            child: Container(
-              height: 300,
-              width: 310,
-              child: Image.network(
-                order.imgUrl,
-                fit: BoxFit.fill,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                          color: Colors.red, strokeWidth: 5),
-                    );
-                  }
-                },
-              ),
-            ),
+            child: order.customType.toLowerCase() != "message cakes"
+                ? Container(
+                    height: 300,
+                    width: 310,
+                    child: Image.network(
+                      order.imgUrl,
+                      fit: BoxFit.fill,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                                color: Colors.red, strokeWidth: 5),
+                          );
+                        }
+                      },
+                    ),
+                  )
+                : Container(
+                    height: 300,
+                    width: 300,
+                    child: Center(
+                      child: Text(
+                        "Normal ${order.flavour} Cake.",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
           ),
           SizedBox(
             height: 5,
