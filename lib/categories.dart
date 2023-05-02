@@ -285,20 +285,21 @@ class _CategoriesState extends State<Categories> {
   showUpdateBox(BuildContext context) async {
     await showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (ctx) => AlertDialog(
         title: Text(
-          'App needs an update',
+          'UPDATE AVAILABLE',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         content: Text(
-          "Please update to avoid issues",
+          "Please update the app to use new features. We don't support the older versions if new updates are available.",
           style: TextStyle(
               color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
           RaisedButton(
-            color: Colors.green,
+            color: const Color(0xff1D741B),
             child: const Text(
               'UPDATE',
               style: TextStyle(fontSize: 20, color: Colors.white),
