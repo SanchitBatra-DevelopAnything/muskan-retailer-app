@@ -288,12 +288,12 @@ class _CategoriesState extends State<Categories> {
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
         title: Text(
-          'UPDATE AVAILABLE',
+          'UPDATE NECESSARY',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
         ),
         content: Text(
-          "Please update the app to use new features. We don't support the older versions if new updates are available.",
+          "Please update the app to use new features. We don't support the older versions when new updates are available.",
           style: TextStyle(
               color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
         ),
