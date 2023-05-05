@@ -267,6 +267,10 @@ class _ItemsState extends State<Items> {
                                         directVarietyItems[index]
                                             .distributorPrice
                                             .toString(),
+                                    customerPrice: "Rs. " +
+                                        directVarietyItems[index]
+                                            .customerPrice
+                                            .toString(),
                                   )
                                 : Item(
                                     imgPath:
@@ -287,12 +291,15 @@ class _ItemsState extends State<Items> {
                                             itemsUnderSubcategory[index]
                                                 .shopPrice
                                                 .toString(),
-                                    distributorItemName:
-                                        itemsUnderSubcategory[index]
-                                            .distributorItemName,
+                                    distributorItemName: itemsUnderSubcategory[index]
+                                        .distributorItemName,
                                     distributorPrice: "Rs." +
                                         itemsUnderSubcategory[index]
                                             .distributorPrice
+                                            .toString(),
+                                    customerPrice: "Rs." +
+                                        itemsUnderSubcategory[index]
+                                            .customerPrice
                                             .toString(),
                                     itemName:
                                         itemsUnderSubcategory[index].itemName,

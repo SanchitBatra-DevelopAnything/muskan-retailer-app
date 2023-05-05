@@ -20,6 +20,7 @@ class Item extends StatefulWidget {
       required this.itemId,
       required this.distributorItemName,
       required this.distributorPrice,
+      required this.customerPrice,
       required this.minPounds})
       : super(key: key);
 
@@ -32,6 +33,7 @@ class Item extends StatefulWidget {
   final dynamic minPounds;
   final dynamic distributorItemName;
   final String distributorPrice;
+  final String customerPrice;
 
   @override
   State<Item> createState() => _ItemState();
@@ -137,7 +139,8 @@ class _ItemState extends State<Item> {
                                 : widget.distributorItemName,
                             'cakeFlavour': widget.cakeFlavour,
                             'designCategory': widget.designCategory,
-                            'minPounds': widget.minPounds
+                            'minPounds': widget.minPounds,
+                            'MRP': widget.customerPrice,
                           });
                         },
                         child: Hero(

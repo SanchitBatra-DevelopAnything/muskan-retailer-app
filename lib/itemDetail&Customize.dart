@@ -41,7 +41,7 @@ class _ItemDetailState extends State<ItemDetail> {
                       ),
                       iconSize: 25),
                   Text(
-                    "Detailed Overview",
+                    "Details",
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -93,6 +93,24 @@ class _ItemDetailState extends State<ItemDetail> {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   "Price : " + imgPathMap['price'].toString().toUpperCase(),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      fontStyle: FontStyle.italic),
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              fit: (openedCategoryName.toUpperCase() == "CAKES & PASTRIES" ||
+                      openedCategoryName.toUpperCase() == "CAKES")
+                  ? FlexFit.tight
+                  : FlexFit.loose,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Text(
+                  "MRP : " + imgPathMap['MRP'].toString().toUpperCase(),
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
