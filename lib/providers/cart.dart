@@ -208,6 +208,7 @@ class CartProvider with ChangeNotifier {
       String? photoOnCakeUrl,
       String? cakeDescription,
       String? cakeUrl,
+      String? neededOnDate,
       String? orderType}) async {
     var todaysDate = DateTime.now();
     var year = todaysDate.year.toString();
@@ -229,6 +230,7 @@ class CartProvider with ChangeNotifier {
             "customType": orderType,
             "photoOnCakeUrl": photoOnCakeUrl,
             "cakeDescription": cakeDescription,
+            "neededOnDate": neededOnDate,
             "imgUrl": cakeUrl,
           }));
     } catch (error) {

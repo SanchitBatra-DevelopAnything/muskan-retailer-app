@@ -35,7 +35,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
 
   var cakeDescriptionController = TextEditingController();
 
-  DateTime date = DateTime.now();
+  DateTime neededOnDate = DateTime.now();
   DateTime minDate = DateTime.now();
 
   @override
@@ -182,6 +182,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
             photoOnCakeUrl: photoOnCakeUrl,
             loggedInRetailer: shopKeeper.toUpperCase(),
             orderType: orderType,
+            neededOnDate: neededOnDate.toString(),
             shopAddress: shop.toUpperCase(),
             time: time)
         .then((_) => {
@@ -476,7 +477,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                 Flexible(
                                   flex: 2,
                                   child: Text(
-                                    '${date.day}-${date.month}-${date.year}',
+                                    '${neededOnDate.day}-${neededOnDate.month}-${neededOnDate.year}',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -500,7 +501,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                               height: 250,
                                               child: CupertinoDatePicker(
                                                 backgroundColor: Colors.white,
-                                                initialDateTime: date,
+                                                initialDateTime: neededOnDate,
                                                 minimumDate: new DateTime(
                                                     DateTime.now().year,
                                                     DateTime.now().month,
@@ -509,7 +510,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                                 onDateTimeChanged:
                                                     (DateTime newTime) {
                                                   setState(() {
-                                                    date = newTime;
+                                                    neededOnDate = newTime;
                                                   });
                                                 },
                                                 use24hFormat: true,
