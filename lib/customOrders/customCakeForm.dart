@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/date_time_patterns.dart';
 import 'package:intl/intl.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
@@ -32,6 +34,9 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
   bool _isFirstTime = true;
 
   var cakeDescriptionController = TextEditingController();
+
+  DateTime date = DateTime.now();
+  DateTime minDate = DateTime.now();
 
   @override
   void didChangeDependencies() {
@@ -450,6 +455,74 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                         this.selectedFlavour = value,
                                       })
                                 }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "Need delivery by : ",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  flex: 2,
+                                  child: Text(
+                                    '${date.day}-${date.month}-${date.year}',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                    child: CupertinoButton(
+                                  child: Text(
+                                    "Change",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  onPressed: () {
+                                    showCupertinoModalPopup(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            SizedBox(
+                                              height: 250,
+                                              child: CupertinoDatePicker(
+                                                backgroundColor: Colors.white,
+                                                initialDateTime: date,
+                                                minimumDate: new DateTime(
+                                                    DateTime.now().year,
+                                                    DateTime.now().month,
+                                                    DateTime.now().day,
+                                                    DateTime.now().hour - 5),
+                                                onDateTimeChanged:
+                                                    (DateTime newTime) {
+                                                  setState(() {
+                                                    date = newTime;
+                                                  });
+                                                },
+                                                use24hFormat: true,
+                                                mode: CupertinoDatePickerMode
+                                                    .date,
+                                              ),
+                                            ));
+                                  },
+                                ))
+                              ],
+                            ),
+                          ],
+                        ),
                         SizedBox(
                           height: 20,
                         ),
