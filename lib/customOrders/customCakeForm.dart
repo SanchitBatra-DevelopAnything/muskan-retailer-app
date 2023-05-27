@@ -23,7 +23,7 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
 
   File? _photoOnCake;
   num? pounds = 1;
-  String? selectedFlavour = "pineapple";
+  String? selectedFlavour = null;
 
   bool _isUploading = false;
   bool _isFetchingUrl = false;
@@ -78,6 +78,14 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
   }
 
   void placeCustomOrder(BuildContext context, String orderType) async {
+    if (selectedFlavour == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: const Duration(
+            milliseconds: 700,
+          ),
+          content: Text("Please Select Flavour!")));
+      return;
+    }
     if (_pickedImage == null && orderType.toLowerCase() != "message cakes") {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           duration: const Duration(
