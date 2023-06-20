@@ -359,6 +359,7 @@ class _CategoriesState extends State<Categories> {
     final appType = Provider.of<AuthProvider>(context, listen: false).appType;
     final alreadyNotificationSetup =
         Provider.of<NotificationProvider>(context).notificationAlreadySetup;
+    final shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
@@ -508,6 +509,18 @@ class _CategoriesState extends State<Categories> {
                   !alreadyNotificationSetup
                       ? notificationBanner()
                       : Container(),
+                  appType == "retailer"
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 23.0),
+                          child: Text(
+                            "Logged In From : ${shop}",
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                        )
+                      : Container(),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Flexible(
                     child: GridView.builder(
                       padding: const EdgeInsets.all(20.0),
