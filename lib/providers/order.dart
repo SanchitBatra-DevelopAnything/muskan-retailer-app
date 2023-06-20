@@ -3,15 +3,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:muskan_shop/models/customOrder.dart';
 import 'package:muskan_shop/models/regularOrder.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/material.dart';
 import 'package:muskan_shop/models/regularShopOrderItem.dart';
-import 'package:muskan_shop/providers/auth.dart';
-import 'package:provider/provider.dart';
 
 class OrderProvider with ChangeNotifier {
   List<regularOrder> _activeRegularOrders = [];
@@ -118,6 +114,9 @@ class OrderProvider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       final List<regularOrder> loadedRegularOrders = [];
+      if (response.body == 'null') {
+        return;
+      }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) {
         return;
@@ -167,6 +166,9 @@ class OrderProvider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       final List<regularOrder> loadedRegularDistributorOrders = [];
+      if (response.body == 'null') {
+        return;
+      }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) {
         return;
@@ -217,6 +219,9 @@ class OrderProvider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       final List<customOrder> loadedCustomOrders = [];
+      if (response.body == 'null') {
+        return;
+      }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) return;
       extractedData.forEach((orderId, orderData) {
@@ -238,9 +243,9 @@ class OrderProvider with ChangeNotifier {
       _processedCustomOrders = [];
       _processedCustomOrders = loadedCustomOrders
           .where((order) =>
-              order.orderedBy.toLowerCase().trim() ==
+              order.orderedBy!.toLowerCase().trim() ==
                   retailer.toLowerCase().trim() &&
-              order.shopAddress.toLowerCase().trim() ==
+              order.shopAddress!.toLowerCase().trim() ==
                   shop.toLowerCase().trim())
           .toList();
       notifyListeners();
@@ -256,9 +261,13 @@ class OrderProvider with ChangeNotifier {
       final response = await http.get(Uri.parse(url));
       final List<regularOrder> loadedRegularOrders = [];
       final List<customOrder> loadedCustomOrders = [];
+      if (response.body == 'null') {
+        return;
+      }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) return;
       extractedData.forEach((orderId, orderData) {
+        print("trying " + orderId);
         if (orderData['customType'] != null) {
           print("REACHED CUSTOM FETCH");
           loadedCustomOrders.add(customOrder(
@@ -268,13 +277,14 @@ class OrderProvider with ChangeNotifier {
               imgUrl: orderData['imgUrl'],
               orderDate: orderData['orderDate'],
               orderType: orderData['orderType'],
-              orderKey: orderData['orderKey'],
+              orderKey: orderId,
               orderTime: orderData['orderTime'],
               orderedBy: orderData['orderedBy'],
               status: "IN PROGRESS",
               photoOnCakeUrl: orderData['photoOnCakeUrl'],
               pounds: orderData['pounds'],
               shopAddress: orderData['shopAddress']));
+          print("passed with = " + orderId);
         } else {
           print("REACHED REGULAR FETCH");
           List<RegularShopOrderItem> items = [];
@@ -310,9 +320,9 @@ class OrderProvider with ChangeNotifier {
       _activeCustomOrders = [];
       _activeCustomOrders = loadedCustomOrders
           .where((order) =>
-              order.orderedBy.toLowerCase().trim() ==
+              order.orderedBy!.toLowerCase().trim() ==
                   retailer.toLowerCase().trim() &&
-              order.shopAddress.toLowerCase().trim() ==
+              order.shopAddress!.toLowerCase().trim() ==
                   shop.toLowerCase().trim())
           .toList();
       print("OUT OF LOOP");
@@ -330,6 +340,9 @@ class OrderProvider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       final List<regularOrder> loadedRegularDistributorOrders = [];
+      if (response.body == 'null') {
+        return;
+      }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) return;
       extractedData.forEach((orderId, orderData) {
