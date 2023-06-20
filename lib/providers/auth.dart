@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:muskan_shop/distributors/models/Distributor.dart';
 import 'package:muskan_shop/models/shop.dart';
 
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';

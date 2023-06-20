@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:muskan_shop/distributors/distLogin.dart';
 import 'package:muskan_shop/distributors/distSignUp.dart';
 
-import '../login.dart';
-import '../signup.dart';
-
 class DistributorHome extends StatefulWidget {
   const DistributorHome({Key? key}) : super(key: key);
 

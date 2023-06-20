@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/categories.dart';
 import 'package:muskan_shop/models/category.dart';
@@ -212,7 +214,7 @@ class CategoriesProvider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       final List<Item> loadedItems = [];
-      if (response.body == null) {
+      if (response.body == 'null') {
         _activeDirectVarietyItems = [];
         notifyListeners();
         return;
@@ -257,7 +259,7 @@ class CategoriesProvider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       final List<Item> loadedItems = [];
-      if (response.body == null) {
+      if (response.body == 'null') {
         _activeSubcategoryItems = [];
         notifyListeners();
         return;
@@ -299,6 +301,11 @@ class CategoriesProvider with ChangeNotifier {
       loadedSubCategories.add(Subcategory(
           subcategoryId: activeCategoryKey!,
           subcategoryName: "DIRECT VARIETY"));
+      if (response.body == 'null') {
+        _subCategories = loadedSubCategories;
+        notifyListeners();
+        return;
+      }
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) {
         _subCategories = loadedSubCategories;

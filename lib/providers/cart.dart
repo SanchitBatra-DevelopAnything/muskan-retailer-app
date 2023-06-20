@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -270,7 +272,8 @@ class CartProvider with ChangeNotifier {
         "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/${shop}/${retailer}/items.json";
     try {
       final response = await http.get(Uri.parse(url));
-      if (response == null) {
+      print(response);
+      if (response.body == 'null') {
         return;
       }
       // final List<CartItem> loadedItems = [];
