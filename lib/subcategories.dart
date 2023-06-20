@@ -113,7 +113,7 @@ class _SubcategoriesState extends State<Subcategories> {
                           Flexible(
                             child: Consumer<CartProvider>(
                               builder: (_, cart, ch) => BadgeCustom(
-                                child: ch,
+                                child: ch!,
                                 value: cart.itemCount.toString(),
                                 color: Colors.red,
                               ),
