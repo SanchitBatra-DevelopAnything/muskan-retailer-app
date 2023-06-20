@@ -92,26 +92,32 @@ class _DistributorLoginState extends State<DistributorLogin> {
     final AuthProviderObject = Provider.of<AuthProvider>(context);
     final distributorships = AuthProviderObject.distributorships;
     final distributors = AuthProviderObject.distributors;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "Login",
           style: TextStyle(
-              fontSize: 30,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic),
+            fontSize: 30,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          ),
         ),
         Container(
           width: 350,
           child: TextField(
             controller: distributorIdController,
             style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)),
+                borderSide: BorderSide(color: Colors.white),
+              ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
@@ -120,39 +126,36 @@ class _DistributorLoginState extends State<DistributorLogin> {
             ),
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10),
         Text(
           "Select your area from the dropdown below",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+            color: Colors.white,
+          ),
         ),
         Container(
           width: 300,
           child: DropdownButton<String>(
-              items: distributorships.map(buildMenuItem).toList(),
-              isExpanded: true,
-              iconSize: 36,
-              dropdownColor: Colors.black,
-              style: TextStyle(color: Colors.white),
-              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-              value: selectedDistributorship,
-              onChanged: (value) => {
-                    setState(() => {
-                          this.selectedDistributorship = value,
-                        })
-                  }),
+            items: distributorships.map(buildMenuItem).toList(),
+            isExpanded: true,
+            iconSize: 36,
+            dropdownColor: Colors.black,
+            style: TextStyle(color: Colors.white),
+            icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+            value: selectedDistributorship,
+            onChanged: (value) =>
+                setState(() => selectedDistributorship = value),
+          ),
         ),
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             isLoading
                 ? CircularProgressIndicator()
-                : RaisedButton(
+                : ElevatedButton(
                     onPressed: () {
                       login(distributors);
                     },
@@ -160,15 +163,19 @@ class _DistributorLoginState extends State<DistributorLogin> {
                       "Login",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    color: Colors.red,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                    ),
                   ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: widget.onFormChange,
               child: Text(
                 "Move to SignUp",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              color: Colors.red,
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red,
+              ),
             ),
           ],
         ),
@@ -179,13 +186,14 @@ class _DistributorLoginState extends State<DistributorLogin> {
                   Text(
                     "Invalid Login :(",
                     style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               )
-            : Container()
+            : Container(),
       ],
     );
   }

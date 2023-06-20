@@ -287,8 +287,9 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  RaisedButton(
-                                    color: Colors.red,
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.red),
                                     onPressed: () {
                                       _pickImage('Gallery');
                                     },
@@ -298,8 +299,9 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                           color: Colors.white, fontSize: 18),
                                     ),
                                   ),
-                                  RaisedButton(
-                                    color: Colors.red,
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.red),
                                     onPressed: () {
                                       _pickImage('Camera');
                                     },
@@ -359,8 +361,9 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  RaisedButton(
-                                    color: Colors.red,
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.red),
                                     onPressed: () {
                                       _pickPhotoOnCake('Gallery');
                                     },
@@ -370,8 +373,9 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                           color: Colors.white, fontSize: 18),
                                     ),
                                   ),
-                                  RaisedButton(
-                                    color: Colors.red,
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.red),
                                     onPressed: () {
                                       _pickPhotoOnCake('Camera');
                                     },
@@ -486,7 +490,9 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                                   ),
                                 ),
                                 Flexible(
-                                    child: CupertinoButton(
+                                    child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.black),
                                   child: Text(
                                     "Change",
                                     style: TextStyle(
@@ -527,8 +533,8 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                         SizedBox(
                           height: 20,
                         ),
-                        RaisedButton(
-                          color: Colors.red,
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(primary: Colors.red),
                           child: Text(
                             "Place Order",
                             style: TextStyle(color: Colors.white, fontSize: 18),

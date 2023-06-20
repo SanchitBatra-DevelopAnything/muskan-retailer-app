@@ -108,178 +108,188 @@ class _ItemState extends State<Item> {
             .activeSubcategoryName;
     final appType = Provider.of<AuthProvider>(context, listen: false).appType;
     return Padding(
-        padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
-        child: GestureDetector(
-            onTap: () {},
-            child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 3.0,
-                      blurRadius: 5.0,
-                    )
-                  ],
-                  color: Color.fromRGBO(51, 51, 51, 0.8),
+      padding: EdgeInsets.only(top: 15, left: 5, bottom: 5, right: 5),
+      child: GestureDetector(
+        onTap: () {},
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 3.0,
+                blurRadius: 5.0,
+              )
+            ],
+            color: Color.fromRGBO(51, 51, 51, 0.8),
+          ),
+          child: Column(
+            children: [
+              Flexible(
+                flex: 5,
+                fit: FlexFit.tight,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/item-detail', arguments: {
+                      'imgPath': widget.imgPath,
+                      'price': getPrice(),
+                      'itemName': appType == "retailer"
+                          ? widget.itemName
+                          : widget.distributorItemName,
+                      'cakeFlavour': widget.cakeFlavour,
+                      'designCategory': widget.designCategory,
+                      'minPounds': widget.minPounds,
+                      'MRP': widget.customerPrice,
+                    });
+                  },
+                  child: Hero(
+                    tag: widget.imgPath,
+                    child: Image.network(
+                      widget.imgPath,
+                      fit: BoxFit.fill,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.red,
+                              strokeWidth: 5,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    Flexible(
-                      flex: 5,
-                      fit: FlexFit.tight,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushNamed('/item-detail', arguments: {
-                            'imgPath': widget.imgPath,
-                            'price': getPrice(),
-                            'itemName': appType == "retailer"
-                                ? widget.itemName
-                                : widget.distributorItemName,
-                            'cakeFlavour': widget.cakeFlavour,
-                            'designCategory': widget.designCategory,
-                            'minPounds': widget.minPounds,
-                            'MRP': widget.customerPrice,
-                          });
-                        },
-                        child: Hero(
-                          tag: widget.imgPath,
-                          child: Image.network(
-                            widget.imgPath,
-                            fit: BoxFit.fill,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                      color: Colors.red, strokeWidth: 5),
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                      ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Text(
+                  getPrice(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text(
+                    appType == "retailer"
+                        ? widget.itemName.toLowerCase()
+                        : widget.distributorItemName.toString().toLowerCase(),
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
-                    Flexible(
-                      flex: 1,
-                      child: Text(
-                        getPrice(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text(
-                          appType == "retailer"
-                              ? widget.itemName.toLowerCase()
-                              : widget.distributorItemName
-                                  .toString()
-                                  .toLowerCase(),
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                  ),
+                ),
+              ),
+              Flexible(child: Divider(), flex: 1),
+              Flexible(
+                flex: 2,
+                child: Center(
+                  child: (parentCategory!.toUpperCase() == "CAKES & PASTRIES" ||
+                          parentCategory.toUpperCase() == "CAKES")
+                      ? ElevatedButton(
+                          onPressed: () {
+                            openCakeCustomizePopup(
+                              context,
+                              widget.imgPath,
+                              widget.price,
+                              widget.itemName,
+                              widget.itemId,
+                              widget.cakeFlavour,
+                              widget.minPounds,
+                              widget.designCategory,
+                            );
+                          },
+                          child: Text(
+                            "Select",
+                            style: TextStyle(
+                              fontSize: 16,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
-                      ),
-                    ),
-                    Flexible(child: Divider(), flex: 1),
-                    Flexible(
-                      flex: 2,
-                      child: Center(
-                          child: (parentCategory!.toUpperCase() ==
-                                      "CAKES & PASTRIES" ||
-                                  parentCategory.toUpperCase() == "CAKES")
-                              ? RaisedButton(
-                                  onPressed: () {
-                                    openCakeCustomizePopup(
-                                        context,
-                                        widget.imgPath,
-                                        widget.price,
-                                        widget.itemName,
-                                        widget.itemId,
-                                        widget.cakeFlavour,
-                                        widget.minPounds,
-                                        widget.designCategory);
-                                  },
-                                  child: Text("Select",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold)),
-                                  color: Colors.red)
-                              : !_isInCart
-                                  ? RaisedButton(
-                                      child: Text("Add to cart",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          )),
-                                      color: Colors.red,
-                                      onPressed: () {
-                                        cartProviderObject.addItem(
-                                            widget.itemId,
-                                            appType == "retailer"
-                                                ? widget.price
-                                                : widget.distributorPrice,
-                                            parentSubcategory!.toUpperCase() ==
-                                                    "PATTIES"
-                                                ? 0.5
-                                                : 1,
-                                            appType == "retailer"
-                                                ? widget.itemName
-                                                : widget.distributorItemName
-                                                    .toString(),
-                                            widget.imgPath,
-                                            parentCategory,
-                                            parentSubcategory);
-                                        setState(() {
-                                          _isInCart = true;
-                                        });
-                                      },
-                                    )
-                                  : CountButtonView(
-                                      itemId: widget.itemId,
-                                      parentCategory: parentCategory,
-                                      parentSubcategory: parentSubcategory!,
-                                      onChange: (count) => {
-                                            if (count == 0)
-                                              {
-                                                cartProviderObject
-                                                    .removeItem(widget.itemId),
-                                                setState(
-                                                    () => {_isInCart = false})
-                                              }
-                                            else if (count > 0)
-                                              {
-                                                cartProviderObject.addItem(
-                                                    widget.itemId,
-                                                    appType == "retailer"
-                                                        ? widget.price
-                                                        : widget
-                                                            .distributorPrice,
-                                                    count,
-                                                    appType == "retailer"
-                                                        ? widget.itemName
-                                                            .toLowerCase()
-                                                        : widget
-                                                            .distributorItemName
-                                                            .toString()
-                                                            .toLowerCase(),
-                                                    widget.imgPath,
-                                                    parentCategory,
-                                                    parentSubcategory)
-                                              }
-                                          })),
-                    )
-                  ],
-                ))));
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.red,
+                          ),
+                        )
+                      : !_isInCart
+                          ? ElevatedButton(
+                              onPressed: () {
+                                cartProviderObject.addItem(
+                                  widget.itemId,
+                                  appType == "retailer"
+                                      ? widget.price
+                                      : widget.distributorPrice,
+                                  parentSubcategory!.toUpperCase() == "PATTIES"
+                                      ? 0.5
+                                      : 1,
+                                  appType == "retailer"
+                                      ? widget.itemName
+                                      : widget.distributorItemName.toString(),
+                                  widget.imgPath,
+                                  parentCategory,
+                                  parentSubcategory,
+                                );
+                                setState(() {
+                                  _isInCart = true;
+                                });
+                              },
+                              child: Text(
+                                "Add to cart",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.red,
+                              ),
+                            )
+                          : CountButtonView(
+                              itemId: widget.itemId,
+                              parentCategory: parentCategory,
+                              parentSubcategory: parentSubcategory!,
+                              onChange: (count) {
+                                if (count == 0) {
+                                  cartProviderObject.removeItem(widget.itemId);
+                                  setState(() {
+                                    _isInCart = false;
+                                  });
+                                } else if (count > 0) {
+                                  cartProviderObject.addItem(
+                                    widget.itemId,
+                                    appType == "retailer"
+                                        ? widget.price
+                                        : widget.distributorPrice,
+                                    count,
+                                    appType == "retailer"
+                                        ? widget.itemName.toLowerCase()
+                                        : widget.distributorItemName
+                                            .toString()
+                                            .toLowerCase(),
+                                    widget.imgPath,
+                                    parentCategory,
+                                    parentSubcategory,
+                                  );
+                                }
+                              },
+                            ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

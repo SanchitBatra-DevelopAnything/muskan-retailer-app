@@ -188,7 +188,7 @@ class _ItemsState extends State<Items> {
                           ),
                         Flexible(
                           child: Consumer<CartProvider>(
-                            builder: (_, cart, ch) => Badge(
+                            builder: (_, cart, ch) => BadgeCustom(
                               child: ch,
                               value: cart.itemCount.toString(),
                               color: Colors.red,

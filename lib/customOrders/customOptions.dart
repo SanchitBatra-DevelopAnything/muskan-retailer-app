@@ -69,7 +69,7 @@ class CustomOrderOptions extends StatelessWidget {
                           fontStyle: FontStyle.normal),
                     ),
                     Consumer<CartProvider>(
-                      builder: (_, cart, ch) => Badge(
+                      builder: (_, cart, ch) => BadgeCustom(
                         child: ch,
                         value: cart.itemCount.toString(),
                         color: Colors.red,

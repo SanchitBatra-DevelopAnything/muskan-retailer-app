@@ -211,16 +211,24 @@ class _CategoriesState extends State<Categories> {
         title: Text(
           'CLOSED AFTER 10:30pm',
           style: TextStyle(
-              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         content: Text(
           "You can still place your order. Your order will be accepted after 6:00am.",
           style: TextStyle(
-              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: <Widget>[
-          RaisedButton(
-            color: Colors.red,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+            ),
             child: const Text(
               'OK',
               style: TextStyle(fontSize: 20, color: Colors.white),
@@ -245,16 +253,24 @@ class _CategoriesState extends State<Categories> {
         title: Text(
           'Logout?',
           style: TextStyle(
-              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         content: Text(
           "Are you sure you want to logout?",
           style: TextStyle(
-              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: <Widget>[
-          RaisedButton(
-            color: Colors.red,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+            ),
             child: const Text(
               'YES',
               style: TextStyle(fontSize: 20, color: Colors.white),
@@ -267,8 +283,10 @@ class _CategoriesState extends State<Categories> {
               }
             },
           ),
-          RaisedButton(
-            color: Colors.red,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+            ),
             child: const Text(
               'NO',
               style: TextStyle(fontSize: 20, color: Colors.white),
@@ -284,33 +302,40 @@ class _CategoriesState extends State<Categories> {
 
   showUpdateBox(BuildContext context) async {
     await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
-        title: Text(
-          'UPDATE NECESSARY',
-          style: TextStyle(
-              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        content: Text(
-          "Please update the app to use new features. We don't support the older versions when new updates are available.",
-          style: TextStyle(
-              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-        ),
-        actions: <Widget>[
-          RaisedButton(
-            color: const Color(0xff1D741B),
-            child: const Text(
-              'UPDATE',
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
-            onPressed: () {
-              StoreRedirect.redirect(androidAppId: 'com.muskan.shop');
-            },
-          )
-        ],
-      ),
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (ctx) => AlertDialog(
+              title: Text(
+                'UPDATE NECESSARY',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              content: Text(
+                "Please update the app to use new features. We don't support the older versions when new updates are available.",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              actions: <Widget>[
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xff1D741B),
+                  ),
+                  child: const Text(
+                    'UPDATE',
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                  onPressed: () {
+                    StoreRedirect.redirect(androidAppId: 'com.muskan.shop');
+                  },
+                )
+              ],
+            ));
   }
 
   void moveToSubcategories(BuildContext context, Category selectedCategory) {
@@ -446,7 +471,7 @@ class _CategoriesState extends State<Categories> {
                           ),
                         ),
                         Consumer<CartProvider>(
-                          builder: (_, cart, ch) => Badge(
+                          builder: (_, cart, ch) => BadgeCustom(
                             child: ch,
                             value: cart.itemCount.toString(),
                             color: Colors.red,

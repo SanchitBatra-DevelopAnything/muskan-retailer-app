@@ -286,7 +286,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                 !_isInCart
                     ? Container(
                         width: double.infinity - 200,
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () {
                             if (poundController.text == "0.00") {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -311,7 +311,7 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
                                   color: Colors.white,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold)),
-                          color: Colors.red,
+                          style: ElevatedButton.styleFrom(primary: Colors.red),
                         ),
                       )
                     : Container(

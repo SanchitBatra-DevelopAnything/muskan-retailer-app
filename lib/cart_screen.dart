@@ -24,16 +24,24 @@ class _CartScreenState extends State<CartScreen> {
         title: Text(
           'Order Checkout!',
           style: TextStyle(
-              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         content: Text(
           "Confirm?",
           style: TextStyle(
-              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: <Widget>[
-          RaisedButton(
-            color: Colors.red,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+            ),
             child: const Text(
               'No',
               style: TextStyle(fontSize: 20, color: Colors.white),
@@ -42,8 +50,10 @@ class _CartScreenState extends State<CartScreen> {
               Navigator.of(context).pop();
             },
           ),
-          RaisedButton(
-            color: Colors.red,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+            ),
             child: const Text(
               'Yes',
               style: TextStyle(fontSize: 20, color: Colors.white),
@@ -81,9 +91,6 @@ class _CartScreenState extends State<CartScreen> {
                             Navigator.pushNamedAndRemoveUntil(
                                 context, "/orderPlaced", (r) => false)
                           })
-                      // setState(() {
-                      //   _isPlacingOrder = false;
-                      // }),
                     });
               } else {
                 cartObject.PlaceDistributorOrder(
@@ -96,13 +103,10 @@ class _CartScreenState extends State<CartScreen> {
                                     Navigator.pushNamedAndRemoveUntil(
                                         context, "/orderPlaced", (r) => false)
                                   })
-                          // setState(() {
-                          //   _isPlacingOrder = false;
-                          // }),
                         });
               }
             },
-          )
+          ),
         ],
       ),
     );
@@ -116,16 +120,24 @@ class _CartScreenState extends State<CartScreen> {
         title: Text(
           'Save Cart?',
           style: TextStyle(
-              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         content: Text(
           "Saved cart items will remain after you close the app.",
           style: TextStyle(
-              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: <Widget>[
-          RaisedButton(
-            color: Colors.red,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+            ),
             child: const Text(
               'No',
               style: TextStyle(fontSize: 20, color: Colors.white),
@@ -134,8 +146,10 @@ class _CartScreenState extends State<CartScreen> {
               Navigator.of(context).pop();
             },
           ),
-          RaisedButton(
-            color: Colors.red,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+            ),
             child: const Text(
               'Yes',
               style: TextStyle(fontSize: 20, color: Colors.white),
@@ -147,12 +161,10 @@ class _CartScreenState extends State<CartScreen> {
               });
               cartObject.deleteCartOnDB(retailer, shop).then((value) =>
                   cartObject.saveCart(retailer, shop).then((value) => {
-                        setState(
-                          () => _isSavingCart = false,
-                        ),
+                        setState(() => _isSavingCart = false),
                       }));
             },
-          )
+          ),
         ],
       ),
     );
@@ -282,16 +294,14 @@ class _CartScreenState extends State<CartScreen> {
                               width: 300,
                               height: 50,
                               child: totalItems != 0
-                                  ? RaisedButton(
+                                  ? ElevatedButton(
                                       onPressed: () {
-                                        Future.delayed(
-                                            const Duration(milliseconds: 0),
-                                            () {
-                                          showOrderDialog(
-                                              context, cartProviderObject);
-                                        });
+                                        showOrderDialog(
+                                            context, cartProviderObject);
                                       },
-                                      color: Color.fromRGBO(51, 51, 51, 1),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color.fromRGBO(51, 51, 51, 1),
+                                      ),
                                       child: AnimatedTextKit(
                                           onTap: () {
                                             deleteCartBasedOnAppType(

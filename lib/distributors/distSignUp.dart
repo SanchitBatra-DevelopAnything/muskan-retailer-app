@@ -57,19 +57,23 @@ class _DistributorSignupState extends State<DistributorSignup> {
         title: Text(
           'Signed Up!',
           style: TextStyle(
-              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         content: Text(
           "You will be able to login once admin approves your request",
           style: TextStyle(
-              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+            color: Colors.black,
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: <Widget>[
-          RaisedButton(
-            color: Colors.red,
-            child: const Text(
-              'Okay',
-              style: TextStyle(fontSize: 20, color: Colors.white),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
             ),
             onPressed: () {
               distributorIdController.text = '';
@@ -77,7 +81,11 @@ class _DistributorSignupState extends State<DistributorSignup> {
               selectedDistributorship = null;
               Navigator.of(context).pop();
             },
-          )
+            child: const Text(
+              'Okay',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
         ],
       ),
     ).then((_) {
@@ -97,20 +105,25 @@ class _DistributorSignupState extends State<DistributorSignup> {
         Text(
           "Sign Up",
           style: TextStyle(
-              fontSize: 30,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontStyle: FontStyle.italic),
+            fontSize: 30,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          ),
         ),
         Container(
           width: 350,
           child: TextField(
             controller: distributorIdController,
             style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)),
+                borderSide: BorderSide(color: Colors.white),
+              ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
@@ -128,10 +141,14 @@ class _DistributorSignupState extends State<DistributorSignup> {
             keyboardType: TextInputType.number,
             controller: contactNumberController,
             style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white)),
+                borderSide: BorderSide(color: Colors.white),
+              ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
@@ -144,23 +161,27 @@ class _DistributorSignupState extends State<DistributorSignup> {
         Text(
           "Select your area from the dropdown below",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+            color: Colors.white,
+          ),
         ),
         Container(
           width: 300,
           child: DropdownButton<String>(
-              items: distributorships.map(buildMenuItem).toList(),
-              isExpanded: true,
-              dropdownColor: Colors.black,
-              iconSize: 36,
-              icon: Icon(Icons.arrow_drop_down, color: Colors.white),
-              value: selectedDistributorship,
-              style: TextStyle(color: Colors.white),
-              onChanged: (value) => {
-                    setState(() => {
-                          this.selectedDistributorship = value,
-                        })
-                  }),
+            items: distributorships.map(buildMenuItem).toList(),
+            isExpanded: true,
+            dropdownColor: Colors.black,
+            iconSize: 36,
+            icon: Icon(Icons.arrow_drop_down, color: Colors.white),
+            value: selectedDistributorship,
+            style: TextStyle(color: Colors.white),
+            onChanged: (value) => {
+              setState(() => {
+                    this.selectedDistributorship = value,
+                  })
+            },
+          ),
         ),
         SizedBox(
           height: 10,
@@ -170,21 +191,25 @@ class _DistributorSignupState extends State<DistributorSignup> {
           children: [
             _isSigningUp
                 ? CircularProgressIndicator()
-                : RaisedButton(
+                : ElevatedButton(
                     onPressed: signup,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                    ),
                     child: Text(
                       "Sign Up",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    color: Colors.red,
                   ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: widget.onFormChange,
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red,
+              ),
               child: Text(
                 "Move to Login",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              color: Colors.red,
             ),
           ],
         )
