@@ -68,8 +68,8 @@ class _SignUpState extends State<SignUp> {
               color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
-          RaisedButton(
-            color: Colors.red,
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: Colors.red),
             child: const Text(
               'Okay',
               style: TextStyle(fontSize: 20, color: Colors.white),
@@ -173,21 +173,21 @@ class _SignUpState extends State<SignUp> {
           children: [
             isSigningUp
                 ? CircularProgressIndicator()
-                : RaisedButton(
+                : ElevatedButton(
                     onPressed: signup,
                     child: Text(
                       "Sign Up",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    color: Colors.red,
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
                   ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: widget.onFormChange,
               child: Text(
                 "Move to Login",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              color: Colors.red,
+              style: ElevatedButton.styleFrom(primary: Colors.red),
             ),
           ],
         )

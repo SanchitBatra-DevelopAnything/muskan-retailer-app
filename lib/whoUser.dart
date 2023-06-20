@@ -15,7 +15,7 @@ class _WhoIsUserState extends State<WhoIsUser> {
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
-        // show the confirm dialog
+// show the confirm dialog
         await showDialog(
             context: context,
             builder: (_) => AlertDialog(
@@ -110,7 +110,7 @@ class _WhoIsUserState extends State<WhoIsUser> {
             SizedBox(
               height: 10,
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () {
                 userType.toLowerCase() == "retailer"
                     ? Navigator.of(context)
@@ -118,7 +118,7 @@ class _WhoIsUserState extends State<WhoIsUser> {
                     : Navigator.of(context)
                         .pushReplacementNamed("/distributorHome");
               },
-              color: Colors.red,
+              style: ElevatedButton.styleFrom(primary: Colors.red),
               child: Text(
                 "PROCEED",
                 style: TextStyle(
