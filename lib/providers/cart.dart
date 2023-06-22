@@ -272,7 +272,6 @@ class CartProvider with ChangeNotifier {
         "https://muskan-admin-app-default-rtdb.firebaseio.com/cart/${shop}/${retailer}/items.json";
     try {
       final response = await http.get(Uri.parse(url));
-      print(response);
       if (response.body == 'null') {
         return;
       }

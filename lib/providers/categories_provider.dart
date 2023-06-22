@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
-import 'package:muskan_shop/categories.dart';
 import 'package:muskan_shop/models/category.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -238,7 +237,7 @@ class CategoriesProvider with ChangeNotifier {
             distributorPrice: ItemData['distributorPrice'],
             designCategory: ItemData['designCategory']));
       });
-      _activeDirectVarietyItems = loadedItems;
+      _activeDirectVarietyItems = loadedItems.reversed.toList();
       _activeDirectVarietyFilteredItems = [..._activeDirectVarietyItems];
       notifyListeners();
     } catch (error) {
@@ -280,7 +279,7 @@ class CategoriesProvider with ChangeNotifier {
             distributorPrice: ItemData['distributorPrice'],
             designCategory: ItemData['designCategory']));
       });
-      _activeSubcategoryItems = loadedItems;
+      _activeSubcategoryItems = loadedItems.reversed.toList();
       _activeSubcategoryFilteredItems = [..._activeSubcategoryItems];
       notifyListeners();
     } catch (error) {
