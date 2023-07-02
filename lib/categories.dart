@@ -276,6 +276,8 @@ class _CategoriesState extends State<Categories> {
               style: TextStyle(fontSize: 20, color: Colors.white),
             ),
             onPressed: () async {
+              Provider.of<CartProvider>(context, listen: false)
+                  .clearCart(); //taaki next login se mix na hon same phone me.
               bool cleared = await logout();
               if (cleared) {
                 Navigator.of(context)
