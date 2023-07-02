@@ -273,6 +273,7 @@ class CartProvider with ChangeNotifier {
     try {
       final response = await http.get(Uri.parse(url));
       if (response.body == 'null') {
+        print("NULLL AAGYI DB WALE CART");
         return;
       }
       // final List<CartItem> loadedItems = [];
