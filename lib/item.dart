@@ -151,7 +151,7 @@ class _ItemState extends State<Item> {
                       fit: BoxFit.fill,
                       progressIndicatorBuilder:
                           (context, url, downloadProgress) => SpinKitPulse(
-                        color: Colors.red,
+                        color: Color.fromRGBO(51, 51, 51, 0.8),
                       ),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),

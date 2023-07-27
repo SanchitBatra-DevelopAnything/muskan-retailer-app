@@ -548,7 +548,7 @@ class _CategoriesState extends State<Categories> {
                                   progressIndicatorBuilder:
                                       (context, url, downloadProgress) =>
                                           SpinKitPulse(
-                                    color: Color(0xffdd0e1c),
+                                    color: Colors.white,
                                   ),
                                   errorWidget: (context, url, error) =>
                                       Icon(Icons.error),
