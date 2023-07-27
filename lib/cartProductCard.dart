@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:provider/provider.dart';
 
@@ -21,8 +23,17 @@ class _CartProductCardState extends State<CartProductCard> {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Flexible(
           flex: 5,
-          child: Image.network(widget.cartItem.imageUrl,
-              height: 80, width: 100, fit: BoxFit.cover),
+          child: CachedNetworkImage(
+            imageUrl: widget.cartItem.imageUrl,
+            height: 80,
+            width: 100,
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                SpinKitPulse(
+              color: Colors.black,
+            ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
         ),
         SizedBox(
           width: 10,

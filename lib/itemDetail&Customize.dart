@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -56,11 +58,17 @@ class _ItemDetailState extends State<ItemDetail> {
               child: Container(
                   width: double.infinity,
                   child: Hero(
-                      tag: imgPathMap['imgPath'].toString(),
-                      child: Image.network(
-                        imgPathMap['imgPath'].toString(),
-                        fit: BoxFit.fill,
-                      ))),
+                    tag: imgPathMap['imgPath'].toString(),
+                    child: CachedNetworkImage(
+                      imageUrl: imgPathMap['imgPath'].toString(),
+                      fit: BoxFit.fill,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => SpinKitPulse(
+                        color: Colors.red,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
+                  )),
             ),
             Flexible(
               flex: 3,

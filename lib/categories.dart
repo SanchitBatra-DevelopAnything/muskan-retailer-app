@@ -1,7 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:muskan_shop/badge.dart';
 import 'package:muskan_shop/models/category.dart';
 import 'package:muskan_shop/notificationBanner.dart';
@@ -540,17 +542,16 @@ class _CategoriesState extends State<Categories> {
                               child: Card(
                                 semanticContainer: true,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                                child: Image.network(
-                                  categories[i].imageUrl,
-                                  loadingBuilder: (context, child, progress) {
-                                    return progress == null
-                                        ? child
-                                        : LinearProgressIndicator(
-                                            backgroundColor: Colors.black12,
-                                          );
-                                  },
+                                child: CachedNetworkImage(
+                                  imageUrl: categories[i].imageUrl,
                                   fit: BoxFit.fill,
-                                  semanticLabel: categories[i].categoryName,
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          SpinKitPulse(
+                                    color: Color(0xffdd0e1c),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),

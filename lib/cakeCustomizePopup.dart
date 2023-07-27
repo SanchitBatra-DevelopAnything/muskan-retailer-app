@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:muskan_shop/models/flavour.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
@@ -147,11 +149,16 @@ class _CakeCustomizePopupState extends State<CakeCustomizePopup> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: Image.network(
-                    widget.imgUrl!,
-                    width: double.infinity,
+                  child: CachedNetworkImage(
+                    imageUrl: widget.imgUrl!,
                     fit: BoxFit.cover,
                     height: 150,
+                    width: double.infinity,
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => SpinKitPulse(
+                      color: Color(0xffdd0e1c),
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
                 SizedBox(

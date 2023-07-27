@@ -1,6 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:muskan_shop/cakeCustomizePopup.dart';
 import 'package:muskan_shop/itemQuantityCounter.dart';
 import 'package:muskan_shop/providers/auth.dart';
@@ -144,21 +146,14 @@ class _ItemState extends State<Item> {
                   },
                   child: Hero(
                     tag: widget.imgPath,
-                    child: Image.network(
-                      widget.imgPath,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.imgPath,
                       fit: BoxFit.fill,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.red,
-                              strokeWidth: 5,
-                            ),
-                          );
-                        }
-                      },
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => SpinKitPulse(
+                        color: Colors.red,
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                 ),
