@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:muskan_shop/models/designCategory.dart';
 import 'package:muskan_shop/models/flavour.dart';
 import 'package:muskan_shop/models/subcategory.dart';
+import 'package:muskan_shop/providers/auth.dart';
 
 import '../models/item.dart';
 
@@ -172,7 +173,7 @@ class CategoriesProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchCategoriesFromDB(appType) async {
+  Future<void> fetchCategoriesFromDB(appType, [bool isCaterer = false]) async {
     const url =
         "https://muskan-admin-app-default-rtdb.firebaseio.com/onlyCategories.json";
     try {
@@ -189,10 +190,20 @@ class CategoriesProvider with ChangeNotifier {
                 imageUrl: categoryData['imageUrl']));
           }
         } else {
-          loadedCategories.add(Category(
-              id: categoryId,
-              categoryName: categoryData['categoryName'],
-              imageUrl: categoryData['imageUrl']));
+          if (isCaterer) {
+            if (categoryData['forCaterer'] == true ||
+                categoryData['forCaterer'] == "true") {
+              loadedCategories.add(Category(
+                  id: categoryId,
+                  categoryName: categoryData['categoryName'],
+                  imageUrl: categoryData['imageUrl']));
+            }
+          } else {
+            loadedCategories.add(Category(
+                id: categoryId,
+                categoryName: categoryData['categoryName'],
+                imageUrl: categoryData['imageUrl']));
+          }
         }
       });
       _categories = loadedCategories;

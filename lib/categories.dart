@@ -103,11 +103,11 @@ class _CategoriesState extends State<Categories> {
 
       // var distributor = "";
       // var distributorship = "";
-
       doAuthStuff().then((_) => {
             Provider.of<CategoriesProvider>(context, listen: false)
                 .fetchCategoriesFromDB(
-                    Provider.of<AuthProvider>(context, listen: false).appType)
+                    Provider.of<AuthProvider>(context, listen: false).appType,
+                    Provider.of<AuthProvider>(context, listen: false).isCaterer)
                 .then((_) => {
                       if (mounted)
                         {

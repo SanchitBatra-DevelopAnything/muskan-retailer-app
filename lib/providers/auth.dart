@@ -17,6 +17,7 @@ class AuthProvider with ChangeNotifier {
   String loggedInDistributor = "";
   String loggedInDistributorship = "";
   String appType = "";
+  bool isCaterer = false;
 
   List<DistributorArea> _distributorships = [];
   List<Distributor> _distributors = [];
@@ -77,6 +78,11 @@ class AuthProvider with ChangeNotifier {
         await SharedPreferences.getInstance();
     sharedPreferences.setString("loggedInRetailer", retailerName);
     sharedPreferences.setString("loggedInShop", shopName);
+    if (shopName.startsWith("CT ")) {
+      isCaterer = true;
+    } else {
+      this.isCaterer = false;
+    }
     this.loggedInRetailer = retailerName;
     this.loggedInShop = shopName;
     this.appType = "retailer";
@@ -89,6 +95,11 @@ class AuthProvider with ChangeNotifier {
     this.loggedInRetailer =
         sharedPreferences.getString("loggedInRetailer").toString();
     this.loggedInShop = sharedPreferences.getString("loggedInShop").toString();
+    if (this.loggedInShop.startsWith(("CT "))) {
+      this.isCaterer = true;
+    } else {
+      this.isCaterer = false;
+    }
     notifyListeners();
   }
 
