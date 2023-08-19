@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
@@ -203,6 +204,33 @@ class _ItemsState extends State<Items> {
                               ),
                               iconSize: 30,
                             ),
+                          ),
+                        ),
+                        Flexible(
+                          child: IconButton(
+                            icon: const Icon(Icons.info_outline),
+                            iconSize: 28,
+                            color: Colors.white,
+                            onPressed: () {
+                              final snackBar = SnackBar(
+                                /// need to set following properties for best effect of awesome_snackbar_content
+                                elevation: 0,
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: Colors.transparent,
+                                content: AwesomeSnackbarContent(
+                                  title: 'Information',
+                                  message:
+                                      'Long press + - to change quantity by 50 directly and click on item image to view more information about it.',
+
+                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                  contentType: ContentType.success,
+                                ),
+                              );
+
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(snackBar);
+                            },
                           ),
                         )
                       ],
