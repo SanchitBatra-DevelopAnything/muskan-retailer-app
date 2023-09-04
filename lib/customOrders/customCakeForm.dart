@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_time_patterns.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
@@ -550,9 +551,12 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          CircularProgressIndicator(
-                            strokeWidth: 5,
-                            color: Colors.red,
+                          Lottie.asset(
+                            'animations/photo_upload.json',
+                            height: 300,
+                            reverse: true,
+                            repeat: true,
+                            fit: BoxFit.cover,
                           ),
                           SizedBox(
                             height: 1,
