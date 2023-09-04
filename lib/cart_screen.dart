@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:muskan_shop/cartProductCard.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
@@ -220,12 +221,18 @@ class _CartScreenState extends State<CartScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.red,
-                      strokeWidth: 5,
-                    ),
+                  Lottie.asset(
+                    'animations/delivery.json',
+                    reverse: true,
+                    repeat: true,
+                    fit: BoxFit.cover,
                   ),
+                  // Center(
+                  //   child: CircularProgressIndicator(
+                  //     color: Colors.red,
+                  //     strokeWidth: 5,
+                  //   ),
+                  // ),
                   Text(
                     "Placing Your Order...",
                     style: TextStyle(

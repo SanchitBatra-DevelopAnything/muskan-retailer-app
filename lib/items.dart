@@ -108,6 +108,11 @@ class _ItemsState extends State<Items> {
     var directVarietyItems =
         CategoriesProviderObject.activeDirectVarietyFilteredItems;
     return Scaffold(
+      drawerEnableOpenDragGesture: true,
+      drawerEdgeDragWidth: MediaQuery.of(context).size.width,
+      drawer: Drawer(
+        child: Text("Drawer"),
+      ),
       backgroundColor: Colors.black54,
       body: _isLoading
           ? Center(
