@@ -15,6 +15,7 @@ class CartItem {
   final String imageUrl;
   final String parentCategoryType;
   final double totalPrice;
+  final num parentCategoryRank;
 
   CartItem(
       {required this.id,
@@ -24,6 +25,7 @@ class CartItem {
       required this.parentSubcategoryType,
       required this.quantity,
       required this.totalPrice,
+      required this.parentCategoryRank,
       required this.price});
 
   Map toJson() => {
@@ -105,8 +107,12 @@ class CartProvider with ChangeNotifier {
           parentSubcategoryType: value.parentSubcategoryType,
           price: value.price,
           quantity: value.quantity,
+          parentCategoryRank: value.parentCategoryRank,
           title: value.title));
     });
+
+    _itemList
+        .sort((a, b) => a.parentCategoryRank.compareTo(b.parentCategoryRank));
     notifyListeners();
   }
 
@@ -131,6 +137,7 @@ class CartProvider with ChangeNotifier {
               parentCategoryType: existingCartItem.parentCategoryType,
               parentSubcategoryType: existingCartItem.parentSubcategoryType,
               price: existingCartItem.price,
+              parentCategoryRank: existingCartItem.parentCategoryRank,
               quantity: quantity));
     } else {
       _items!.putIfAbsent(
@@ -143,10 +150,37 @@ class CartProvider with ChangeNotifier {
               quantity: quantity,
               imageUrl: imgPath,
               parentSubcategoryType: parentSubcategory,
+              parentCategoryRank: getCategoryRank(parentCategory),
               parentCategoryType: parentCategory));
     }
     formCartList();
     notifyListeners();
+  }
+
+  num getCategoryRank(parentCategory) {
+    if (parentCategory.toString().toLowerCase().contains("cakes")) {
+      return 1;
+    } else if (parentCategory.toString().toLowerCase().contains("cookies")) {
+      return 2;
+    } else if (parentCategory.toString().toLowerCase().contains("bread")) {
+      return 3;
+    } else if (parentCategory.toString().toLowerCase().contains("ice")) {
+      return 4;
+    } else if (parentCategory.toString().toLowerCase().contains("snacks")) {
+      return 5;
+    } else if (parentCategory.toString().toLowerCase().contains("disposable")) {
+      return 6;
+    } else if (parentCategory.toString().toLowerCase().contains("candy")) {
+      return 7;
+    } else if (parentCategory.toString().toLowerCase().contains("gift")) {
+      return 8;
+    } else if (parentCategory.toString().toLowerCase().contains("pastries")) {
+      return 9;
+    } else if (parentCategory.toString().toLowerCase().contains("dry fruit")) {
+      return 10;
+    } else {
+      return 100;
+    }
   }
 
   Future<void> PlaceShopOrder(
