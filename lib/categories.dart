@@ -145,7 +145,21 @@ class _CategoriesState extends State<Categories> {
           .checkShopStatus("09:00PM", "06:00AM");
       if (shopOpened) {
         Future.delayed(
-            const Duration(seconds: 2), () => {showAlertBox(context)});
+            const Duration(seconds: 2),
+            () => {
+                  showAlertBox(context, "CLOSED AFTER 10:30PM",
+                      "You can still place your order. Your order will be accepted after 6:00am.")
+                });
+      }
+
+      bool showInfoBox = true;
+      if (showInfoBox) {
+        Future.delayed(
+            const Duration(seconds: 3),
+            () => {
+                  showAlertBox(context, "NEW PRICES!",
+                      "Roasted Kaju 100gm - Rs.90\nRoasted Kaju 250gm - Rs.210")
+                });
       }
     }
     // _checkVersion();
@@ -206,12 +220,12 @@ class _CategoriesState extends State<Categories> {
     super.dispose();
   }
 
-  showAlertBox(BuildContext context) async {
+  showAlertBox(BuildContext context, title, message) async {
     await showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(
-          'CLOSED AFTER 10:30pm',
+          title,
           style: TextStyle(
             color: Colors.black,
             fontSize: 20,
@@ -219,7 +233,7 @@ class _CategoriesState extends State<Categories> {
           ),
         ),
         content: Text(
-          "You can still place your order. Your order will be accepted after 6:00am.",
+          message,
           style: TextStyle(
             color: Colors.black,
             fontSize: 15,
