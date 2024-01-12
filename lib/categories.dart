@@ -308,37 +308,42 @@ class _CategoriesState extends State<Categories> {
     await showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (ctx) => AlertDialog(
-              title: Text(
-                'UPDATE NECESSARY',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              content: Text(
-                "Please update the app to use new features. We don't support the older versions when new updates are available.",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              actions: <Widget>[
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: const Color(0xff1D741B),
+        builder: (ctx) => WillPopScope(
+              onWillPop: () {
+                return Future.value(false);
+              },
+              child: AlertDialog(
+                title: Text(
+                  'UPDATE NECESSARY',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-                  child: const Text(
-                    'UPDATE',
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
+                content: Text(
+                  "Please update the app to use new features. We don't support the older versions when new updates are available.",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
-                  onPressed: () {
-                    StoreRedirect.redirect(androidAppId: 'com.muskan.shop');
-                  },
-                )
-              ],
+                ),
+                actions: <Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xff1D741B),
+                    ),
+                    child: const Text(
+                      'UPDATE',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
+                    onPressed: () {
+                      StoreRedirect.redirect(androidAppId: 'com.muskan.shop');
+                    },
+                  )
+                ],
+              ),
             ));
   }
 
