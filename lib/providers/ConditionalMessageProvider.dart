@@ -19,7 +19,10 @@ class ConditionalMessageProvider with ChangeNotifier {
       final response = await http.get(Uri.parse(url));
       final List<ConditionalMessage> loadedMessage = [];
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      if (extractedData == null) return;
+      if (extractedData == null) {
+        print("REJECTED THE TAKE OF CONDITIONAL MESSAGE");
+        return;
+      }
       extractedData.forEach((msgId, msgData) {
         loadedMessage.add(ConditionalMessage(
             headline: msgData['headline'],
@@ -27,6 +30,7 @@ class ConditionalMessageProvider with ChangeNotifier {
             message: msgData['message']));
       });
       _conditionalMessage = loadedMessage[0];
+      print("Set the conditional message successfully!");
       notifyListeners();
     } catch (error) {
       throw error;

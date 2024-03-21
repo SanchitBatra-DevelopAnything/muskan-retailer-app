@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:muskan_shop/badge.dart';
 import 'package:muskan_shop/models/category.dart';
 import 'package:muskan_shop/notificationBanner.dart';
+import 'package:muskan_shop/providers/ConditionalMessageProvider.dart';
 import 'package:muskan_shop/providers/auth.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
@@ -117,14 +118,21 @@ class _CategoriesState extends State<Categories> {
                                   Provider.of<CartProvider>(context,
                                       listen: false))
                               .then(
-                            (value) async => {
-                              setState(() {
-                                isLoading = false;
-                              }),
-                              _checkVersion(),
-                              await Provider.of<NotificationProvider>(context,
-                                      listen: false)
-                                  .checkNotificationSetupOnInitialLoad(),
+                            (value) => {
+                              getConditionalMessageInfo(
+                                      Provider.of<ConditionalMessageProvider>(
+                                          context,
+                                          listen: false))
+                                  .then((value) async => {
+                                        setState(() {
+                                          isLoading = false;
+                                        }),
+                                        _checkVersion(),
+                                        await Provider.of<NotificationProvider>(
+                                                context,
+                                                listen: false)
+                                            .checkNotificationSetupOnInitialLoad(),
+                                      })
                             },
                           )
                         }
@@ -152,15 +160,23 @@ class _CategoriesState extends State<Categories> {
                 });
       }
 
-      bool showInfoBox = true;
-      if (showInfoBox) {
-        Future.delayed(
-            const Duration(seconds: 3),
-            () => {
-                  showAlertBox(context, "BAKERY CLOSED!",
-                      "Bakery will remain closed on 25th and 26th March , Please inform us for any orders before 24th March , 12:00PM (noon)")
-                });
-      }
+      // bool showInfoBox =
+      //     Provider.of<ConditionalMessageProvider>(context).messageInfo.show;
+      // print("RECEIVED " + showInfoBox.toString() + " to show message");
+      // if (showInfoBox) {
+      //   Future.delayed(
+      //       const Duration(seconds: 3),
+      //       () => {
+      //             showAlertBox(
+      //                 context,
+      //                 Provider.of<ConditionalMessageProvider>(
+      //                   context,
+      //                 ).messageInfo.headline,
+      //                 Provider.of<ConditionalMessageProvider>(
+      //                   context,
+      //                 ).messageInfo.message)
+      //           });
+      // }
     }
     // _checkVersion();
     _isFirstTime = false; //never run the above if again.
@@ -197,6 +213,11 @@ class _CategoriesState extends State<Categories> {
           authProviderObject.loggedInDistributor,
           authProviderObject.loggedInDistributorship);
     }
+  }
+
+  Future<void> getConditionalMessageInfo(
+      ConditionalMessageProvider conditionalMessageProvider) {
+    return conditionalMessageProvider.getMessageInfo();
   }
 
   void _checkVersion() async {
@@ -383,6 +404,28 @@ class _CategoriesState extends State<Categories> {
     final alreadyNotificationSetup =
         Provider.of<NotificationProvider>(context).notificationAlreadySetup;
     final shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
+
+    bool showInfoBox =
+        Provider.of<ConditionalMessageProvider>(context, listen: false)
+            .messageInfo
+            .show;
+    print("RECEIVED " + showInfoBox.toString() + " to show message");
+    if (showInfoBox) {
+      Future.delayed(
+          const Duration(seconds: 3),
+          () => {
+                showAlertBox(
+                    context,
+                    Provider.of<ConditionalMessageProvider>(context,
+                            listen: false)
+                        .messageInfo
+                        .headline,
+                    Provider.of<ConditionalMessageProvider>(context,
+                            listen: false)
+                        .messageInfo
+                        .message)
+              });
+    }
     return WillPopScope(
       onWillPop: () async {
         bool willLeave = false;
