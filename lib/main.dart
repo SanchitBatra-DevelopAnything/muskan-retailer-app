@@ -9,6 +9,7 @@ import 'package:muskan_shop/customOrderStatusView.dart';
 import 'package:muskan_shop/distributors/distHome.dart';
 import 'package:muskan_shop/itemDetail&Customize.dart';
 import 'package:muskan_shop/orderDone.dart';
+import 'package:muskan_shop/providers/ConditionalMessageProvider.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:muskan_shop/providers/notificationManager.dart';
@@ -67,7 +68,8 @@ class MyApp extends StatelessWidget {
       ),
       ChangeNotifierProvider(create: (context) => CartProvider()),
       ChangeNotifierProvider(create: (context) => OrderProvider()),
-      ChangeNotifierProvider(create: (context) => NotificationProvider())
+      ChangeNotifierProvider(create: (context) => NotificationProvider()),
+      ChangeNotifierProvider(create: (context) => ConditionalMessageProvider()),
     ], child: MaterialAppWithInitialRoute());
   }
 }

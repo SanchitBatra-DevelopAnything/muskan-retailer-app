@@ -157,8 +157,8 @@ class _CategoriesState extends State<Categories> {
         Future.delayed(
             const Duration(seconds: 3),
             () => {
-                  showAlertBox(context, "NEW PRICES!",
-                      "Roasted Kaju 100gm - Rs.90\nRoasted Kaju 250gm - Rs.210")
+                  showAlertBox(context, "BAKERY CLOSED!",
+                      "Bakery will remain closed on 25th and 26th March , Please inform us for any orders before 24th March , 12:00PM (noon)")
                 });
       }
     }
