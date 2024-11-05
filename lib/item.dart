@@ -217,18 +217,18 @@ class _ItemState extends State<Item> {
                             primary: Colors.red,
                           ),
                         )
-                      : (!_isInCart || appType != "guest")
+                      : (!_isInCart && appType!="guest")
                           ? ElevatedButton(
                               onPressed: () {
                                 cartProviderObject.addItem(
                                   widget.itemId,
                                   appType == "retailer"
                                       ? widget.price
-                                      : widget.distributorPrice,
+                                      : appType == "distributor" ? widget.distributorPrice : widget.customerPrice,
                                   parentSubcategory!.toUpperCase() == "PATTIES"
                                       ? 0.5
                                       : 1,
-                                  appType == "retailer"
+                                  (appType == "retailer"||appType == "guest")
                                       ? widget.itemName
                                       : widget.distributorItemName.toString(),
                                   widget.imgPath,
@@ -250,7 +250,7 @@ class _ItemState extends State<Item> {
                                 primary: Colors.red,
                               ),
                             )
-                          : appType != "guest" ? CountButtonView(
+                          : appType == "guest" ? Container() :  CountButtonView(
                               itemId: widget.itemId,
                               parentCategory: parentCategory,
                               parentSubcategory: parentSubcategory!,
@@ -278,7 +278,7 @@ class _ItemState extends State<Item> {
                                   );
                                 }
                               },
-                            ):Container(),
+                            ),
                 ),
               ),
             ],
