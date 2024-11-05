@@ -97,6 +97,7 @@ class _ItemState extends State<Item> {
 
   getPriceHelper()
   {
+    //guest ko MRP Rates dikhaane hain.
     final appType = Provider.of<AuthProvider>(context, listen: false).appType;
     if(appType == "guest")
     {
