@@ -3,6 +3,7 @@ import 'package:muskan_shop/models/subcategory.dart';
 import 'package:muskan_shop/providers/cart.dart';
 import 'package:muskan_shop/providers/categories_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:muskan_shop/providers/auth.dart';
 
 import 'badge.dart';
 
@@ -69,6 +70,7 @@ class _SubcategoriesState extends State<Subcategories> {
             : categoryProvider.activeCategoryName;
     final parentCategoryKey = categoryProvider.activeCategoryKey;
     final subCategories = categoryProvider.subCategories;
+    final appType = Provider.of<AuthProvider>(context, listen: false).appType;
     return Scaffold(
         backgroundColor: Colors.black54,
         body: _isLoading
@@ -110,7 +112,7 @@ class _SubcategoriesState extends State<Subcategories> {
                                   fontStyle: FontStyle.normal),
                             ),
                           ),
-                          Flexible(
+                          appType != "guest" ? Flexible(
                             child: Consumer<CartProvider>(
                               builder: (_, cart, ch) => BadgeCustom(
                                 child: ch!,
@@ -128,7 +130,7 @@ class _SubcategoriesState extends State<Subcategories> {
                                 iconSize: 30,
                               ),
                             ),
-                          )
+                          ) : Container()
                         ],
                       ),
                     ),

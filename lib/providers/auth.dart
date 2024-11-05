@@ -110,6 +110,10 @@ class AuthProvider with ChangeNotifier {
     } else if (sp.containsKey("loggedInDistributor")) {
       this.appType = "distributor";
     }
+    else
+    {
+      this.appType = "guest";
+    }
     notifyListeners();
   }
 

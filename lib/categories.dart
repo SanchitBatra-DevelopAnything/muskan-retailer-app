@@ -205,6 +205,10 @@ class _CategoriesState extends State<Categories> {
 
   Future<void> fetchCartBasedOnAppType(
       AuthProvider authProviderObject, CartProvider cartProviderObject) {
+    if(authProviderObject.appType == "guest")
+    {
+      return new Future.value();
+    }
     if (authProviderObject.appType != "distributor") {
       return cartProviderObject.fetchCartFromDB(
           authProviderObject.loggedInRetailer, authProviderObject.loggedInShop);
@@ -451,7 +455,7 @@ class _CategoriesState extends State<Categories> {
       },
       child: Scaffold(
         backgroundColor: Color.fromARGB(137, 43, 40, 40),
-        bottomNavigationBar: appType != "distributor"
+        bottomNavigationBar: (appType != "distributor" && appType!="guest")
             ? BottomNavigator(
                 index: 0,
               )
@@ -522,7 +526,7 @@ class _CategoriesState extends State<Categories> {
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.normal),
                         ),
-                        Tooltip(
+                        appType != "guest" ? Tooltip(
                           message: "My Orders",
                           verticalOffset: 24,
                           height: 30,
@@ -536,8 +540,8 @@ class _CategoriesState extends State<Categories> {
                             ),
                             iconSize: 30,
                           ),
-                        ),
-                        Consumer<CartProvider>(
+                        ) : Container(),
+                        appType != "guest" ? Consumer<CartProvider>(
                           builder: (_, cart, ch) => BadgeCustom(
                             child: ch!,
                             value: cart.itemCount.toString(),
@@ -553,8 +557,8 @@ class _CategoriesState extends State<Categories> {
                             ),
                             iconSize: 30,
                           ),
-                        ),
-                        Tooltip(
+                        ) : Container(),
+                        appType!="guest" ? Tooltip(
                           message: "Logout",
                           verticalOffset: 24,
                           height: 30,
@@ -568,11 +572,11 @@ class _CategoriesState extends State<Categories> {
                             ),
                             iconSize: 30,
                           ),
-                        ),
+                        ) : Container(),
                       ],
                     ),
                   ),
-                  !alreadyNotificationSetup
+                  !alreadyNotificationSetup && appType!="guest"
                       ? notificationBanner()
                       : Container(),
                   appType == "retailer"

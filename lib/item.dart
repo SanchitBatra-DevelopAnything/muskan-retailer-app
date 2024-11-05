@@ -217,7 +217,7 @@ class _ItemState extends State<Item> {
                             primary: Colors.red,
                           ),
                         )
-                      : !_isInCart
+                      : (!_isInCart || appType != "guest")
                           ? ElevatedButton(
                               onPressed: () {
                                 cartProviderObject.addItem(
@@ -250,7 +250,7 @@ class _ItemState extends State<Item> {
                                 primary: Colors.red,
                               ),
                             )
-                          : CountButtonView(
+                          : appType != "guest" ? CountButtonView(
                               itemId: widget.itemId,
                               parentCategory: parentCategory,
                               parentSubcategory: parentSubcategory!,
@@ -278,7 +278,7 @@ class _ItemState extends State<Item> {
                                   );
                                 }
                               },
-                            ),
+                            ):Container(),
                 ),
               ),
             ],

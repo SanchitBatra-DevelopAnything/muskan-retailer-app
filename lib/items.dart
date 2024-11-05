@@ -107,6 +107,7 @@ class _ItemsState extends State<Items> {
         CategoriesProviderObject.activeSubcategoryFilteredItems;
     var directVarietyItems =
         CategoriesProviderObject.activeDirectVarietyFilteredItems;
+    final appType = Provider.of<AuthProvider>(context, listen: false).appType;
     return Scaffold(
       drawerEnableOpenDragGesture: true,
       drawerEdgeDragWidth: MediaQuery.of(context).size.width,
@@ -192,7 +193,7 @@ class _ItemsState extends State<Items> {
                               },
                             ),
                           ),
-                        Flexible(
+                        appType!="guest" ? Flexible(
                           child: Consumer<CartProvider>(
                             builder: (_, cart, ch) => BadgeCustom(
                               child: ch!,
@@ -210,7 +211,7 @@ class _ItemsState extends State<Items> {
                               iconSize: 30,
                             ),
                           ),
-                        ),
+                        ) : Container(),
                         Flexible(
                           child: IconButton(
                             icon: const Icon(Icons.info_outline),

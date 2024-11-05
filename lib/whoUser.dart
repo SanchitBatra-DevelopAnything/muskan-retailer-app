@@ -108,6 +108,32 @@ class _WhoIsUserState extends State<WhoIsUser> {
               ),
             ),
             SizedBox(
+              height: 5,
+            ),
+            Container(
+              child: RadioListTile(
+                value: "Guest",
+                groupValue: userType,
+                onChanged: (value) {
+                  setState(() {
+                    userType = value.toString();
+                  });
+                },
+                title: Text(
+                  "Guest",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                activeColor: Colors.red,
+                subtitle: Text(
+                  "Select this if you are a guest",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(
               height: 10,
             ),
             ElevatedButton(
@@ -115,8 +141,10 @@ class _WhoIsUserState extends State<WhoIsUser> {
                 userType.toLowerCase() == "retailer"
                     ? Navigator.of(context)
                         .pushReplacementNamed("/retailerHome")
-                    : Navigator.of(context)
-                        .pushReplacementNamed("/distributorHome");
+                    : userType.toLowerCase() == "distributor" ? Navigator.of(context)
+                        .pushReplacementNamed("/distributorHome")
+                        : Navigator.of(context)
+                        .pushReplacementNamed("/categories");
               },
               style: ElevatedButton.styleFrom(primary: Colors.red),
               child: Text(
