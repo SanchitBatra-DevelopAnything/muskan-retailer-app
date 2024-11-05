@@ -226,6 +226,7 @@ class _ItemsState extends State<Items> {
                                 content: AwesomeSnackbarContent(
                                   title: 'Information',
                                   message:
+                                  appType == "guest" ? 'Guests can only view MRP Rates ,Only Muskan Bakery retailers and distributors are allowed to place the orders.' : 
                                       'Long press + - to change quantity by 50 directly and click on item image to view more information about it.',
 
                                   /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants

@@ -185,7 +185,7 @@ class _ItemState extends State<Item> {
                 child: Padding(
                   padding: EdgeInsets.all(5),
                   child: Text(
-                    appType == "retailer"
+                    (appType == "retailer" || appType == "guest")
                         ? widget.itemName.toLowerCase()
                         : widget.distributorItemName.toString().toLowerCase(),
                     overflow: TextOverflow.ellipsis,
