@@ -88,11 +88,21 @@ class _ItemState extends State<Item> {
     } else {
       return (parentCategory!.toUpperCase() == "CAKES & PASTRIES") ||
               (parentCategory.toUpperCase() == "CAKES")
-          ? widget.price + " / pd."
+          ? getPriceHelper() + " / pd."
           : (parentSubcategory!.toUpperCase() == "PATTIES")
-              ? widget.price + " / dozen."
-              : widget.price + "";
+              ? getPriceHelper() + " / dozen."
+              : getPriceHelper() + "";
     }
+  }
+
+  getPriceHelper()
+  {
+    final appType = Provider.of<AuthProvider>(context, listen: false).appType;
+    if(appType == "guest")
+    {
+      return widget.customerPrice;
+    }
+    return widget.price;
   }
 
   @override
@@ -224,7 +234,7 @@ class _ItemState extends State<Item> {
                                   widget.itemId,
                                   appType == "retailer"
                                       ? widget.price
-                                      : appType == "distributor" ? widget.distributorPrice : widget.customerPrice,
+                                      : widget.distributorPrice,
                                   parentSubcategory!.toUpperCase() == "PATTIES"
                                       ? 0.5
                                       : 1,
