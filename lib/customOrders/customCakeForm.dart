@@ -126,6 +126,10 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
     final shop = Provider.of<AuthProvider>(context, listen: false).loggedInShop;
 
     final date = DateTime.now().toString();
+    final dateExtractor = DateTime.now();
+    final year = dateExtractor.year.toString();
+    final month = (dateExtractor.month).toString();
+    final day = dateExtractor.day.toString();
 
     final timeArrayComponent =
         DateFormat.yMEd().add_jms().format(DateTime.now()).split(" ");
@@ -142,6 +146,11 @@ class _CustomCakeFormState extends State<CustomCakeForm> {
     var ref = FirebaseStorage.instance
         .ref()
         .child('custom_orders')
+        .child(year)
+        .child(month)
+        .child(day)
+        .child(shopKeeper)
+        .child(shop)
         .child(shopKeeper + "--" + shop + "--" + date + ".jpg");
 
     if (orderType.toLowerCase() != "message cakes") {
